@@ -2,7 +2,7 @@
 
 ### OVERVIEW
 
-- A revision of React training plan which focuses on the latest version  of React (v17.0.2). It will help trainees learn React fundamentals step by step following the instructions and hands-on practices.
+A revision of React training plan which focuses on the latest version  of React (v17.0.2). It will help trainees learn React fundamentals step by step following the instructions and hands-on practices.
 
 ### TIMELINE
 
@@ -26,59 +26,57 @@
 - Step by step learning the main concepts. For any examples you found in the documentation, you can try it in your first React app created above.
 - While reading Main Concepts, you can also do hands-on practice at the same time.
 
-+ Introduction JSX
-+ Rendering Elements
-+ Components and Props
-+ State and Lifecycle
-+ Handling Events
-+ Conditional Rendering
-+ Lists and Keys
-+ Forms
-+ Lifting State Up
-+ Composition with Inheritance
-+ Thinking in React
++ [Introduction JSX](https://reactjs.org/docs/introducing-jsx.html)
++ [Rendering Elements](https://reactjs.org/docs/rendering-elements.html)
++ [Components and Props](https://reactjs.org/docs/components-and-props.html)
++ [State and Lifecycle](https://reactjs.org/docs/state-and-lifecycle.html)
++ [Handling Events](https://reactjs.org/docs/handling-events.html)
++ [Conditional Rendering](https://reactjs.org/docs/conditional-rendering.html)
++ [Lists and Keys](https://reactjs.org/docs/lists-and-keys.html)
++ [Forms](https://reactjs.org/docs/forms.html)
++ [Lifting State Up](https://reactjs.org/docs/lifting-state-up.html)
++ [Composition with Inheritance](https://reactjs.org/docs/composition-vs-inheritance.html)
++ [Thinking in React](https://reactjs.org/docs/thinking-in-react.html)
 
 #### STORBOOK
 
-- Storybook is an open source tool for building UI components and pages in isolation. It streamlines UI development, testing and documentation.
+- [Storybook](https://storybook.js.org/) is an open source tool for building UI components and pages in isolation. It streamlines UI development, testing and documentation.
+
 - Init storybook into your first React app:
 
-+ init storybook
+```javascript
+# init storybook
 
-```
 pnpx sb init -s
-```
 
-+ install dependencies
+# install dependencies
 
-```
 pnpm install
-```
 
-+ run it
+# run it
 
-```
 pnpm storybook
+
 ```
 
-+ Try to create a Storybook for your example components. https://storybook.js.org/tutorials/intro-to-storybook/react/en/simple-component/
+Try to create a Storybook for your example components. https://storybook.js.org/tutorials/intro-to-storybook/react/en/simple-component/
 
 #### PRACTICE
 
-- Apply  what you have read to rewrite your previous HTML/CSS practice into React components.
+Apply  what you have read to rewrite your previous HTML/CSS practice into React components.
 
 + Apply Storybook into your practice.
 
 ### REACT HOOKS
 
 - Hooks let you use state and other React features without writing a class.
-+ Introduction Hooks
-+ Hooks at a Glance
-+ useState Hook
-+ useEffect Hook
-+ useRef Hook
-+ Rules Hook
-+ Hooks API Reference
++ [Introduction Hooks](https://reactjs.org/docs/hooks-intro.html)
++ [Hooks at a Glance](https://reactjs.org/docs/hooks-overview.html)
++ [useState Hook](https://reactjs.org/docs/hooks-state.html)
++ [useEffect Hook](https://reactjs.org/docs/hooks-effect.html)
++ [useRef Hook](https://reactjs.org/docs/hooks-reference.html#useref)
++ [Rules Hook](https://reactjs.org/docs/hooks-rules.html)
++ [Hooks API Reference](https://reactjs.org/docs/hooks-reference.html)
 
 #### DEBUGGING
 - Debug tools: React Devtools. Supported have to present how this tool works.
@@ -86,82 +84,82 @@ pnpm storybook
 
 #### PRACTICE
 
-- This practice will let you understand about simple flow in React:
+This practice will let you understand about simple flow in React:
 + Using React hooks
 + Filter and editing list of products
-* Create mocking data: write a JSON file and import it into your JSX
-* User edits/deletes product item
-* react routing
-* form validation, form events
-* list -> filter, sort, search, pagination (edited) 
-* API request, error handling
-* authentication
-- At the end of this step, trainees should be able to join projects for hot training and doing React Components.
+> Create mocking data: write a JSON file and import it into your JSX
+> User edits/deletes product item
+> react routing
+> form validation, form events
+> list -> filter, sort, search, pagination (edited) 
+> API request, error handling
+> authentication
+At the end of this step, trainees should be able to join projects for hot training and doing React Components.
 
 ### ADVANCED GUIDES (1 week)
-- All the topics in the Advanced Guides need to be read. Some highlight topics need more focus:
+All the topics in the Advanced Guides need to be read. Some highlight topics need more focus:
 
-+ Code-Splitting
-+ Context
-+ Error Boundaries
-+ Higher-Order Components
-+ Optimizing Performance
-+ Profiler
-+ Uncontrolled Components
-+ Building Your Own Hooks
++ [Code-Splitting](https://reactjs.org/docs/code-splitting.html)
++ [Context](https://reactjs.org/docs/context.html)
++ [Error Boundaries](https://reactjs.org/docs/error-boundaries.html)
++ [Higher-Order Components](https://reactjs.org/docs/higher-order-components.html)
++ [Optimizing Performance](https://reactjs.org/docs/optimizing-performance.html)
++ [Profiler](https://reactjs.org/docs/profiler.html)
++ [Uncontrolled Components](https://reactjs.org/docs/uncontrolled-components.html)
++ [Building Your Own Hooks](https://reactjs.org/docs/hooks-custom.html)
 
 #### DATA FETCHING
 
-- SWR - React Hooks for Data Fetching
-- Getting Started - use pnpm to install instead of npm/yarn
-+ Global Configuration
-+ Data Fetching
-+ Error Handling
-+ Auto Revalidation
-+ Pagination
+- [SWR] - React Hooks for Data Fetching
+- [Getting Started](https://swr.vercel.app/docs/getting-started) - use pnpm to install instead of npm/yarn
++ [Global Configuration](https://swr.vercel.app/docs/global-configuration)
++ [Data Fetching](https://swr.vercel.app/docs/data-fetching)
++ [Error Handling](https://swr.vercel.app/docs/error-handling)
++ [Auto Revalidation](https://swr.vercel.app/docs/revalidation)
++ [Pagination](https://swr.vercel.app/docs/pagination)
 
 #### UNIT TESTING (Optional)
 
 - Supporters should give a brief introduction for unit testing and how to set it up.
-+ Testing Overview
-* Jest
-* React Test Library
-* Test Utilities
-+ Testing Recipes
-+ Testing environments
++ [Testing Overview](https://reactjs.org/docs/testing.html)
+> [Jest](https://jestjs.io/)
+> [React Test Library](https://testing-library.com/docs/react-testing-library/intro/)
+> [Test Utilities](https://reactjs.org/docs/test-utils.html)
++ [Testing Recipes](https://reactjs.org/docs/testing-recipes.html)
++ [Testing environments](https://reactjs.org/docs/testing-environments.html)
 
 #### PRACTICE
 
 - Adding more features for practice 2
-* User adds & deletes a product
-* User deletes a product
-* User opens product detail page
-* User edits product information in product detail page
-* Product data will be kept when refresh the page
-* Apply useContext and useReducer for state management
-* Apply SWR for fetching data - from a simple json-server
+> User adds & deletes a product
+> User deletes a product
+> User opens product detail page
+> User edits product information in product detail page
+> Product data will be kept when refresh the page
+> Apply useContext and useReducer for state management
+> Apply SWR for fetching data - from a simple json-server
 - Unit test coverage should greater than 80%
 
 ### REFERENCES
-- This is not in the plan, trainees may want to read more about debugging tools, state management, etc.
+This is not in the plan, trainees may want to read more about debugging tools, state management, etc.
 
 > Debugging Tools
 
-+ React perf
-+ Reactotron
++ [React perf](https://facebook.github.io/react/docs/perf.html)
++ [Reactotron](https://github.com/infinitered/reactotron)
 
 > State Management
 
-+ Redux
-* Redux logger
-* Redux DevTools
-+ Mobx
++ [Redux](https://redux.js.org/)
+>> [Redux logger](https://github.com/evgenyrodionov/redux-logger)
+>> [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
++ [Mobx](https://mobx.js.org/)
 > React Component libraries
-+ Chakra UI
-+ Material UI
-+ React Bootstrap
-+ Ant Design
++ [Chakra UI](https://chakra-ui.com/)
++ [Material UI](https://mui.com/)
++ [React Bootstrap](https://react-bootstrap.github.io/)
++ [Ant Design](https://ant.design/)
 > React Router
-+ React Router v6
++ [React Router v6](https://reactrouter.com/)
 
 
