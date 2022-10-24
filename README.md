@@ -19,8 +19,27 @@ A revision of React training plan which focuses on the latest version  of React 
 ### GETTING STARTED
 
 #### BUILD TOOL
-
+We use Vite which is a build tool that aims(muc tieu, am chi) to provide a faster and leaner development experience for modern web projects.
 #### HELLO WORLD
+
+If you have pnpm installed already, let’s start your first project using pnpm and vite. You can either choose template as react, or react-ts if you want to init with TypeScript. From your terminal, run:
+```javascript
+
+pnpm create vite my-react-app -- --template react-ts
+
+# Install and run on local:
+
+cd my-react-app
+pnpm install
+pnpm dev
+
+```
+Open your browser at [http://localhost:3000](http://localhost:3000/)
+
+Try modifying your React component and see how it changes.
+
+If you are using VS Code and Windows Subsystem for Linux (WSL), make sure you installed extension [Remote - WSL](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-wsl)
+Start reading [Hello World](https://reactjs.org/docs/hello-world.html) documentation.           
 
 ### MAIN CONCEPTS (1 week)
 - Step by step learning the main concepts. For any examples you found in the documentation, you can try it in your first React app created above.
