@@ -1,6 +1,10 @@
 const fs = require("fs");
-const jsonServer = require("json-server");
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
 const { v4: uuidv4 } = require("uuid");
+const jsonServer = require("json-server");
+
+const db = require("./db.json");
 const fileName = "./db.json";
 
 const PORT = process.env.PORT || 3000;
@@ -9,223 +13,273 @@ const server = jsonServer.create();
 const router = jsonServer.router(fileName);
 const middlewares = jsonServer.defaults();
 
-const db = require(fileName);
-
-const jwt = require("jsonwebtoken");
-const { url } = require("inspector");
-const { request } = require("http");
-const privateKey = "31122001";
+let refreshTokens = [];
 
 server.use(middlewares);
 
 server.use(
-  jsonServer.rewriter({
-    "/api/users": "/users",
-  })
+    jsonServer.rewriter({
+        "/api/users": "/users",
+    })
 );
 
 server.use(jsonServer.bodyParser);
 
-const handleRole = (role, handle1, handle2) => {
-  switch (role) {
-    case "manager":
-      handle1();
-      break;
-    case "developer":
-      handle2();
-
-    default:
-      handle2();
-      break;
-  }
-};
-
-const saveData = () => {
-  fs.writeFile(fileName, JSON.stringify(db), function writeJSON(err) {
-    if (err) return console.log(err);
-    console.log(JSON.stringify(db));
-    console.log("writing to " + fileName);
-  });
-};
-
-let user;
-
 server.use((req, res, next) => {
-  try {
-    const urls = req.path.split("/");
-    const query = req.query;
+    try {
+        const urls = req.path.split("/");
 
-    if (urls[1].localeCompare("login") !== 0) {
-      const { id, date } = jwt.verify(query?.access_token, privateKey);
-      user = db.users.find((user) => user.id === id);
-      if (user === null) {
-        res.json("Not found user!");
-      }
-    }
+        const url = urls[1];
 
-    switch (urls[1]) {
-      // handle login request
-      case "login":
-        const { email, password } = req.body;
-        user = db.users.find((user) => user.email === email);
+        if (url == "login") handleLogin(req, res);
+        // refresh token
+        else if (url == "token") {
+            const { token } = req.body;
 
-        if (user?.password === password) {
-          const date = Math.floor(Date.now() / 1000) + 60 * 60;
+            if (!refreshTokens.includes(token)) return res.sendStatus(403);
 
-          const access_token = jwt.sign({ id: user.id, date }, privateKey);
-
-          res.json({
-            status: 200,
-            message: "Login successful!",
-            access_token,
-          });
-        } else
-          res.json({
-            status: 401,
-            message: "Login failed! You please check email or password ?",
-          });
-
-      // handle route users
-      case "users":
-        if (req.method === "POST") {
-          const handleManager = () => {
-            const isEmailExit = db.users.some(
-              (user) => user.email === req.body.email
+            jwt.verify(
+                token,
+                process.env.REFRESH_TOKEN_SECRET,
+                (err, { id, role }) => {
+                    if (err) return res.sendStatus(403);
+                    const access_token = generateAccessToken({
+                        id,
+                        role,
+                    });
+                    res.json({
+                        access_token,
+                    });
+                }
             );
-
-            !isEmailExit
-              ? next()
-              : res.json({
-                  status: 400,
-                  message: "Email already exists!",
-                });
-          };
-
-          user &&
-            handleRole(user.role, handleManager, () =>
-              res.json({ status: 403, message: "Forbidden!" })
-            );
-        } else if (req.method === "GET") {
-          // handle get all users, if is manager return all, if developer return that develop info
-          handleRole(user.role, next, () => {
-            res.json({ status: 201, data: [user] });
-          });
         }
-
-        break;
-
-      // handle route tickets
-      case "tickets":
-        const method = req.method;
-
-        switch (method) {
-          case "GET":
-            let resTicket;
-            if (urls.length > 2) {
-              resTicket = db.tickets.find(
-                (ticket) => ticket.id === urls[2] && ticket.createBy === user.id
-              );
-            } else {
-              resTicket = db.tickets.filter(
-                (ticket) => ticket.createBy === user.id
-              );
-              if (resTicket == null) resTicket = [];
-            }
-
-            handleRole(user.role, next, () => {
-              res.json({ status: 201, data: resTicket });
-            });
-
-            break;
-          case "DELETE":
-            const handleDeveloper = () => {
-              console.log(urls[2]);
-              const ticket = db.tickets.find(
-                (ticket) => ticket.id.localeCompare(urls[2]) === 0
-              );
-              if (ticket == null || ticket.createBy !== user.id)
-                res.json({ status: 400, message: "Not found" });
-              else next();
-            };
-            handleRole(user.role, next, handleDeveloper);
-
-            break;
-          case "POST":
-            const body = req.body;
-
-            const newTicket = {};
-
-            Object.assign(newTicket, {
-              id: uuidv4(),
-              createDate: new Date(),
-              dueDate: new Date(),
-              createBy: user.id,
-              ...body,
-            });
-
-            const isStatusValid = db.statuses.find(
-              (status) => status.id === newTicket.status
-            );
-            const ispriorityValid = db.priorities.find(
-              (priority) => priority.id === newTicket.priority
-            );
-
-            db.tickets.push(newTicket);
-
-            saveData();
-            res.json({
-              status: 201,
-              message: "Create new Ticket success!",
-              data: newTicket,
-            });
-
-            break;
-          case "PUT":
-            const ticket = db.tickets.find((ticket) => ticket.id === urls[2]);
-
-            if (!ticket) res.json({ status: 400, message: "Not found" });
-            console.log(ticket, user);
-            if (user.role === "manager" || user.id === ticket.createBy) {
-              next();
-              return;
-            }
-            res.json({ status: 403, message: "Forbidden!" });
-
-          default:
-            res.json({ status: 400, message: "Not found" });
-            break;
+        //
+        else if (
+            req.method == "GET" &&
+            (url === "statuses" || url === "priorities")
+        )
+            authenticateToken(req, res) == true && next();
+        else {
+            authenticateToken(req, res) == true &&
+                navigationRole(req, res, next);
         }
-
-        break;
-
-      default:
-        next();
-        break;
+    } catch (error) {
+        console.log(error);
+        res.sendStatus(500);
     }
-  } catch (error) {
-    console.log(error);
-    res.json({
-      status: error.status || 403,
-      message: "Forbidden",
-      detail: error,
-    });
-  }
 });
 
 server.use(router);
 
 server.listen(PORT, () => {
-  console.log("JSON Server is running on port " + PORT);
+    console.log("JSON Server is running on port " + PORT);
 });
 
-router.render = (req, res) => {
-  const urls = req.path.split("/");
-  let data = res.locals.data;
+function handleLogin(req, res) {
+    const { email, password } = req.body;
+    user = db.users.find((user) => user.email === email);
 
-  //handle login and response access_token
-  if (urls[1] === "users" && req.method === "POST") {
-    const date = Math.floor(Date.now() / 1000) + 60 * 60;
-    const tk = jwt.sign({ id: data.id, date }, privateKey);
-    res.json({ access_token: tk, status: 200 });
-  } else res.json({ body: data });
-};
+    if (user?.password === password) {
+        const date = Math.floor(Date.now() / 1000) + 60 * 60;
+        const access_token = generateAccessToken({
+            id: user.id,
+            role: user.role,
+        });
+        const refresh_token = jwt.sign(
+            {
+                id: user.id,
+                role: user.role,
+            },
+            process.env.REFRESH_TOKEN_SECRET
+        );
+        refreshTokens.push(refresh_token);
+
+        res.json({
+            status: 200,
+            message: "Login successful!",
+            access_token,
+            refresh_token,
+        });
+    } else
+        res.json({
+            status: 401,
+            message: "Login failed! You please check email or password ?",
+        });
+}
+function authenticateToken(req, res) {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (token == null) return res.sendStatus(401);
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, { id, role }) => {
+        if (err) return res.sendStatus(403);
+        req.userId = id;
+        req.userRole = role;
+    });
+    return true;
+}
+
+function navigationRole(req, res, next) {
+    const role = req.userRole;
+
+    const url = req.path.split("/")[1];
+    const method = req.method;
+
+    const body = req.body;
+    let obj;
+
+    let id = req.query.id || req.path.split("/")[2];
+
+    const date_regex = /^\d{4}\/\d{2}\/\d{2}$/;
+
+    if (url === "tickets") {
+        const status = req.body.status;
+        const priority = req.body.priority;
+        const name = req.body.name;
+        const description = req.body.description;
+        const assignBy = req.body.assignBy;
+        const dueDate = req.body.dueDate;
+
+        if (
+            typeof status !== "number" ||
+            status > 4 ||
+            status < 0 ||
+            typeof priority !== "number" ||
+            priority < 0 ||
+            priority > 3 ||
+            name === undefined ||
+            typeof name !== "string" ||
+            name.trim().length <= 0 ||
+            description === undefined ||
+            typeof description !== "string" ||
+            description.trim().length <= 0 ||
+            assignBy === undefined ||
+            typeof assignBy !== "string" ||
+            assignBy.trim().length <= 0 ||
+            dueDate === undefined ||
+            typeof dueDate !== "string" ||
+            dueDate.trim().length <= 0 ||
+            !date_regex.test(dueDate) ||
+            new Date(dueDate).toString() === "Invalid Date" ||
+            new Date(dueDate).getTime() < new Date().getTime()
+        )
+            return res.sendStatus(400);
+
+        if (method === "PUT") {
+            obj = db.tickets.find((ticket) => ticket.id === id);
+
+            if (
+                JSON.stringify(obj) ===
+                JSON.stringify({
+                    ...req.body,
+                    id,
+                    createDate: obj.createDate,
+                    createBy: obj.createBy,
+                })
+            ) {
+                return res.sendStatus(202);
+            }
+
+            if (
+                new Date(dueDate).toString() === "Invalid Date" ||
+                new Date(dueDate).getTime() < new Date(obj.createDate).getTime()
+            )
+                return res.sendStatus(400);
+
+            if (obj == null) return res.sendStatus(400);
+
+            Object.assign(req.body, {
+                id,
+                ...obj,
+                ...req.body,
+            });
+        } else if (method === "POST") {
+            const date = new Date();
+            Object.assign(req.body, {
+                ...req.body,
+                createDate: `${date.getDate()}/${date.getMonth() + 1}/${
+                    date.getFullYear() + 1
+                }`,
+                createBy: req.userId,
+            });
+        }
+    }
+
+    switch (role) {
+        case "manager":
+            next();
+            break;
+        case "developer":
+            switch (url) {
+                case "tickets":
+                    switch (method) {
+                        case "GET":
+                            let resObj;
+
+                            resObj = id
+                                ? db.tickets.find((ticket) => ticket.id === id)
+                                : db.tickets.filter(
+                                      (ticket) => ticket.createBy === req.userId
+                                  );
+
+                            if (id && resObj.createBy !== req.userId)
+                                return res.sendStatus(403);
+
+                            return resObj == null || resObj == []
+                                ? res.sendStatus(404)
+                                : res.json({
+                                      body: resObj,
+                                      status: 200,
+                                      message: "",
+                                  });
+
+                        case "POST":
+                            next();
+                            break;
+
+                        case "DELETE":
+                            const ticket = db.tickets.find(
+                                (ticket1) => ticket1.id === id
+                            );
+
+                            if (ticket == null) return res.sendStatus(400);
+                            if (ticket.createBy !== req.userId)
+                                return res.sendStatus(403);
+                            next();
+                            break;
+                        case "PUT":
+                            if (req.body.createBy !== req.userId)
+                                return res.sendStatus(403);
+                            next();
+                            break;
+                        default:
+                            res.sendStatus(404);
+                            break;
+                    }
+                    break;
+
+                default:
+                    res.send(404);
+                    break;
+            }
+            break;
+        default:
+            res.sendStatus(404);
+            break;
+    }
+}
+
+function generateAccessToken(user) {
+    return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "15s",
+    });
+}
+
+function saveChange() {
+    fs.writeFile(fileName, JSON.stringify(db), function writeJSON(err) {
+        if (err) return console.log(err);
+    });
+}
+
+function validTicket(obj) {}
