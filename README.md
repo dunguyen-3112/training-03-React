@@ -172,12 +172,17 @@ This is not in the plan, trainees may want to read more about debugging tools, s
 
 + [Redux](https://redux.js.org/)
 <<<<<<< HEAD
+<<<<<<< HEAD
     + [Redux logger](https://github.com/evgenyrodionov/redux-logger)
     + [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
 =======
 >> [Redux logger](https://github.com/evgenyrodionov/redux-logger)
 >> [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
 >>>>>>> edit readme file
+=======
+    + [Redux logger](https://github.com/evgenyrodionov/redux-logger)
+    + [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
+>>>>>>> readme file
 + [Mobx](https://mobx.js.org/)
 > React Component libraries
 + [Chakra UI](https://chakra-ui.com/)
