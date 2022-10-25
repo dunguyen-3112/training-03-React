@@ -1,7 +1,5 @@
-const fs = require("fs");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const { v4: uuidv4 } = require("uuid");
 const jsonServer = require("json-server");
 
 const db = require("./db.json");
@@ -80,7 +78,6 @@ function handleLogin(req, res) {
     user = db.users.find((user) => user.email === email);
 
     if (user?.password === password) {
-        const date = Math.floor(Date.now() / 1000) + 60 * 60;
         const access_token = generateAccessToken({
             id: user.id,
             role: user.role,
@@ -126,7 +123,6 @@ function navigationRole(req, res, next) {
     const url = req.path.split("/")[1];
     const method = req.method;
 
-    const body = req.body;
     let obj;
 
     let id = req.query.id || req.path.split("/")[2];
@@ -273,12 +269,6 @@ function navigationRole(req, res, next) {
 function generateAccessToken(user) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
         expiresIn: "15s",
-    });
-}
-
-function saveChange() {
-    fs.writeFile(fileName, JSON.stringify(db), function writeJSON(err) {
-        if (err) return console.log(err);
     });
 }
 
