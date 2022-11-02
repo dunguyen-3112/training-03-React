@@ -5,6 +5,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> add gitignore
 pnpm-debug.log*
 lerna-debug.log*
 
@@ -23,6 +26,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+<<<<<<< HEAD
 =======
 lerna-debug.log*
 
@@ -123,3 +127,5 @@ dist
 # TernJS port file
 .tern-port
 >>>>>>> 64de6ef026cf7b8b977edff45f902e79fa5aa5fd
+=======
+>>>>>>> add gitignore
