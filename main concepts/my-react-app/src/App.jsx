@@ -27,7 +27,7 @@ function App() {
             }
             setItems(tasks);
         } catch (error) {
-            setError(error.message || ' Fetching task failed')
+            setError(error.message || 'Fetching task failed')
         }
 
         setIsLoading(false);
@@ -40,6 +40,7 @@ function App() {
     const taskAddHandler = (task) => {
         setItems(prev => [...prev, task])
     }
+
     return (
         <React.Fragment>
             <NewTask onAddTask={taskAddHandler} />

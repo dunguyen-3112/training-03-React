@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 function FormTask(props) {
 
-    const taskInputRef = useRef();
+    const taskInputRef = useRef(null);
 
     const submitHandler = event => {
         event.preventDefault();
@@ -12,7 +12,9 @@ function FormTask(props) {
         const taskValue = taskInputRef.current.value;
         props.onEnterTask(taskValue);
     }
+
     return (
+
         <form className='form' onSubmit={submitHandler}>
             <input type="text" name="txtTask" ref={taskInputRef} />
             <button type="submit">{props.isLoading ? 'Sending...' : 'Add Task'}</button>

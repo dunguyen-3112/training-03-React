@@ -13,7 +13,6 @@ function NewTask(props) {
 
         setIsLoading(true);
         setError(null)
-        console.log(JSON.stringify({ text: textTask }))
 
         try {
             const response = await fetch('https://react-my-example-default-rtdb.firebaseio.com/tasks.json', {
