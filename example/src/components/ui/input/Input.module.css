@@ -1,0 +1,30 @@
+.form_group{
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.form_label{
+    font-size: 18px;
+    font-weight: 600;
+    flex-grow: 3;
+    width: 50px;
+    text-align: left;
+}
+
+.form_control{
+    font-size: 18px;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 10px;
+    flex-grow: 7;
+    background-color: #eee;
+}
+
+.form_control[type=file]{
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+    visibility: hidden;
+    padding: 0;
+}

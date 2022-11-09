@@ -1,5 +1,5 @@
 import React from 'react'
-import Card from '../../layouts/Card/Card'
+import Card from '../../components/Card/Card'
 import ProductItem from './ProductItem'
 import classes from './Product.module.css'
 
