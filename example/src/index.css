@@ -15,6 +15,15 @@
   -webkit-text-size-adjust: 100%;
 }
 
+#root {
+    display: block;
+    position: relative;
+    width: 1280px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+
 a {
   font-weight: 500;
   color: #646cff;
