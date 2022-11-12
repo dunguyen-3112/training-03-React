@@ -5,9 +5,12 @@ import Products from './pages/product/Products';
 
 function App() {
 
+
+
+
     return (
         <>
-            <Products />
+
         </>
     )
 }

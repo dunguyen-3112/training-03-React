@@ -1,0 +1,32 @@
+.icon{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 3px solid;
+    border-radius: 5px;
+    box-sizing: content-box;
+    border-style: dashed;
+}
+
+.dark{
+    border-color: var(--dark-color);
+}
+
+.light{
+    border-color: var(--light-color);
+}
+.xs{
+    width: var(--icon-xs);
+}
+
+.sm{
+    width: var(--icon-sm);
+}
+
+.md{
+    width: var(--icon-md);
+}
+
+.lg{
+    width: var(--icon-lg);
+}

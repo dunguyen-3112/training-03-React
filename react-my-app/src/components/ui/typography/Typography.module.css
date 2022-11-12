@@ -1,0 +1,17 @@
+.text{
+    font-size: 12px;
+    font-weight: 500;
+    text-align: left;
+    grid-column: 2/3;
+    line-height: .9rem;
+    color: var(--dark-color);
+    font-family: 'Montserrat', sans-serif;
+}
+
+.dark{
+    color: var(--dark-color);
+}
+
+.light{
+    color: var(--light-color);
+}

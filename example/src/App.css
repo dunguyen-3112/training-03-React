@@ -36,3 +36,18 @@
 .read-the-docs {
   color: #888;
 }
+
+.bang{
+    position: relative;
+    height: 800px;
+    width: 1000px;
+}
+
+.point{
+    position: absolute;
+    height: 2px;
+    width: 2px;
+    background-color: red;
+    border-radius: 50%;
+    margin:400px 0 0 400px;
+}
