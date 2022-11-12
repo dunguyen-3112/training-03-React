@@ -23,8 +23,8 @@
     --w-lg: 1170px;
 
     /* width icon variable */
-    --icon-sm: 48%;
-    --icon-xs: 36%;
-    --icon-md: 80%;
-    --icon-lg: 100%;
+    --icon-sm: 36px;
+    --icon-xs: 24px;
+    --icon-md: 52px;
+    --icon-lg: 80px;
 }

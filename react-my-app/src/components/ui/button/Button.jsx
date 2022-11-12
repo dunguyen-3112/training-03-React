@@ -1,8 +1,11 @@
 import PropTypes from 'prop-types'
+import { memo } from 'react'
 
 import classes from './Button.module.css'
 
 function Button({ children, onClick, color, bg, size }) {
+
+    console.log("re-render", size)
 
     color = color || 'default'
     return (
@@ -23,4 +26,4 @@ Button.propTypes = {
     size: PropTypes.number
 }
 
-export default Button
+export default memo(Button)

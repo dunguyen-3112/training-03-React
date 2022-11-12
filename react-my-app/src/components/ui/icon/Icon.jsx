@@ -10,19 +10,21 @@ function Icon({ src, alt, lg, sm, xs, md }) {
     const theme = useContext(Context)
 
     const color = themeToColor(theme);
+    console.log();
 
     let w;
     if (lg === undefined) {
         if (md === undefined) {
             if (sm === undefined) {
-                if (xs !== undefined) w = Object.keys({ xs })[0]
-            } else w = Object.keys({ sm })[0]
-        } else w = Object.keys({ md })[0]
-    } else w = Object.keys({ lg })[0]
+                if (xs !== undefined) w = '-' + Object.keys({ xs })[0]
+                else w = ''
+            } else w = '-' + Object.keys({ sm })[0]
+        } else w = '-' + Object.keys({ md })[0]
+    } else w = '-' + Object.keys({ lg })[0]
 
     return (
-        <figure style={{ gridRow: "1/3" }} className={`${classes.icon} ${classes[color]}`}>
-            <img src={src} alt={alt} className={classes[w]} />
+        <figure className={`${classes.icon} ${classes[`icon${w}`]} ${classes[color]}`}>
+            <img src={src} alt={alt} title={alt} />
         </figure>
     )
 }

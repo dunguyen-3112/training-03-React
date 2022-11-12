@@ -1,13 +1,3 @@
 *{
     box-sizing: border-box;
 }
-
-div.dark{
-    background-color: var(--dark-color);
-    color: var(--light-color);
-}
-
-div.light{
-   background-color:var(--light-color);
-   color: var(--dark-color);
-}
