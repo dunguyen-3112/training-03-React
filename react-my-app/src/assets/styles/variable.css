@@ -1,0 +1,30 @@
+:root{
+
+    /* color variable */
+    --white-color:#FFFFFF;
+    --black-color:#000000;
+    --light-color:#F8F8F8;
+    --dark-color:#201e34;
+    --blue-color:#1884f1;
+    --gray-color:#ccc;
+    --success-color:#1b5e20;
+    --success-light-color:rgb(27, 94, 32, .7);
+    --error-color: #D32F2F;
+    --danger-color: #C82333;
+    --primary-color:#0069D9;
+    --warning-color: #E0A800;
+    --info-color: #138496;
+    --info-light-color: rgb(19, 132, 150, .7);
+
+    /* width variable */
+    --w-xs: auto;
+    --w-sm: 750px;
+    --w-md: 970px;
+    --w-lg: 1170px;
+
+    /* width icon variable */
+    --icon-sm: 48%;
+    --icon-xs: 36%;
+    --icon-md: 80%;
+    --icon-lg: 100%;
+}

@@ -1,0 +1,7 @@
+.content{
+    padding: 2px;
+    border-radius: 5px;
+    display: grid;
+    grid-template-columns: 50px 1fr;
+    gap: 0 14px;
+}

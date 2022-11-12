@@ -1,0 +1,59 @@
+.switch{
+    width: 40px;
+    height: 16px;
+    border-radius: 15px;
+    cursor: pointer;
+    position: relative;
+}
+
+.dark{
+    background-color: var(--dark-color);
+}
+
+.light{
+    background-color: var(--gray-color);
+}
+
+@keyframes toEast {
+    from{
+        left: 0;
+    }
+    to{
+        left: 40%;
+    }
+}
+
+@keyframes toWest {
+    from{
+        left: 40%;
+    }
+    to{
+        left: 0;
+    }
+}
+
+.switch span{
+    position: absolute;
+    width:26px;
+    height: 26px;
+    display: block;
+    border-radius: 50%;
+}
+
+span.light{
+    animation-name: toEast;
+    animation-duration: .6s;
+    background-color: var(--dark-color);
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+span.dark{
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    animation-name: toWest;
+    animation-duration: .6s;
+    background-color: var(--light-color);
+}
