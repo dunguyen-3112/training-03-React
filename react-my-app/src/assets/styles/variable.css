@@ -5,6 +5,8 @@
     --black-color:#000000;
     --light-color:#F8F8F8;
     --dark-color:#201e34;
+    --bg-dark-color:#1E1C30;
+    --dark-2-color:#1C1A2E;
     --blue-color:#1884f1;
     --gray-color:#ccc;
     --success-color:#1b5e20;
@@ -12,9 +14,14 @@
     --error-color: #D32F2F;
     --danger-color: #C82333;
     --primary-color:#0069D9;
+    --primary-1-color:#C8EE44;
+
     --warning-color: #E0A800;
     --info-color: #138496;
     --info-light-color: rgb(19, 132, 150, .7);
+    --text-1-color: #1B212D;
+    --text-2-color:  #929EAE;;
+    --bg-light-color:#FAFAFA;
 
     /* width variable */
     --w-xs: auto;
@@ -22,9 +29,9 @@
     --w-md: 970px;
     --w-lg: 1170px;
 
-    /* width icon variable */
-    --icon-sm: 36px;
-    --icon-xs: 24px;
-    --icon-md: 52px;
-    --icon-lg: 80px;
+    /* padding icon and  variable */
+    --p-sm: 36px;
+    --p-xs: 24px;
+    --p-md: 48px;
+    --p-lg: 80px;
 }

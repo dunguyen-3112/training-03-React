@@ -2,29 +2,18 @@
     display: block;
 }
 
-img{
-    width: 100%;
-}
-
-.dark{
-    border-color: var(--dark-color);
-}
-
-.light{
-    border-color: var(--light-color);
-}
 .icon-xs{
-    width: var(--icon-xs);
+    width: var(--p-xs);
 }
 
 .icon-sm{
-    width: var(--icon-sm);
+    width: var(--p-sm);
 }
 
 .icon-md{
-    width: var(--icon-md);
+    width: var(--p-md);
 }
 
 .icon-lg{
-    width: var(--icon-lg);
+    width: var(--p-lg);
 }

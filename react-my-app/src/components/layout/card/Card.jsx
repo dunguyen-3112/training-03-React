@@ -7,10 +7,14 @@ import PropTypes from 'prop-types';
 
 function Card({ children, col }) {
 
-    const color = useContext(Context)
+    const context = useContext(Context)
 
     return (
-        <div className={`${classes.card} ${col ? `${classes['card-column']}` : ''} ${classes[`card-${color}`]}`}>{children}</div>
+        <div
+            className={`${classes.card} ${col ? `${classes['card-column']}` : ''} ${classes[`card-${context.theme}`]}`}
+        >
+            {children}
+        </div>
     )
 }
 

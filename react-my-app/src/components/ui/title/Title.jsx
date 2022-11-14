@@ -6,15 +6,17 @@ import classes from './Title.module.css'
 import { Context } from '../../../store/ContextProvider'
 import { themeToColor } from '../../../helpers/theme'
 
-function Title({ text }) {
+function Title({ text, className }) {
 
-    const color = useContext(Context)
+    className = className || '';
 
-    const textColor = themeToColor(color)
+    const context = useContext(Context)
+
+    const textColor = themeToColor(context.theme)
 
     return (
         <h1
-            className={`${classes.text} ${classes[textColor]}`}
+            className={`${classes.text} ${classes[textColor]} ${className}`}
         >
             {text}
         </h1>
@@ -22,7 +24,8 @@ function Title({ text }) {
 }
 
 Title.propTypes = {
-    text: PropTypes.string
+    text: PropTypes.string,
+    className: PropTypes.string,
 }
 
 export default Title

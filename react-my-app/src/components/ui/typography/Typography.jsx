@@ -8,9 +8,9 @@ import { themeToColor } from '../../../helpers/theme'
 
 function Typography({ text }) {
 
-    const color = useContext(Context)
+    const context = useContext(Context)
 
-    const textColor = themeToColor(color)
+    const textColor = themeToColor(context.theme)
 
     return (
         <p className={`${classes.text} ${classes[textColor]}`}>{text}</p>

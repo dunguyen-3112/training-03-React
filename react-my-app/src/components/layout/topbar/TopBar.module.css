@@ -1,0 +1,37 @@
+.topBar{
+    justify-content: space-between;
+}
+
+.topBar_right{
+    gap:45px;
+    
+}
+
+.topBar_icon{
+    gap:22px;
+    border-radius: 100px;
+}
+
+.topBar_name{
+    gap: 12px;
+    padding: 6px 6px 6px 7px;
+}
+
+.topBar_textName{
+    font-size: 14px;
+    font-family: 'Kumbh Sans';
+    line-height: 17px;
+}
+
+.topBar_dropdown{
+    padding-right: 15.5px;
+}
+
+.topBar_icon-dark{
+    background-color: var(--dark-color);
+}
+
+.topBar_icon-light{
+    background-color: var(--bg-light-color);
+}
+
