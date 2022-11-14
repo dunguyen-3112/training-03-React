@@ -1,7 +1,7 @@
 .card{
     padding: 10px 20px;
     border-radius: 10px;
-    display: inline-flex;
+    display: block;
     flex-direction: row;
     gap: 16px;
 }

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types'
 
 function Video({ src }, ref) {
 
-    console.log("re-render");
-
     const videoRef = useRef();
 
     useImperativeHandle(ref, () => ({

@@ -1,82 +1,94 @@
-import { useEffect, useState, useCallback, useRef } from 'react'
-import { } from 'react'
-import './App.css'
-import { Card, CardContent } from './components/layout/card'
-import { Button } from './components/ui/button'
-import Icon from './components/ui/icon/Icon'
-import { Switch } from './components/ui/switch'
-import { Title } from './components/ui/title'
-import { Typography } from './components/ui/typography'
-import { Video } from './components/ui/video'
-import { THEME_DARK, THEME_LIGHT } from './constants'
-import ContextProvider from './store/ContextProvider'
+import { useCallback, useState } from 'react'
 
-import video1 from './assets/video/video1.mp4'
+import './App.css'
+import { TopBar } from './components/layout/topbar'
+import { Box } from './components/ui/box'
+import { SizeBar } from './components/ui/sidebar'
+
+import { PAGES, THEME_DARK, THEME_LIGHT } from './constants'
+import { Homepage } from './pages/homePage'
+import { HelpPage } from './pages/helpPage'
+import ContextProvider from './store/ContextProvider'
+import { InVoicesPage } from './pages/invoicesPage'
+import { MyWalletsPage } from './pages/myWalletsPage'
+import { TransactionPage } from './pages/transactionPage'
+import { SettingPage } from './pages/settingPage'
+
 
 function App() {
 
     const [theme, setTheme] = useState('light')
 
-    useEffect(() => {
+    const [page, setPage] = useState(0)
 
-
-    }, [])
-
-    const handleChangeTheme = () => {
+    const handleChangeTheme = useCallback(() => {
         setTheme(prev => {
             if (prev.localeCompare(THEME_LIGHT) === 0)
                 return THEME_DARK
             return THEME_LIGHT
         });
-    }
-
-    const videoRef = useRef(null)
-
-    const handlePlay = useCallback(() => {
-        videoRef.current.play()
-    }, [])
-    const handlePause = useCallback(() => {
-        videoRef.current.pause()
     }, [])
 
+    const selectRoute = useCallback(() => {
+
+        switch (page) {
+            case PAGES[0].index - 1:
+                return (
+                    <Box col>
+                        <TopBar />
+                        <Homepage onChangeTheme={handleChangeTheme} />
+                    </Box>
+                )
+            case PAGES[1].index - 1:
+                return (
+                    <Box col>
+                        <TopBar />
+                        <TransactionPage />
+                    </Box>
+                )
+
+            case PAGES[2].index - 1:
+                return (
+                    <Box col>
+                        <TopBar />
+                        <InVoicesPage />
+                    </Box>
+                )
+            case PAGES[3].index - 1:
+                return (
+                    <Box col>
+                        <TopBar />
+                        <MyWalletsPage />
+                    </Box>
+                )
+            case PAGES[4].index - 1:
+                return (
+                    <Box col>
+                        <TopBar />
+                        <SettingPage />
+                    </Box>
+                )
+            case PAGES[5].index - 1:
+                return (
+                    <Box col>
+                        <TopBar />
+                        <HelpPage />
+                    </Box>
+                )
+
+            default:
+                return (<h1>Not Found</h1>);
+        }
+    }, [])
+
+    const handleChangePage = useCallback((page) => {
+        setPage(page)
+    }, [page])
 
     return (
-        <ContextProvider value={theme}>
-            <Switch onClick={handleChangeTheme} />
-            <Video src={video1} ref={videoRef} />
-            <Button onClick={handlePlay}>Play</Button>
-            <Button color="info" onClick={handlePause}>Pause</Button>
-
-            <Icon
-                src='https://findicons.com/files/icons/1250/halloween_2009/256/skello_kitty.png'
-                alt="Hello Kitty"
-                lg
-            />
-
-            <Card col>
-                <Card>
-                    <Icon
-                        src='https://cdn-icons-png.flaticon.com/128/774/774502.png'
-                        alt='Icon hi hi!'
-                        md
-                    />
-                    <CardContent>
-                        <Title text='Hello World' />
-                        <Typography text='You can change the mapping globally using the theme' />
-                    </CardContent>
-                </Card>
-                <Card>
-                    <Icon
-                        src='https://cdn-icons-png.flaticon.com/512/188/188987.png'
-                        alt="Pikachu"
-                        md
-                    />
-                    <CardContent>
-                        <Title text='Hello World' />
-                        <Typography text='You can change the mapping globally using the theme' />
-                    </CardContent>
-                </Card>
-            </Card>
+        <ContextProvider value={{ theme, page, handleChangePage }}>
+            <SizeBar />
+            {selectRoute()}
         </ContextProvider>
     )
 }

@@ -1,3 +1,26 @@
 *{
     box-sizing: border-box;
 }
+
+
+#root{
+    display: grid;
+    grid-template-columns:  250px 1fr;
+    height: 100vh;
+}
+
+.container{
+    display: grid;
+    grid-template-columns:  190px 1fr;
+    height: 100vh;
+}
+
+.left{
+    grid-column: 1/2;
+    grid-row: 1/2;
+}
+
+.right{
+    grid-column: 2/3;
+    grid-row: 1/2;
+}

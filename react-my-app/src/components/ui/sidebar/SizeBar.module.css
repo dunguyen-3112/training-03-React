@@ -1,0 +1,21 @@
+.sizeBar{
+    grid-column: 1/2;
+    grid-row: 1/2;
+    padding: 30px 25px 100px 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+}
+
+.sizeBar-light{
+    background-color: var(--bg-light-color);
+}
+
+.sizeBar-dark{
+    background-color: var(--bg-dark-color);
+}
+
+.nav{
+    gap:2px;
+}

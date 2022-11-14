@@ -3,15 +3,15 @@ import { memo } from 'react'
 
 import classes from './Button.module.css'
 
-function Button({ children, onClick, color, bg, size }) {
+function Button({ children, onClick, variant, size }) {
 
-    console.log("re-render", size)
-
-    color = color || 'default'
+    variant = variant || 'default'
+    size = size || 'sm'
     return (
         <button
             onClick={onClick}
-            className={`${classes.btn} ${classes[`btn${bg ? '-bg' : ''}-${color}`]}`}
+            type="button"
+            className={`${classes.btn} ${classes[`btn-${variant}`]} ${classes[`btn-${size}`]}`}
         >
             {children}
         </button>
@@ -21,9 +21,8 @@ function Button({ children, onClick, color, bg, size }) {
 Button.propTypes = {
     onClick: PropTypes.func,
     children: PropTypes.node,
-    color: PropTypes.string,
-    bg: PropTypes.bool,
-    size: PropTypes.number
+    variant: PropTypes.string,
+    size: PropTypes.string,
 }
 
 export default memo(Button)

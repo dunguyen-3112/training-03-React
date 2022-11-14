@@ -1,18 +1,17 @@
-import { useContext } from 'react'
+import { useContext, memo } from 'react'
 import PropTypes from 'prop-types'
 
 import { Context } from '../../../store/ContextProvider'
 
 import classes from './Switch.module.css'
-import { themeToColor } from '../../../helpers/theme'
 
 function Switch({ onClick }) {
 
-    const theme = useContext(Context)
+    const context = useContext(Context)
 
     return (
-        <div className={`${classes.switch} ${classes[theme]}`} onClick={() => onClick()}>
-            <span className={classes[theme]}></span>
+        <div className={`${classes.switch} ${classes[context.theme]}`} onClick={onClick}>
+            <span className={classes[context.theme]}></span>
         </div>
     )
 }
@@ -21,4 +20,4 @@ Switch.propTypes = {
     onClick: PropTypes.func
 }
 
-export default Switch
+export default memo(Switch)
