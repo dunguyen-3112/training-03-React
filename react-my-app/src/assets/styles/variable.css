@@ -3,25 +3,29 @@
     /* color variable */
     --white-color:#FFFFFF;
     --black-color:#000000;
-    --light-color:#F8F8F8;
-    --dark-color:#201e34;
-    --bg-dark-color:#1E1C30;
-    --dark-2-color:#1C1A2E;
-    --blue-color:#1884f1;
-    --gray-color:#ccc;
-    --success-color:#1b5e20;
-    --success-light-color:rgb(27, 94, 32, .7);
-    --error-color: #D32F2F;
-    --danger-color: #C82333;
-    --primary-color:#0069D9;
-    --primary-1-color:#C8EE44;
 
-    --warning-color: #E0A800;
-    --info-color: #138496;
-    --info-light-color: rgb(19, 132, 150, .7);
+    --dark-1-color:#201e34;
+    --dark-2-color:#282541;
+    --dark-shade-color:#1E1C30;
+    --dark-bg--color:#1C1A2E;
+    --dark-Key-black:#363A3F;
+    
+    --primary-color:#C8EE44;
+    --secondary-color:#29A073;
+
     --text-1-color: #1B212D;
-    --text-2-color:  #929EAE;;
-    --bg-light-color:#FAFAFA;
+    --text-2-color:  #929EAE;
+    --text-3-color:  #78778B;
+
+    --status-error-color:#E5363D;
+    --status-success-color:#19D076;
+    
+
+    --gray-1-color:#FAFAFA;
+    --gray-2-color:#F8F8F8;
+    --gray-3-color:#F5F5F5;
+    --gray-4-color:#FDFDFD;
+    --gray-5-color:#F2F2F2;
 
     /* width variable */
     --w-xs: auto;
@@ -34,4 +38,14 @@
     --p-xs: 24px;
     --p-md: 48px;
     --p-lg: 80px;
+
+    /* fontSize variable */
+
+    --f-nm: 12px;
+    --f-ex-nm:13px;
+    --f-md: 14px;
+    --f-lg: 16px;
+    --f-x-lg: 18px;
+    --f-xx-lg: 20px;
+
 }
