@@ -1,0 +1,46 @@
+
+@mixin textStyle( $fontSize: 12px ,$fontWeight: 400, $lineHeight: 15px, $color: var(--text-2-color))
+    font-weight: $fontWeight
+    font-size: $fontSize
+    line-height: $lineHeight
+    color: $color
+.text
+    font-style: normal
+    @include textStyle()
+    &-12
+        @include textStyle()
+
+    &-500
+        @include textStyle(500)
+
+    &-600
+        @include textStyle(600)
+    &-14
+        @include textStyle(14px)
+        &-400
+            @include textStyle(14px, 400, 17px)
+        &-500
+            @include textStyle(14px, 500, 17px)
+        &-600
+            @include textStyle(14px, 600, 17px)
+    &-16
+        @include textStyle(16)
+        &-400
+            @include textStyle(16px, 400, 20px)
+        &-500
+            @include textStyle(16px, 500, 20px)
+        &-600
+            @include textStyle(16px, 600, 20px)
+    &-18
+        @include textStyle(18px, 600, 22px)
+    &-20
+        @include textStyle(20px, 600, 25px)
+    &-13
+        @include textStyle(18px, 400, 16px)
+    &-25, &-25-600
+        @include textStyle(25px, 600, 31px)
+.dark
+    color: var(--text-1-color)
+.light
+    color: var(--white-color)
+    

@@ -3,13 +3,15 @@
 const THEME_DARK = "dark";
 const THEME_LIGHT = "light";
 
+const DOMAIN_PAGE = "http://127.0.0.1:5173";
+
 const PAGES = [
     {
         title: "DashBoard",
         index: 1,
     },
     {
-        title: "Transaction",
+        title: "Transactions",
         index: 2,
     },
     {
@@ -21,7 +23,7 @@ const PAGES = [
         index: 4,
     },
     {
-        title: "Setting",
+        title: "Settings",
         index: 5,
     },
     {
@@ -34,4 +36,4 @@ const PAGES = [
     },
 ];
 
-export { THEME_DARK, THEME_LIGHT, PAGES };
+export { THEME_DARK, THEME_LIGHT, PAGES, DOMAIN_PAGE };

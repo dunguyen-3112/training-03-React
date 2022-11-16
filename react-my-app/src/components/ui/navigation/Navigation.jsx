@@ -1,4 +1,4 @@
-import { memo, useContext } from 'react'
+import { memo, useContext, useState } from 'react'
 import PropTypes from 'prop-types'
 
 import { Icon1 } from '../icon'
@@ -6,9 +6,9 @@ import { Icon1 } from '../icon'
 import classes from './Navigation.module.css'
 import ContextProvider, { Context } from '../../../store/ContextProvider'
 import { Box } from '../box'
-import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
-function Navigation({ children, src, size }) {
+function Navigation({ children }) {
 
     const context = useContext(Context)
 
@@ -31,59 +31,13 @@ function Navigation({ children, src, size }) {
 
     return (
         <nav className={classes.nav}>
-            <ContextProvider value={{ src, size, theme: context.theme, handle: handleSelect, page: context.page }}>
-                {children}
-            </ContextProvider>
+            {children}
         </nav>
     )
 }
 
-function Item({ pos, children }) {
-
-    const context = useContext(Context)
-
-    const [isHover, setIsHover] = useState(false)
-
-    const handleMouseOver = () => {
-        setIsHover(true)
-    }
-
-    const handleMouseLeave = () => {
-        setIsHover(false)
-    }
-
-    return (
-        <Box className={`${classes.navItem}  ${pos === context.page ? `${classes.selected}` : ''}`}>
-            <a
-                className={classes.navItem_link}
-                onClick={context.handle}
-                onMouseOver={handleMouseOver}
-                onMouseLeave={handleMouseLeave}
-            >
-                {children}
-            </a>
-            <Icon1
-                src={context.src}
-                size={context.size}
-                pos={pos}
-                className={classes.navItem_icon}
-                isHover={isHover}
-            />
-        </Box>
-    )
-}
-
-Item.propTypes = {
-    pos: PropTypes.number.isRequired,
-    children: PropTypes.string
-}
-
-Navigation.Item = memo(Item)
-
 Navigation.propTypes = {
-    children: PropTypes.array.isRequired,
-    src: PropTypes.string.isRequired,
-    size: PropTypes.number.isRequired,
+    children: PropTypes.array,
 }
 
 export default Navigation

@@ -1,19 +1,20 @@
-import PropTypes from 'prop-types'
+// import PropTypes from 'prop-types'
 
+import { Text } from '../../components/ui/text'
+import Test from '../../components/ui/text/Test'
 import classes from './Homepage.module.css'
-import { Switch } from '../../components/ui/switch'
 
-function Homepage({ onChangeTheme }) {
+function Homepage() {
 
     return (
         <div className={classes.homepage}>
-            <Switch onClick={onChangeTheme} />
+            <Test />
         </div>
     )
 }
 
 Homepage.propTypes = {
-    onChangeTheme: PropTypes.func
+
 }
 
 export default Homepage

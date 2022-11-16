@@ -1,18 +1,14 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useState, useEffect } from 'react'
+import { RouterProvider } from "react-router-dom";
 
 import './App.css'
-import { TopBar } from './components/layout/topbar'
-import { Box } from './components/ui/box'
-import { SizeBar } from './components/ui/sidebar'
 
-import { PAGES, THEME_DARK, THEME_LIGHT } from './constants'
-import { Homepage } from './pages/homePage'
-import { HelpPage } from './pages/helpPage'
+import { TopBar } from './components/layout/topbar'
 import ContextProvider from './store/ContextProvider'
-import { InVoicesPage } from './pages/invoicesPage'
-import { MyWalletsPage } from './pages/myWalletsPage'
-import { TransactionPage } from './pages/transactionPage'
-import { SettingPage } from './pages/settingPage'
+import router from './router'
+import { THEME_DARK, THEME_LIGHT } from './constants';
+import { useLayoutEffect } from 'react';
+
 
 
 function App() {
@@ -20,6 +16,10 @@ function App() {
     const [theme, setTheme] = useState('light')
 
     const [page, setPage] = useState(0)
+
+    const [posts, setPosts] = useState([])
+
+    document.querySelector('#root').className = theme
 
     const handleChangeTheme = useCallback(() => {
         setTheme(prev => {
@@ -29,66 +29,14 @@ function App() {
         });
     }, [])
 
-    const selectRoute = useCallback(() => {
-
-        switch (page) {
-            case PAGES[0].index - 1:
-                return (
-                    <Box col>
-                        <TopBar />
-                        <Homepage onChangeTheme={handleChangeTheme} />
-                    </Box>
-                )
-            case PAGES[1].index - 1:
-                return (
-                    <Box col>
-                        <TopBar />
-                        <TransactionPage />
-                    </Box>
-                )
-
-            case PAGES[2].index - 1:
-                return (
-                    <Box col>
-                        <TopBar />
-                        <InVoicesPage />
-                    </Box>
-                )
-            case PAGES[3].index - 1:
-                return (
-                    <Box col>
-                        <TopBar />
-                        <MyWalletsPage />
-                    </Box>
-                )
-            case PAGES[4].index - 1:
-                return (
-                    <Box col>
-                        <TopBar />
-                        <SettingPage />
-                    </Box>
-                )
-            case PAGES[5].index - 1:
-                return (
-                    <Box col>
-                        <TopBar />
-                        <HelpPage />
-                    </Box>
-                )
-
-            default:
-                return (<h1>Not Found</h1>);
-        }
+    const handleChangePage = useCallback((p) => {
+        setPage(p)
     }, [])
-
-    const handleChangePage = useCallback((page) => {
-        setPage(page)
-    }, [page])
 
     return (
         <ContextProvider value={{ theme, page, handleChangePage }}>
-            <SizeBar />
-            {selectRoute()}
+            <TopBar onChangeTheme={handleChangeTheme} />
+            <RouterProvider router={router} />
         </ContextProvider>
     )
 }
