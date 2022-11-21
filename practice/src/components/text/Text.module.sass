@@ -1,0 +1,39 @@
+@mixin textStyle($fw: 400, $fs: 12px, $lh: 16px, $ls: .1px)
+    font-weight: $fw
+    font-size: $fs
+    line-height: $lh
+    letter-spacing: $ls
+
+.text
+    &-400
+        &-12
+            @include textStyle()
+        &-14
+            @include textStyle($fs: 14px, $ls: .3px,$lh: 20px)
+        &-10
+            @include textStyle($fs: 10px,$lh: 13px)
+        &-16
+            @include textStyle($fs: 16px, $ls: .2px,$lh: 20px)
+
+    &-700
+        &-12
+            @include textStyle($fw: 700, $ls: .3px,$lh: 15px)
+        &-11
+            @include textStyle($fw: 700,$fs: 11px, $ls: .5px,$lh: 14px)
+        &-24
+            @include textStyle($fw: 700,$fs: 24px, $ls: .3px,$lh: 30px)
+        &-19
+            @include textStyle($fw: 700,$fs: 19px, $ls: .4px,$lh: 24px)
+        &-40
+            @include textStyle($fw: 700,$fs: 40px, $ls: 1px,$lh: 50px)
+        &-14
+            @include textStyle($fw: 700,$fs: 14px, $ls: .2px,$lh: 18px)
+    
+    &-600
+        &-12
+            @include textStyle($fw: 600,$lh: 15px)
+
+        &-14
+            @include textStyle($fw: 600,$fs: 14px, $ls: .2px,$lh: 20px)
+        &-16
+            @include textStyle($fw: 600,$fs: 16px, $ls: .3px,$lh: 22px)

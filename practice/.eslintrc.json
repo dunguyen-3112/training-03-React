@@ -23,6 +23,21 @@
     "plugins": ["react", "@typescript-eslint", "react-hooks", "prettier"],
     "rules": {
         "react-hooks/rules-of-hooks": "error",
-        "react-hooks/exhaustive-deps": "warn"
+        "react-hooks/exhaustive-deps": "warn",
+        "prettier/prettier": [
+            "warn",
+            {
+                "jsxSingleQuote": true,
+                "singleQuote": true,
+                "semi": true,
+                "tabWidth": 2,
+                "trailingComma": "all",
+                "printWidth": 80,
+                "bracketSameLine": false,
+                "useTabs": false,
+                "arrowParens": "always",
+                "endOfLine": "auto"
+            }
+        ]
     }
 }
