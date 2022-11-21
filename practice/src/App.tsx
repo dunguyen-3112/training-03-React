@@ -1,4 +1,4 @@
-import { FONT_SIZE_400, FONT_SIZE_700, FONT_WEIGHT } from './types';
+import { FONT_WEIGHT_400, FONT_WEIGHT_700 } from './types';
 
 import { Text } from './components/text';
 
@@ -8,8 +8,8 @@ function App(): JSX.Element {
             <Text
                 type="p"
                 size={{
-                    fontSize: FONT_SIZE_400.FONT_SIZE_16,
-                    fontWeight: FONT_WEIGHT.FONT_WEIGHT_400,
+                    fontSize: FONT_WEIGHT_400.FONT_SIZE_16,
+                    fontWeight: FONT_WEIGHT_400.VALUE,
                 }}
             >
                 Hello
@@ -19,8 +19,8 @@ function App(): JSX.Element {
             <Text
                 type="p"
                 size={{
-                    fontSize: FONT_SIZE_700.FONT_SIZE_19,
-                    fontWeight: FONT_WEIGHT.FONT_WEIGHT_700,
+                    fontSize: FONT_WEIGHT_700.FONT_SIZE_14,
+                    fontWeight: FONT_WEIGHT_700.VALUE,
                 }}
             >
                 Hello 1
