@@ -1,11 +1,14 @@
 import React, { useCallback } from 'react';
-import { FONT_SIZE, FONT_WEIGHT } from '../../types';
+import { FONT_WEIGHT_400, FONT_WEIGHT_600, FONT_WEIGHT_700 } from '../../types';
 
 import classes from './Text.module.sass';
 
 interface SizeProp {
-    fontSize: FONT_SIZE;
-    fontWeight: FONT_WEIGHT;
+    fontSize: FONT_WEIGHT_400 | FONT_WEIGHT_600 | FONT_WEIGHT_700;
+    fontWeight:
+        | FONT_WEIGHT_400.VALUE
+        | FONT_WEIGHT_600.VALUE
+        | FONT_WEIGHT_700.VALUE;
 }
 
 interface Prop {
@@ -16,8 +19,8 @@ interface Prop {
 
 function Text({ type, size, children }: Prop) {
     size = size || {
-        fontSize: FONT_SIZE.FONT_SIZE_12,
-        fontWeight: FONT_WEIGHT.FONT_WEIGHT_400,
+        fontSize: FONT_WEIGHT_400.FONT_SIZE_12,
+        fontWeight: FONT_WEIGHT_400.VALUE,
     };
 
     return React.createElement(
