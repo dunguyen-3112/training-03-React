@@ -171,8 +171,13 @@ This is not in the plan, trainees may want to read more about debugging tools, s
 > State Management
 
 + [Redux](https://redux.js.org/)
+<<<<<<< HEAD
     + [Redux logger](https://github.com/evgenyrodionov/redux-logger)
     + [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
+=======
+>> [Redux logger](https://github.com/evgenyrodionov/redux-logger)
+>> [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
+>>>>>>> edit readme file
 + [Mobx](https://mobx.js.org/)
 > React Component libraries
 + [Chakra UI](https://chakra-ui.com/)
@@ -181,6 +186,7 @@ This is not in the plan, trainees may want to read more about debugging tools, s
 + [Ant Design](https://ant.design/)
 > React Router
 + [React Router v6](https://reactrouter.com/)
+<<<<<<< HEAD
 
 
 =======
@@ -203,6 +209,8 @@ This is not in the plan, trainees may want to read more about debugging tools, s
     - consider additional issues people are already encountering.
 * Notes:
   - Although some e-commerce companies do not offer APIs to access consumer data, for the purposes of this challenge, let's suppose that they do.
+=======
+>>>>>>> edit readme file
 
 ## TECHNICAL
 

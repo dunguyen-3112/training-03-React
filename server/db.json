@@ -1,0 +1,99 @@
+{
+  "users": [
+    {
+      "email": "huudu@gmail.com",
+      "password": "1234",
+      "firstName": "An",
+      "lastName": "Linh",
+      "avatarUrl": "",
+      "role": "manager",
+      "id": "kAAXPaH"
+    },
+    {
+      "email": "huudu1@gmail.com",
+      "password": "1234",
+      "firstName": "Anh",
+      "lastName": "Vu",
+      "avatarUrl": "",
+      "role": "developer",
+      "id": "N974MRn"
+    }
+  ],
+  "tickets": [
+    {
+      "createDate": "2015-12-01",
+      "dueDate": "2015-12-01",
+      "createBy": "kAAXPaH",
+      "name": "Ticket 30000",
+      "description": "ticket 30000",
+      "assignBy": "",
+      "priority": 1,
+      "status": 1,
+      "id": "5a58a431-bf92-47ab-b2a9-c63433b754c2"
+    },
+    {
+      "id": "5ab8d4f0-924c-482b-982a-b92a7e09fe33",
+      "createDate": "2015-12-01",
+      "dueDate": "2015-12-01",
+      "createBy": "kAAXPaH",
+      "name": "Ticket 1",
+      "description": "ticket 3",
+      "assignBy": "",
+      "priority": 1,
+      "status": 1
+    },
+    {
+      "name": "Ticket 19875",
+      "description": "ticket 3",
+      "createDate": "2015-12-01",
+      "dueDate": "2015-12-01",
+      "assignBy": "",
+      "priority": 1,
+      "status": 1,
+      "id": "0c32127c-2531-418e-84d1-4f0f2b3120a5"
+    },
+    {
+      "createDate": "2015-12-01",
+      "dueDate": "2015-12-01",
+      "createBy": "N974MRn",
+      "name": "Ticket 2a",
+      "description": "ticket 2a",
+      "assignBy": "",
+      "priority": 2,
+      "status": 2,
+      "id": "0c3273f4-865e-43ae-b42d-6bc0968c5e6a"
+    }
+  ],
+  "priorities": [
+    {
+      "value": 1,
+      "title": "High"
+    },
+    {
+      "value": 2,
+      "title": "Low"
+    },
+    {
+      "value": 3,
+      "title": "Normal"
+    }
+  ],
+  "statuses": [
+    {
+      "value": 1,
+      "title": "Todo"
+    },
+    {
+      "value": 2,
+      "title": "In-progress"
+    },
+    {
+      "value": 3,
+      "title": "Review"
+    },
+    {
+      "value": 4,
+      "title": "Done"
+    }
+  ]
+}
