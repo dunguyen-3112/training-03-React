@@ -129,7 +129,7 @@ function navigationRole(req, res, next) {
 
     const date_regex = /^\d{4}\/\d{2}\/\d{2}$/;
 
-    if (url === "tickets") {
+    if (url === "tickets" && (method === "PUT" || method === "POST")) {
         const status = req.body.status;
         const priority = req.body.priority;
         const name = req.body.name;
