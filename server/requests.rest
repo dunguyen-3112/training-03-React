@@ -1,0 +1,73 @@
+POST http://localhost:3000/login
+Content-Type: application/json
+
+{
+    "email": "huudu@gmail.com",
+    "password": "1234"
+}
+
+###
+
+POST http://localhost:3000/token
+Content-Type: application/json
+
+{
+    "token":"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtBQVhQYUgiLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTY2OTMxMzEwMn0.lJZn3EOPjZp8EU3QoGx0Imzk_C4uZ46X7QYAPoNH-AM"
+}
+
+###
+
+GET http://localhost:3000/tickets?id=N974MRn
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtBQVhQYUgiLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTY2OTM2NjI3OSwiZXhwIjoxNjY5MzY2Mjk0fQ.vtVLKtna0x7YPa5CMF2B-TNkc6wIhUPo5tn3yGOzKgY
+
+###
+
+GET http://localhost:3000/tickets
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ik45NzRNUm4iLCJyb2xlIjoiZGV2ZWxvcGVyIiwiaWF0IjoxNjY5MzUxNzUyfQ.Hf8yxssa8FbN5fMSnpK62VsQNnUcRC9pHTIWXTTz088
+
+###
+
+DELETE http://localhost:3000/tickets/4MSFira
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ik45NzRNUm4iLCJyb2xlIjoiZGV2ZWxvcGVyIiwiaWF0IjoxNjY5MzUxNzUyfQ.Hf8yxssa8FbN5fMSnpK62VsQNnUcRC9pHTIWXTTz088
+
+
+
+###
+
+
+POST http://localhost:3000/tickets
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImtBQVhQYUgiLCJyb2xlIjoibWFuYWdlciIsImlhdCI6MTY2OTM1MTAxOX0.2FofGm7Jb0bOBr1gYvIF-8Xh_zxTz7LZei3VY1PT3Hs
+
+{
+    "name":"Ticket huu",
+    "dueDate": "2022/11/27",
+    "description": "ticket huu",
+    "assignBy": "ewe3",
+    "priority": 2,
+    "status": 1
+}
+
+###
+
+PUT http://localhost:3000/tickets/PTFfrnA
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ik45NzRNUm4iLCJyb2xlIjoiZGV2ZWxvcGVyIiwiaWF0IjoxNjY5MzU0MTUzfQ.7ElQ7MnI4Ed32nfM6uuZaMf2nqJh_arbMx1-uJwA7YU
+
+{
+    "name":"Ticket 2hjhhb",
+    "dueDate": "2022/12/01",
+    "description": "ticket 2b1",
+    "priority": 3,
+    "assignBy": "ewe3",
+    "status": 1
+}
+
+###
+GET http://localhost:3000/statuses
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ik45NzRNUm4iLCJyb2xlIjoiZGV2ZWxvcGVyIiwiaWF0IjoxNjY5MzU0MTUzfQ.7ElQ7MnI4Ed32nfM6uuZaMf2nqJh_arbMx1-uJwA7YU
+
+
+###
+GET http://localhost:3000/priorities
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ik45NzRNUm4iLCJyb2xlIjoiZGV2ZWxvcGVyIiwiaWF0IjoxNjY5MzU0MTUzfQ.7ElQ7MnI4Ed32nfM6uuZaMf2nqJh_arbMx1-uJwA7YU

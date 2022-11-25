@@ -1,0 +1,111 @@
+{
+  "users": [
+    {
+      "email": "huudu@gmail.com",
+      "password": "1234",
+      "firstName": "An",
+      "lastName": "Linh",
+      "avatarUrl": "",
+      "role": "manager",
+      "id": "kAAXPaH"
+    },
+    {
+      "email": "huudu1@gmail.com",
+      "password": "1234",
+      "firstName": "Anh",
+      "lastName": "Vu",
+      "avatarUrl": "",
+      "role": "developer",
+      "id": "N974MRn"
+    }
+  ],
+  "tickets": [
+    {
+      "name": "Ticket 2hjhhb",
+      "dueDate": "2022/12/01",
+      "description": "ticket 2b1",
+      "priority": 3,
+      "assignBy": "ewe3",
+      "status": 1,
+      "id": "PTFfrnA",
+      "createDate": "2022/12/01",
+      "createBy": "N974MRn"
+    },
+    {
+      "name": "Ticket huu",
+      "dueDate": "2022/11/26",
+      "description": "ticket huu",
+      "assignBy": "ewe3",
+      "priority": 2,
+      "status": 1,
+      "createDate": "25/11/2023",
+      "createBy": "kAAXPaH",
+      "id": "65HZWLy"
+    },
+    {
+      "name": "Ticket huu",
+      "dueDate": "2022/11/27",
+      "description": "ticket huu",
+      "assignBy": "ewe3",
+      "priority": 2,
+      "status": 1,
+      "createDate": "25/11/2023",
+      "createBy": "kAAXPaH",
+      "id": "CKwmIYb"
+    },
+    {
+      "name": "Ticket huu",
+      "dueDate": "2022/11/27",
+      "description": "ticket huu",
+      "assignBy": "ewe3",
+      "priority": 2,
+      "status": 1,
+      "createDate": "25/11/2023",
+      "createBy": "kAAXPaH",
+      "id": "M9GA0dY"
+    },
+    {
+      "name": "Ticket huu",
+      "dueDate": "2022/11/27",
+      "description": "ticket huu",
+      "assignBy": "ewe3",
+      "priority": 2,
+      "status": 1,
+      "createDate": "25/11/2023",
+      "createBy": "kAAXPaH",
+      "id": "ObowwB0"
+    }
+  ],
+  "priorities": [
+    {
+      "value": 1,
+      "title": "High"
+    },
+    {
+      "value": 2,
+      "title": "Low"
+    },
+    {
+      "value": 3,
+      "title": "Normal"
+    }
+  ],
+  "statuses": [
+    {
+      "value": 1,
+      "title": "Todo"
+    },
+    {
+      "value": 2,
+      "title": "In-progress"
+    },
+    {
+      "value": 3,
+      "title": "Review"
+    },
+    {
+      "value": 4,
+      "title": "Done"
+    }
+  ]
+}

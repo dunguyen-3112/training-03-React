@@ -1,7 +1,16 @@
 {
+<<<<<<< HEAD
     "semi": true,
     "printWidth": 80,
     "bracketSpacing": true,
     "tabWidth": 4,
     "arrowParens": "always"
+=======
+    "arrowParens": "always",
+    "bracketSameLine": false,
+    "tabWidth": 4,
+    "printWidth": 80,
+    "singleQuote": true,
+    "bracketSpacing": true
+>>>>>>> 93e371bde4148c54d240b9b1d2dddbfba602c905
 }
