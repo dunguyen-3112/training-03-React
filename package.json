@@ -1,9 +1,6 @@
 {
     "name": "server-react-practice",
     "version": "0.0.0",
-    "engines": {
-        "node": "18.10.0"
-    },
     "scripts": {
         "server": "node server.js",
         "devstart": "nodemon server.js"
