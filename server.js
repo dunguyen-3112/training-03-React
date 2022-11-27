@@ -1,9 +1,11 @@
-require("dotenv").config();
-const jwt = require("jsonwebtoken");
-const jsonServer = require("json-server");
+/* eslint-disable no-undef */
 
-const db = require("./db.json");
-const fileName = "./db.json";
+require('dotenv').config();
+const jwt = require('jsonwebtoken');
+const jsonServer = require('json-server');
+
+const db = require('./db.json');
+const fileName = './db.json';
 
 const PORT = process.env.PORT || 3000;
 
@@ -17,7 +19,7 @@ server.use(middlewares);
 
 server.use(
     jsonServer.rewriter({
-        "/api/users": "/users",
+        '/api/users': '/users',
     })
 );
 
@@ -25,13 +27,13 @@ server.use(jsonServer.bodyParser);
 
 server.use((req, res, next) => {
     try {
-        const urls = req.path.split("/");
+        const urls = req.path.split('/');
 
         const url = urls[1];
 
-        if (url == "login") handleLogin(req, res);
+        if (url == 'login') handleLogin(req, res);
         // refresh token
-        else if (url == "token") {
+        else if (url == 'token') {
             const { token } = req.body;
 
             if (!refreshTokens.includes(token)) return res.sendStatus(403);
@@ -53,8 +55,8 @@ server.use((req, res, next) => {
         }
         //
         else if (
-            req.method == "GET" &&
-            (url === "statuses" || url === "priorities")
+            req.method == 'GET' &&
+            (url === 'statuses' || url === 'priorities')
         )
             authenticateToken(req, res) == true && next();
         else {
@@ -70,12 +72,12 @@ server.use((req, res, next) => {
 server.use(router);
 
 server.listen(PORT, () => {
-    console.log("JSON Server is running on port " + PORT);
+    console.log('JSON Server is running on port ' + PORT);
 });
 
 function handleLogin(req, res) {
     const { email, password } = req.body;
-    user = db.users.find((user) => user.email === email);
+    let user = db.users.find((user) => user.email === email);
 
     if (user?.password === password) {
         const access_token = generateAccessToken({
@@ -93,19 +95,19 @@ function handleLogin(req, res) {
 
         res.json({
             status: 200,
-            message: "Login successful!",
+            message: 'Login successful!',
             access_token,
             refresh_token,
         });
     } else
         res.json({
             status: 401,
-            message: "Login failed! You please check email or password ?",
+            message: 'Login failed! You please check email or password ?',
         });
 }
 function authenticateToken(req, res) {
-    const authHeader = req.headers["authorization"];
-    const token = authHeader && authHeader.split(" ")[1];
+    const authHeader = req.headers['authorization'];
+    const token = authHeader && authHeader.split(' ')[1];
 
     if (token == null) return res.sendStatus(401);
 
@@ -120,16 +122,16 @@ function authenticateToken(req, res) {
 function navigationRole(req, res, next) {
     const role = req.userRole;
 
-    const url = req.path.split("/")[1];
+    const url = req.path.split('/')[1];
     const method = req.method;
 
     let obj;
 
-    let id = req.query.id || req.path.split("/")[2];
+    let id = req.query.id || req.path.split('/')[2];
 
     const date_regex = /^\d{4}\/\d{2}\/\d{2}$/;
 
-    if (url === "tickets" && (method === "PUT" || method === "POST")) {
+    if (url === 'tickets' && (method === 'PUT' || method === 'POST')) {
         const status = req.body.status;
         const priority = req.body.priority;
         const name = req.body.name;
@@ -138,31 +140,31 @@ function navigationRole(req, res, next) {
         const dueDate = req.body.dueDate;
 
         if (
-            typeof status !== "number" ||
+            typeof status !== 'number' ||
             status > 4 ||
             status < 0 ||
-            typeof priority !== "number" ||
+            typeof priority !== 'number' ||
             priority < 0 ||
             priority > 3 ||
             name === undefined ||
-            typeof name !== "string" ||
+            typeof name !== 'string' ||
             name.trim().length <= 0 ||
             description === undefined ||
-            typeof description !== "string" ||
+            typeof description !== 'string' ||
             description.trim().length <= 0 ||
             assignBy === undefined ||
-            typeof assignBy !== "string" ||
+            typeof assignBy !== 'string' ||
             assignBy.trim().length <= 0 ||
             dueDate === undefined ||
-            typeof dueDate !== "string" ||
+            typeof dueDate !== 'string' ||
             dueDate.trim().length <= 0 ||
             !date_regex.test(dueDate) ||
-            new Date(dueDate).toString() === "Invalid Date" ||
+            new Date(dueDate).toString() === 'Invalid Date' ||
             new Date(dueDate).getTime() < new Date().getTime()
         )
             return res.sendStatus(400);
 
-        if (method === "PUT") {
+        if (method === 'PUT') {
             obj = db.tickets.find((ticket) => ticket.id === id);
 
             if (
@@ -178,7 +180,7 @@ function navigationRole(req, res, next) {
             }
 
             if (
-                new Date(dueDate).toString() === "Invalid Date" ||
+                new Date(dueDate).toString() === 'Invalid Date' ||
                 new Date(dueDate).getTime() < new Date(obj.createDate).getTime()
             )
                 return res.sendStatus(400);
@@ -190,7 +192,7 @@ function navigationRole(req, res, next) {
                 ...obj,
                 ...req.body,
             });
-        } else if (method === "POST") {
+        } else if (method === 'POST') {
             const date = new Date();
             Object.assign(req.body, {
                 ...req.body,
@@ -202,17 +204,17 @@ function navigationRole(req, res, next) {
         }
     }
 
+    let resObj;
+
     switch (role) {
-        case "manager":
+        case 'manager':
             next();
             break;
-        case "developer":
+        case 'developer':
             switch (url) {
-                case "tickets":
+                case 'tickets':
                     switch (method) {
-                        case "GET":
-                            let resObj;
-
+                        case 'GET':
                             resObj = id
                                 ? db.tickets.find((ticket) => ticket.id === id)
                                 : db.tickets.filter(
@@ -227,24 +229,24 @@ function navigationRole(req, res, next) {
                                 : res.json({
                                       body: resObj,
                                       status: 200,
-                                      message: "",
+                                      message: '',
                                   });
 
-                        case "POST":
+                        case 'POST':
                             next();
                             break;
 
-                        case "DELETE":
-                            const ticket = db.tickets.find(
+                        case 'DELETE':
+                            resObj = db.tickets.find(
                                 (ticket1) => ticket1.id === id
                             );
 
-                            if (ticket == null) return res.sendStatus(400);
-                            if (ticket.createBy !== req.userId)
+                            if (resObj == null) return res.sendStatus(400);
+                            if (resObj.createBy !== req.userId)
                                 return res.sendStatus(403);
                             next();
                             break;
-                        case "PUT":
+                        case 'PUT':
                             if (req.body.createBy !== req.userId)
                                 return res.sendStatus(403);
                             next();
@@ -268,8 +270,6 @@ function navigationRole(req, res, next) {
 
 function generateAccessToken(user) {
     return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-        expiresIn: "15s",
+        expiresIn: '15s',
     });
 }
-
-function validTicket(obj) {}

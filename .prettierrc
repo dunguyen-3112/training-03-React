@@ -6,5 +6,6 @@
     "bracketSameLine": true,
     "bracketSpacing": true,
     "cursorOffset": -1,
-    "semi": true
+    "semi": true,
+    "singleQuote": true
 }
