@@ -1,0 +1,86 @@
+{
+    "400": {
+        "12": {
+            "fontSize": 12,
+            "fontWeight": 400,
+            "lineHeight": 16,
+            "letterSpacing": 0.1
+        },
+        "14": {
+            "fontSize": 14,
+            "fontWeight": 400,
+            "lineHeight": 20,
+            "letterSpacing": 0.3
+        },
+        "10": {
+            "fontSize": 10,
+            "fontWeight": 400,
+            "lineHeight": 13,
+            "letterSpacing": 0.1
+        },
+        "16": {
+            "fontSize": 16,
+            "fontWeight": 400,
+            "lineHeight": 20,
+            "letterSpacing": 0.2
+        }
+    },
+    "600": {
+        "14": {
+            "fontSize": 14,
+            "fontWeight": 600,
+            "lineHeight": 20,
+            "letterSpacing": 0.2
+        },
+        "12": {
+            "fontSize": 12,
+            "fontWeight": 600,
+            "lineHeight": 15,
+            "letterSpacing": 0.1
+        },
+        "16": {
+            "fontSize": 16,
+            "fontWeight": 600,
+            "lineHeight": 22,
+            "letterSpacing": 0.3
+        }
+    },
+    "700": {
+        "24": {
+            "fontSize": 24,
+            "fontWeight": 700,
+            "lineHeight": 30,
+            "letterSpacing": 0.3
+        },
+        "12": {
+            "fontSize": 12,
+            "fontWeight": 700,
+            "lineHeight": 15,
+            "letterSpacing": 0.3
+        },
+        "19": {
+            "fontSize": 19,
+            "fontWeight": 700,
+            "lineHeight": 24,
+            "letterSpacing": 0.4
+        },
+        "40": {
+            "fontSize": 40,
+            "fontWeight": 700,
+            "lineHeight": 50,
+            "letterSpacing": 1
+        },
+        "11": {
+            "fontSize": 11,
+            "fontWeight": 700,
+            "lineHeight": 14,
+            "letterSpacing": 0.5
+        },
+        "14": {
+            "fontSize": 14,
+            "fontWeight": 700,
+            "lineHeight": 18,
+            "letterSpacing": 0.2
+        }
+    }
+}

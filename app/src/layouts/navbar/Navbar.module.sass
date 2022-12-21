@@ -1,0 +1,39 @@
+.navbar
+    display: flex
+    justify-content: space-between
+    align-items: center
+    .form-search
+        .search-control
+            width: 300px
+            padding: 11px 28px 11px 36px
+            background-color: var(--extra-light-color)
+            border: 1px solid var(--gray-lightest-color)
+            border-radius: 20px
+            font-size: 14px
+            font-weight: 400
+            color: var(--gray-dark-color)
+            &:focus-visible
+                outline: none
+            &::placeholder
+                color: var(--gray-dark-color)
+    .nav-menu
+        display: flex
+        gap: 32px
+        .menu-icon
+            display: flex
+            gap: 25px
+            align-items: center
+        .line
+            background-color: var(--gray-scale-color)
+            width: 1.5px
+        .menu-info
+            display: flex
+            gap: 14px
+            align-items: center
+            position: relative
+            cursor: pointer
+            .avatar 
+                img
+                    width: 40px
+                    height: 40px
+                    border-radius: 50%
