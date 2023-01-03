@@ -1,0 +1,26 @@
+.btn
+    padding: 15px 24px 15px 10px
+    padding-bottom: 13px
+    background-color: var(--blue-color)
+    box-shadow: 0px 4px 12px rgba(55, 81, 255, 0.24)
+    border-radius: 8px
+    border: none
+    display: flex
+    align-items: center
+    justify-content: center
+    gap: 8px
+    color: var(--white-color)
+    &:hover
+        cursor: pointer
+        border-bottom: 2px solid var(--gray-lightest-color)
+       
+    &[data-outline="true"]
+        justify-content: start
+        border-radius: 0
+        background-color: transparent
+        &>*
+            color: var(--black-color)
+        &:hover
+            border: 1px solid var(--gray-scale-divider-color)
+            background-color: var(--gray-scale-color)
+            opacity: .8
