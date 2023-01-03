@@ -56,4 +56,6 @@ const Proritys = [
     },
 ];
 
-export { PAGES, Proritys };
+const API_ENDPOINT = "http://localhost:3000/api/v1";
+
+export { PAGES, Proritys, API_ENDPOINT };

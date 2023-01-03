@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 import classes from './LoginPage.module.sass'
@@ -7,13 +7,30 @@ import { Text } from '../../components/ui/text';
 
 import Type from '../../data/TextType.json'
 import { Logo } from '../../components/ui/logo';
+import useFetch from '../../hooks/useFetch';
+import { useState } from 'react';
 
-const LoginPage = ({ onLogin }) => {
+const LoginPage = () => {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+
+    const [data, loading, error] = useFetch({
+        url: '/login',
+        method: 'POST',
+        json: {
+            email,
+            password
+        }
+
+    });
 
     const handleLogin = (email, password) => {
-        if (email == 'huuduv2@gmail.com' && password == '1234')
-            onLogin();
-    };
+        setEmail(email)
+        setPassword(password)
+    }
+
+
 
 
     return (
