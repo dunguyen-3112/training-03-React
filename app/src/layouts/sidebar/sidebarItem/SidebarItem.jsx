@@ -4,9 +4,9 @@ import PropTypes from 'prop-types';
 import classes from './SidebarItem.module.sass'
 
 import { Context } from '../../../context/Context';
-import { Icon } from '../../../components/ui/icon';
 
-const SidebarItem = ({ title, pos, path, index }) => {
+
+const SidebarItem = ({ title, icon, path, index }) => {
 
     const { page, setPage } = useContext(Context);
 
@@ -21,7 +21,7 @@ const SidebarItem = ({ title, pos, path, index }) => {
             data-active={index === page}
             onClick={handleClick}
         >
-            <Icon pos={pos} />
+            {icon(page === index)}
             <span className={classes['sidebar__item__title']}>
                 {title}
             </span>
@@ -32,7 +32,7 @@ const SidebarItem = ({ title, pos, path, index }) => {
 
 SidebarItem.propTypes = {
     title: PropTypes.string.isRequired,
-    pos: PropTypes.number.isRequired,
+    icon: PropTypes.func,
     path: PropTypes.string.isRequired,
     index: PropTypes.number.isRequired
 };

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { Context } from '../../context/Context';
 
 import { PAGES } from '../../data/constants';
-import { Icon } from '../../components/ui/icon';
 
 import classes from './Navbar.module.sass'
 import { Modal } from '../../components/ui/modal';
@@ -47,8 +46,10 @@ const NavBar = ({ handleLogout }) => {
                     />
                 </form>}
                 <span className={classes['menu-icon']}>
-                    <Icon pos={9} onClick={handleClick} />
-                    <Icon pos={4} />
+                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="6.5" cy="6.5" r="5.75" stroke="#C5C7CD" stroke-width="1.5" />
+                        <path d="M11 11L15 15" stroke="#C5C7CD" stroke-width="1.5" stroke-linecap="round" />
+                    </svg>
                 </span>
                 <div className={classes.line}></div>
                 <span
@@ -73,7 +74,7 @@ const NavBar = ({ handleLogout }) => {
                             <span className={classes['menu__item__title']}>Profile</span>
                         </Button>
                         <Button outline onClick={handleLogout}>
-                            <Icon pos={16} />
+
                             <span className={classes['menu__item__title']}>Logout</span>
                         </Button>
                     </Modal>

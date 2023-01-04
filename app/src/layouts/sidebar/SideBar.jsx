@@ -13,7 +13,7 @@ const SideBar = () => {
 
     const sibarList = PAGES.map((page, i) => (<SidebarItem
         path={page.path}
-        pos={page.icon}
+        icon={page.icon}
         title={page.label}
         index={i}
         key={i} />))
