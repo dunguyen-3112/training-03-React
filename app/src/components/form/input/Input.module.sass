@@ -1,3 +1,4 @@
+@use '../../../assets/style/valiable' as v
 .input-group
     position: relative
     display: flex
@@ -10,24 +11,31 @@
     .input-label
         display: flex
         justify-content: space-between
+        .input__label__title
+            font-weight: v.$font-weight-bold
+            font-size: v.$font-size-xs
         a
             text-decoration: none
+            .input__lable__password,.input__message
+                font-weight: v.$font-weight-regular
+                font-size: v.$font-size-xs
+                color: v.$gray-color
             &:hover
                 text-decoration: underline
-                &>*
-                    color: var(--blue-color)
+                .input__lable__password
+                    color: v.$blue-color
     .input-control
         padding: 11px 8px 11px 16px
-        background-color: var(--extra-light-color)
-        border: 1px solid var(--gray-lightest-color)
+        background-color: #FCFDFE
+        border: 1px solid v.$gray-color
         border-radius: 8px
         font-size: 14px
         font-weight: 400
-        color: var(--gray-dark-color)
+        color: v.$text-gray-dark-color
         &:focus-visible
             outline: none
         &::placeholder
-            color: var(--gray-dark-color)
+            color: v.$text-gray-dark-color
     .hide
         position: absolute
         bottom: 11px

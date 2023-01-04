@@ -3,49 +3,39 @@ import PropTypes from 'prop-types';
 
 import classes from './LoginPage.module.sass'
 import { FormLogin } from './form-login';
-import { Text } from '../../components/ui/text';
 
-import Type from '../../data/TextType.json'
 import { Logo } from '../../components/ui/logo';
 import useFetch from '../../hooks/useFetch';
 import { useState } from 'react';
 
-const LoginPage = () => {
+const LoginPage = ({ onLogin }) => {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
-    const [data, loading, error] = useFetch({
-        url: '/login',
+    const { response, error, isLoading } = useFetch('/login', {
         method: 'POST',
-        json: {
-            email,
-            password
-        }
+        body: JSON.stringify({ email, password }),
+    },);
 
-    });
 
     const handleLogin = (email, password) => {
-        setEmail(email)
-        setPassword(password)
+        // setEmail(email)
+        // setPassword(password)
+        onLogin();
     }
-
-
-
 
     return (
         <main data-login="false" className={classes["login-page"]}>
             <header className={classes['header']}>
                 <Logo col />
-                <Text font={Type[700][24]} tag="h1">Log In to Dashboard Kit</Text>
-                <Text font={Type[400][14]} tag="h3" gray>Enter your email and password below</Text>
+                <h1 className={classes['header__title']} >Log In to Dashboard Kit</h1>
+                <h3 className={classes['header__subTitle']} >Enter your email and password below</h3>
             </header>
             <FormLogin onLogin={handleLogin} />
             <footer className={classes.footer}>
-                <Text tag="span" font={Type[400][14]}>Don't have an account?</Text>
-                <a href="/signup" >
-                    <Text font={Type[600][14]} tag="span" >Sign Up</Text>
-                </a>
+                <span className={classes['footer__message']} >Don't have an account?</span>
+                <a href="/signup" >Sign Up</a>
             </footer>
         </main>
     );

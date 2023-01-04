@@ -1,21 +1,25 @@
+@use '../../assets/style/valiable' as v
 .navbar
     display: flex
     justify-content: space-between
     align-items: center
+    .nav__title
+        font-size: v.$font-size-xl
+        font-weight: v.$font-weight-bold
     .form-search
         .search-control
             width: 300px
             padding: 11px 28px 11px 36px
-            background-color: var(--extra-light-color)
-            border: 1px solid var(--gray-lightest-color)
+            // background-color: v.$text-gray-light-color
+            border: 1px solid v.$gray-color
             border-radius: 20px
             font-size: 14px
             font-weight: 400
-            color: var(--gray-dark-color)
+            color: v.$text-gray-dark-color
             &:focus-visible
                 outline: none
             &::placeholder
-                color: var(--gray-dark-color)
+                color: v.$text-gray-dark-color
     .nav-menu
         display: flex
         gap: 32px
@@ -24,7 +28,7 @@
             gap: 25px
             align-items: center
         .line
-            background-color: var(--gray-scale-color)
+            background-color: v.$text-gray-light-color
             width: 1.5px
         .menu-info
             display: flex
@@ -32,6 +36,13 @@
             align-items: center
             position: relative
             cursor: pointer
+            .menu__item__title
+                font-weight: v.$font-weight-bold
+                font-size: v.$font-size-m
+                color: v.$text-gray-dark-color
+            .userName
+                font-size: v.$font-size-s
+                font-weight: v.$font-weight-semi-bold
             .avatar 
                 img
                     width: 40px

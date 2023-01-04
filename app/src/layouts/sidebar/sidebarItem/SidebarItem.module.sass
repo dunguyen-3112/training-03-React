@@ -1,12 +1,17 @@
+@use '../../../assets/style/valiable'
 .sidebar__item
     display: flex
     text-decoration: none
     gap: 24px
     padding: 18px 24px 18px 33px
     width: 100%
+    .sidebar__item__title
+        font-size: valiable.$font-size-m
+        font-weight: valiable.$font-weight-regular
+        color: valiable.$text-gray-color
     &[data-active="true"]
-        background-color: var(--gray-scale-color)
-        opacity: 0.08
-        border-left: 3px solid var(--light-blue-color)
+        background-color: valiable.$gray-color
+        opacity: 0.8
+        border-left: 3px solid valiable.$blue-light-color
         &>*
-            color: var(--light-blue-color) !important
+            color: valiable.$blue-light-color

@@ -41,6 +41,8 @@
 } */
 
 
+
+
 #root{
     height: 100vh;
     width: 100vw;
@@ -59,7 +61,7 @@ main[data-login=true] nav{
 }
 
 main[data-login=true] .main-container{
-    background-color: var(--background-gray-color);
+    background-color: #FFFF;
     width: calc(100% - 255px);
     padding: 36px 33px 30px 30px;
 }

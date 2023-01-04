@@ -1,28 +1,37 @@
+@use  '../../assets/style/valiable' as v
 .list__ticket
-    background-color: var(--white-color)
-    border: 1px solid var(--gray-scale-divider-color)
+    background-color: v.$white-color
+    border: 1px solid v.$gray-color
     height: max-content
     border-radius: 8px
     padding: 32px 0
-    .list__ticket-nav
+    .title
+        font-weight: v.$font-weight-bold
+        font-size: v.$font-size-l
+    .list__ticket__nav
         display: flex
         justify-content: space-between
         align-items: center
         padding: 0 32px
-        .nav-action
+        .nav__action
             display: flex
             gap: 32px
-            .nav-action--item
+            .nav__action__item
                 display: flex
                 gap: 9px
+                align-items: center
                 cursor: pointer
+                .item__title
+                    color: v.$text-gray-dark-color
+                    font-weight: v.$font-weight-semi-bold
+                    font-size: v.$font-size-s
     table
         width: 100%
         border-collapse: collapse
         
         margin-top: 48px
         tr
-            border-bottom: 1.5px solid var(--gray-scale-color)
+            border-bottom: 1.5px solid #DFE0EB
             td,th
                 text-align: left
                 &:first-child
@@ -33,26 +42,27 @@
             tr
                 
                 th
-                    color: var(--gray-scale-divider-color)
-                    padding-bottom: 12px
+                    color: v.$gray-color
                     
         tbody
             tr
                 padding: 24px 31px
                 td 
                     padding: 24px 32px
+                    padding-left: 0
+
                     [data-id]
                         padding: 5px 12px
                         border-radius: 100px
                         text-transform: uppercase
                         &>*
-                            color: var(--white-color) !important
+                            color: v.$white-color !important
                     [data-id="0"]
-                        background-color: var(--yellow-color)
+                        background-color: v.$yellow-color
                     [data-id="1"]
-                        background-color: var(--red-color)
+                        background-color: v.$red-color
                     [data-id="2"]
-                        background-color: var(--green-color)
+                        background-color: v.$green-color
 
                     .tdata
                         display: flex
@@ -68,7 +78,7 @@
                             height: 3px
                             width: 3px
                             border-radius: 50%
-                            background-color: var(--gray-light-color)
+                            background-color: v.$text-gray-light-color
                             
                     img.avatar
                         height: 44px

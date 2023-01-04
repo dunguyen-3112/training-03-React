@@ -1,17 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
-import { Text } from '../../components/ui/text';
-
-import Type from '../../data/TextType.json'
 import { Icon } from '../../components/ui/icon';
 
 import classes from './TicketPage.module.sass';
 
 import { TicketRow } from './ticket-row';
+import { Button } from '../../components/ui/button';
+import { FormNewTicket } from './form-new-ticket';
 
 const TicketPage = () => {
 
     const [tickets, setTickets] = useState([])
+
+    const [isNew, setIsNew] = useState(false)
+    const [isEdit, setIsEdit] = useState(false)
 
     useEffect(() => {
         const data = [
@@ -66,25 +67,49 @@ const TicketPage = () => {
         ]
         setTickets(data);
     }, []);
-    return (
+
+    const handleNew = () => {
+        setIsNew(false)
+    };
+
+
+    if (isNew) return (
         <section className={classes['list__ticket']}>
-            <span className={classes['list__ticket-nav']}>
-                <Text font={Type[700][19]} tag="h2">All tickets</Text>
-                <span className={classes['nav-action']}>
-                    <span className={classes['nav-action--item']}>
+            <span className={classes['list__ticket__nav']}>
+                <h2 className={classes['title']}>All tickets</h2>
+                <span className={classes['nav__action']}>
+                    <Button onClick={handleNew}>
+                        <span className={classes['item__title']}>Add</span>
+                    </Button>
+                    <Button onClick={() => setIsNew(false)}>
+                        <span className={classes['item__title']}>Cancel</span>
+                    </Button>
+                </span>
+            </span>
+            <FormNewTicket />
+        </section>
+    )
+    if (isEdit) return (
+        <h1>Edit Ticket</h1>
+    )
+
+    return (
+
+        <section className={classes['list__ticket']}>
+            <span className={classes['list__ticket__nav']}>
+                <h2 className={classes['title']}>All tickets</h2>
+                <span className={classes['nav__action']}>
+                    <Button onClick={() => setIsNew(true)}>
+                        <Icon pos={17} />
+                        <span className={classes['item__title']}>Add Ticket</span>
+                    </Button>
+                    <span className={classes['nav__action__item']}>
                         <Icon pos={7} />
-                        <Text
-                            font={Type[600][14]}
-                            gray
-                        >Sort</Text>
+                        <span className={classes['item__title']}>Sort</span>
                     </span>
-                    <span className={classes['nav-action--item']}>
+                    <span className={classes['nav__action__item']}>
                         <Icon pos={12} />
-                        <Text
-                            font={Type[600][14]}
-                            gray>
-                            Filter
-                        </Text>
+                        <span className={classes['item__title']}>Filter</span>
                     </span>
                 </span>
             </span>

@@ -1,9 +1,10 @@
+@use '../../../assets/style/valiable' as v
 .modal
     position: absolute
     top: 40px
     right: -10px
     width: max-content
-    background-color: var(--white-color)
+    background-color: v.$white-color
     box-shadow: 2px 2px 4px rgba(32, 32, 32, 0.5)
     border-radius: 10px
     padding: 0
@@ -18,7 +19,7 @@
         left: 70%
         border-left: 15px solid transparent
         border-right: 15px solid transparent
-        border-bottom:  15px solid var(--white-color)
+        border-bottom:  15px solid v.$white-color
         width: 0
         height: 15px
         box-sizing: border-box
@@ -33,4 +34,4 @@
     &[data-active="true"]
         display: flex
         flex-direction: column
-        gap: 4px
+        // gap: 4px

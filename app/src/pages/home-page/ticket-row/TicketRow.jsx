@@ -2,13 +2,10 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 import classes from './TicketRow.module.sass'
-import { Flex } from '../../../layouts/flex';
-import { Text } from '../../../components/ui/text';
 import { Proritys } from '../../../data/constants';
 import { Modal } from '../../../components/ui/modal';
 import { Button } from '../../../components/ui/button';
 
-import Type from '../../../data/TextType.json'
 import { Icon } from '../../../components/ui/icon';
 
 const TicketRow = ({ ticket, index }) => {
@@ -24,28 +21,30 @@ const TicketRow = ({ ticket, index }) => {
     return (
         <tr key={ticket.id} className={classes.trow} onMouseLeave={handleMouseleave}>
             <td className={classes.tdata}>
-                <Flex gap={24}>
+                <div className='flex' style={{ gap: '24px' }}>
                     <img className={classes.avatar} src={ticket.avatar} alt="avatar" />
                     <div className={classes['tdata-content']}>
-                        <Text font={Type[600][14]}>{ticket.details}</Text>
-                        <Text font={Type[400][12]} gray>{`updated ${d} days ago `}</Text>
+                        <span className={classes['tdata__title']} >{ticket.details}</span>
+                        <span className={classes['tdata__subtitle']} >{`updated ${d} days ago `}</span>
                     </div>
-                </Flex>
+                </div>
             </td>
-            <td className={classes.tdata}>{ticket.customer_name}</td>
+            <td className={classes.tdata}>
+                <span className={classes['tdata__title']} >{ticket.customer_name}</span>
+            </td>
             <td className={classes.tdata}>
                 <div className={classes['tdata-content']}>
-                    <Text font={Type[600][14]} >
+                    <span className={classes['tdata__title']} >
                         {ticket.date.toUTCString().split(',')[1].trim().substring(0, 12)}
-                    </Text>
-                    <Text font={Type[400][12]} gray>
+                    </span>
+                    <span className={classes['tdata__subtitle']} >
                         {ticket.date.toLocaleTimeString().slice(0, 5) + ' ' + ticket.date.toLocaleTimeString().slice(9, 12)}
-                    </Text>
+                    </span>
                 </div>
             </td>
             <td className={classes.tdata}>
                 <span className={classes.prority} data-id={ticket.prority}>
-                    <Text font={Type[700][11]}>{Proritys.find(item => item.id === ticket.prority).value}</Text>
+                    {Proritys.find(item => item.id === ticket.prority).value}
                 </span>
             </td>
             <td className={classes.tdata}>
@@ -56,21 +55,21 @@ const TicketRow = ({ ticket, index }) => {
                     <Modal active={isActive}>
                         <Button outline>
                             <Icon pos={2} />
-                            <Text font={Type[600][14]} tag="span">
+                            <span className={classes['item__title']}>
                                 Edit ticket
-                            </Text>
+                            </span>
                         </Button>
                         <Button outline>
                             <Icon pos={1} />
-                            <Text font={Type[600][14]} tag="span">
+                            <span className={classes['item__title']}>
                                 Delete ticket
-                            </Text>
+                            </span>
                         </Button>
                         <Button outline>
                             <Icon pos={3} />
-                            <Text font={Type[600][14]} tag="span">
+                            <span className={classes['item__title']}>
                                 View ticket
-                            </Text>
+                            </span>
                         </Button>
                     </Modal>
                 </div>

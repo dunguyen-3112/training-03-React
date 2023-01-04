@@ -2,12 +2,9 @@ import React, { forwardRef, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import classes from './Input.module.sass'
-import { Text } from '../../ui/text';
 
 import icon from '../../../assets/images/active.png'
 import icon1 from '../../../assets/images/inactive.png'
-
-import Type from '../../../data/TextType.json'
 
 
 const Input = forwardRef(({ title, value, message, placeholder, onChange, type }, ref) => {
@@ -16,8 +13,8 @@ const Input = forwardRef(({ title, value, message, placeholder, onChange, type }
     return (
         <label className={classes['input-group']}>
             <span className={classes['input-label']}>
-                <Text font={Type[700][12]} gray tag="span">{title}</Text>
-                {type === 'password' && <a href="/"><Text font={Type[400][10]} gray>Forgot password?</Text></a>}
+                <span className={classes['input__label__title']}>{title}</span>
+                {type === 'password' && <a href="/"><span className={classes['input__lable__password']}>Forgot password?</span></a>}
             </span>
             <input
                 placeholder={placeholder}
@@ -29,9 +26,9 @@ const Input = forwardRef(({ title, value, message, placeholder, onChange, type }
             />
             {type === 'password' && <img src={hide ? icon1 : icon} height={20} width={20} className={classes.hide} onClick={() => setHide(prev => !prev)} />}
 
-            <Text font={Type[400][12]} gray tag="span">
+            <span className={classes['input__message']}>
                 {message}
-            </Text>
+            </span>
         </label >
     );
 });

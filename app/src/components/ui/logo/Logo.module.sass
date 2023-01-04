@@ -1,22 +1,27 @@
+@use '../../../assets/style/valiable' as v
 .logo
     display: flex
     gap: 12px
     align-items: center
     margin: 37px 0 63px 33px
+    .logo__title
+        font-weight: v.$font-weight-bold
+        font-size: v.$font-size-l
+        color: v.$text-gray-color
     &[data-column="true"]
         flex-direction: column
         margin: 0
-        .logo-icon
+        .logo__icon
             height: 48px
             width: 48px
             &::after
                 height: 21px
                 width: 18px
                 
-    .logo-icon
+    .logo__icon
         height: 32px
         width: 32px
-        background-color: var(--blue-color)
+        background-color: v.$blue-color
         border-radius: 50%
         position: relative
         &::after
