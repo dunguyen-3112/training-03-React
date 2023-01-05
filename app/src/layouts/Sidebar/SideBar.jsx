@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import { PAGES } from "../../data/constants";
-import { SidebarItem } from "./sidebarItem";
+import { PAGES } from "../../constants/constants";
+import { SidebarItem } from "./SidebarItem";
 
-import { Logo } from "../../components/ui/logo";
+import { Logo } from "../../components/Uis/Logo";
 
 import classes from "./Sidebar.module.sass";
 

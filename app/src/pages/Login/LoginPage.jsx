@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import PropTypes from "prop-types";
 
 import classes from "./LoginPage.module.sass";
-import { FormLogin } from "./form-login";
+import { FormLogin } from "./FormLogin";
 
-import { Logo } from "../../components/ui/logo";
+import { Logo } from "../../components/Uis/Logo";
 import useFetch from "../../hooks/useFetch";
 import { useState } from "react";
 
@@ -12,10 +12,10 @@ const LoginPage = ({ onLogin }) => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const { response, error, isLoading } = useFetch("/login", {
-        method: "POST",
-        body: JSON.stringify({ email, password }),
-    });
+    // const { response, error, isLoading } = useFetch("/login", {
+    //     method: "POST",
+    //     body: JSON.stringify({ email, password }),
+    // });
 
     const handleLogin = (email, password) => {
         // setEmail(email)

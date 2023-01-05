@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import classes from "./TicketRow.module.sass";
-import { Proritys } from "../../../data/constants";
-import { Modal } from "../../../components/ui/modal";
-import { Button } from "../../../components/ui/button";
+import { Proritys } from "../../../constants/constants";
+import { Modal } from "../../../components/Uis/Modal";
+import { Button } from "../../../components/Uis/Button";
 
 const TicketRow = ({ ticket, index, onEdit }) => {
     const d = new Date().getDate() - ticket.date.getDate();

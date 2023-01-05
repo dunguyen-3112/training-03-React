@@ -1,10 +1,10 @@
 import { React, useState, useEffect } from "react";
 import "./App.css";
 import ContextProvider from "./context/Context";
-import { Navbar } from "./layouts/navbar";
-import SideBar from "./layouts/sidebar/SideBar";
-import { TicketPage } from "./pages/home-page";
-import { LoginPage } from "./pages/login-page";
+import { Navbar } from "./layouts/Navbar";
+import SideBar from "./layouts/Sidebar/SideBar";
+import { TicketPage } from "./pages/Home";
+import { LoginPage } from "./pages/Login";
 
 function App() {
     const [isLogin, setIsLogin] = useState(false);

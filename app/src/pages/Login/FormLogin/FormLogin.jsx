@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 
 import classes from "./FormLogin.module.sass";
 
-import { Input } from "../../../components/form/input";
-import { Button } from "../../../components/ui/button";
+import { Input } from "../../../components/Forms/Input";
+import { Button } from "../../../components/Uis/Button";
 
 const FormLogin = ({ onLogin }) => {
     const emailRef = useRef();

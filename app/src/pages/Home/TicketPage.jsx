@@ -3,7 +3,7 @@ import React, { useState, useEffect } from "react";
 import classes from "./TicketPage.module.sass";
 
 import { TicketRow } from "./ticket-row";
-import { Button } from "../../components/ui/button";
+import { Button } from "../../components/Uis/Button";
 import { FormNewTicket } from "./form-new-ticket";
 
 import { FormEditTicket } from "./form-edit-ticket";

@@ -1,10 +1,13 @@
-import React from "react";
+import React, { useRef } from "react";
 import PropTypes from "prop-types";
-import { Input } from "../../../components/form/input";
-import { DropDown } from "../../../components/form/drop-down";
-import { TextReal } from "../../../components/form/text-area";
+import { Input } from "../../../components/Forms/Input";
+import { DropDown } from "../../../components/Forms/DropDown";
+import { TextReal } from "../../../components/Forms/TextArea";
 
-function FormEditTicket({ ticketId }) {
+import classes from "./FormNewTicket.module.sass";
+
+import "../base/FormTicket.sass";
+function FormNewTicket(props) {
     const statuses = [
         {
             value: 0,
@@ -32,7 +35,7 @@ function FormEditTicket({ ticketId }) {
                     value=""
                     message=""
                     placeholder=""
-                    onChange={() => {}}
+                    onChange={() => { }}
                     type="text"
                 />
                 <Input
@@ -40,7 +43,7 @@ function FormEditTicket({ ticketId }) {
                     value=""
                     message=""
                     placeholder=""
-                    onChange={() => {}}
+                    onChange={() => { }}
                     type="date"
                 />
             </span>
@@ -48,12 +51,12 @@ function FormEditTicket({ ticketId }) {
                 <DropDown
                     label="Status"
                     options={statuses}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
                 <DropDown
                     label="Priority"
                     options={statuses}
-                    onChange={() => {}}
+                    onChange={() => { }}
                 />
             </span>
             <span className="form__Ticket--row">
@@ -63,8 +66,6 @@ function FormEditTicket({ ticketId }) {
     );
 }
 
-FormEditTicket.propTypes = {
-    ticketId: PropTypes.string.isRequired,
-};
+FormNewTicket.propTypes = {};
 
-export default FormEditTicket;
+export default FormNewTicket;

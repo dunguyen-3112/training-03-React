@@ -3,11 +3,11 @@ import PropTypes from "prop-types";
 
 import { Context } from "../../context/Context";
 
-import { PAGES } from "../../data/constants";
+import { PAGES } from "../../constants/constants";
 
 import classes from "./Navbar.module.sass";
-import { Modal } from "../../components/ui/modal";
-import { Button } from "../../components/ui/button";
+import { Modal } from "../../components/Uis/Modal";
+import { Button } from "../../components/Uis/Button";
 
 const NavBar = ({ handleLogout }) => {
     const { page } = useContext(Context);
