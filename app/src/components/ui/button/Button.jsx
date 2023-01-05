@@ -1,8 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import classes from './Button.module.sass';
-
+import classes from "./Button.module.sass";
 
 const Button = ({ children, onClick, outline }) => {
     return (
@@ -16,15 +15,10 @@ const Button = ({ children, onClick, outline }) => {
     );
 };
 
-
 Button.propTypes = {
-    children: PropTypes.oneOfType([
-        PropTypes.string,
-        PropTypes.node
-    ]),
+    children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
     onClick: PropTypes.func,
-    outline: PropTypes.bool
+    outline: PropTypes.bool,
 };
-
 
 export default Button;

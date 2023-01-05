@@ -1,7 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React from "react";
+import PropTypes from "prop-types";
 
-import classes from './Modal.module.sass'
+import classes from "./Modal.module.sass";
 
 const Modal = ({ children, active }) => {
     return (
@@ -11,11 +11,9 @@ const Modal = ({ children, active }) => {
     );
 };
 
-
 Modal.propTypes = {
     children: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-    active: PropTypes.bool
+    active: PropTypes.bool,
 };
-
 
 export default Modal;

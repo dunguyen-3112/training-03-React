@@ -1,19 +1,18 @@
-import React, { useRef, useState } from 'react';
-import PropTypes from 'prop-types';
+import React, { useRef, useState } from "react";
+import PropTypes from "prop-types";
 
-import classes from './FormLogin.module.sass'
+import classes from "./FormLogin.module.sass";
 
-import { Input } from '../../../components/form/input';
-import { Button } from '../../../components/ui/button';
+import { Input } from "../../../components/form/input";
+import { Button } from "../../../components/ui/button";
 
 const FormLogin = ({ onLogin }) => {
-
     const emailRef = useRef();
     const passwordRef = useRef();
-    const [email, setEmail] = useState("")
-    const [password, setPassword] = useState("")
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-    const handleLogin = event => {
+    const handleLogin = (event) => {
         event.preventDefault();
 
         const email = emailRef.current.value;
@@ -21,15 +20,14 @@ const FormLogin = ({ onLogin }) => {
 
         if (email && password) {
             onLogin(email, password);
-        }
-        else {
-            emailRef.current.value = '';
-            passwordRef.current.value = '';
+        } else {
+            emailRef.current.value = "";
+            passwordRef.current.value = "";
             emailRef.current.focus();
         }
-    }
+    };
     return (
-        <form className={classes['form-login']}>
+        <form className={classes["form-login"]}>
             <Input
                 message=""
                 placeholder="Email address"
@@ -37,7 +35,7 @@ const FormLogin = ({ onLogin }) => {
                 value={email}
                 ref={emailRef}
                 type="email"
-                onChange={event => setEmail(event.target.value)}
+                onChange={(event) => setEmail(event.target.value)}
             />
             <Input
                 message=""
@@ -46,17 +44,15 @@ const FormLogin = ({ onLogin }) => {
                 value={password}
                 ref={passwordRef}
                 type="password"
-                onChange={event => setPassword(event.target.value)}
+                onChange={(event) => setPassword(event.target.value)}
             />
             <Button onClick={handleLogin}>Log In</Button>
         </form>
     );
 };
 
-
 FormLogin.propTypes = {
-    onLogin: PropTypes.func.isRequired
+    onLogin: PropTypes.func.isRequired,
 };
-
 
 export default FormLogin;

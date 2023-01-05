@@ -1,6 +1,6 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import { API_ENDPOINT } from '../data/constants';
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { API_ENDPOINT } from "../data/constants";
 
 function useFetch(url, options) {
     const [response, setResponse] = useState(null);

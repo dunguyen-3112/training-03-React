@@ -1,13 +1,10 @@
-import React, { useRef } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Input } from "../../../components/form/input";
 import { DropDown } from "../../../components/form/drop-down";
 import { TextReal } from "../../../components/form/text-area";
 
-import classes from "./FormNewTicket.module.sass";
-
-import "../base/FormTicket.sass";
-function FormNewTicket(props) {
+function FormEditTicket({ ticketId }) {
     const statuses = [
         {
             value: 0,
@@ -66,6 +63,8 @@ function FormNewTicket(props) {
     );
 }
 
-FormNewTicket.propTypes = {};
+FormEditTicket.propTypes = {
+    ticketId: PropTypes.string.isRequired,
+};
 
-export default FormNewTicket;
+export default FormEditTicket;
