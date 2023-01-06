@@ -11,7 +11,8 @@ class LoginController {
   }
 
   GET() {
-
+    const route = this.req.path.split("/").at(-1);
+    if (route !== "token") return this.res.sendStatus(403);
     const token = generateAccessToken({ id: this.req.userId });
     return this.res.json({
       token,
@@ -19,8 +20,15 @@ class LoginController {
   }
 
   POST() {
+    const route = this.req.path.split("/").at(-1);
+
+    if (route === "logout") {
+      const authHeader = this.req.headers["authorization"];
+      const token = authHeader && authHeader.split(" ")[1];
+      LoginController.refreshTokens.pop(token);
+      return this.res.sendStatus(200);
+    }
     const { email, password } = this.req.body;
-    console.log("email: ", email, "password: ", password);
 
     let user = db.users.find((user) => user.email === email);
 

@@ -5,30 +5,51 @@ import * as methods from "../constants/methods";
 
 export async function makeRequest(method, path, data) {
     try {
+        if (path === "/logout") {
+            const refreshToken = localStorage.getItem("refresh_token");
+            return await axios.post(
+                API_ENDPOINT + path,
+                {},
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${refreshToken}`,
+                    },
+                }
+            );
+        }
         const accessToken = await getAccessToken();
-        let response;
+        if (path === "/login") {
+            return await axios.post(API_ENDPOINT + path, data, {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            });
+        }
         if (accessToken) {
             switch (method) {
                 case methods.GET:
-                    response = await axios.get(`${API_ENDPOINT}${path}`, {
+                    return await axios.get(`${API_ENDPOINT}${path}`, {
                         headers: {
                             Authorization: `Bearer ${accessToken.data.access_token}`,
                         },
                     });
                 case methods.POST:
-                    return axios.post(`${API_ENDPOINT}${path}`, data, {
+                    return await axios.post(`${API_ENDPOINT}${path}`, data, {
                         headers: {
+                            "Content-Type": "application/json",
                             Authorization: `Bearer ${accessToken.data.access_token}`,
                         },
                     });
                 case methods.PUT:
-                    return axios.put(`${API_ENDPOINT}${path}`, data, {
+                    return await axios.put(`${API_ENDPOINT}${path}`, data, {
                         headers: {
+                            "Content-Type": "application/json",
                             Authorization: `Bearer ${accessToken.data.access_token}`,
                         },
                     });
                 case methods.DELETE:
-                    return axios.delete(`${API_ENDPOINT}${path}`, {
+                    return await axios.delete(`${API_ENDPOINT}${path}`, {
                         headers: {
                             Authorization: `Bearer ${accessToken.data.access_token}`,
                         },
@@ -37,7 +58,6 @@ export async function makeRequest(method, path, data) {
                     throw new Error(`Invalid method: ${method}`);
             }
         }
-        return response.data;
     } catch (e) {
         return null;
     }
@@ -50,6 +70,8 @@ async function getAccessToken() {
             `${API_ENDPOINT}/token`,
             refreshToken
         );
+
+        console.log(accessToken);
         return accessToken;
     }
     return null;

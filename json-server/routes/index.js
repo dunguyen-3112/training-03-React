@@ -3,6 +3,7 @@ const TicketController = require("../controller/Ticket");
 const LoginController = require("../controller/Login");
 const PriorityController = require("../controller/Priority");
 const StatusController = require("../controller/Status");
+const UserController = require("../controller/User");
 function routes(req, res) {
   const route = req.path.split("/")[3];
 
@@ -15,6 +16,7 @@ function routes(req, res) {
       break;
     case "token":
     case "login":
+    case "logout":
       ctrl = new LoginController(req, res);
       break;
     case "statuses":
@@ -22,6 +24,9 @@ function routes(req, res) {
       break;
     case "priorities":
       ctrl = new PriorityController(req, res);
+      break;
+    case "users":
+      ctrl = new UserController(req, res);
       break;
 
     default:

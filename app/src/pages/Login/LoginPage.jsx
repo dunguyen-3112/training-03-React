@@ -1,10 +1,14 @@
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 import classes from "./LoginPage.module.sass";
 import { FormLogin } from "./FormLogin";
 import { Logo } from "../../components/Uis/Logo";
 import { useState } from "react";
+
+import * as API from "../../utils/api"
+import { API_ENDPOINT } from "../../constants/api";
 
 export default function LoginPage() {
     const [email, setEmail] = useState("");
@@ -12,16 +16,22 @@ export default function LoginPage() {
 
     const navigate = useNavigate();
 
-    // const { response, error, isLoading } = useFetch("/login", {
-    //     method: "POST",
-    //     body: JSON.stringify({ email, password }),
-    // });
-
-    const handleLogin = (email, password) => {
-        // setEmail(email)
-        // setPassword(password)
-        console.log("OK");
-        navigate("/");
+    const handleLogin = async (email, password) => {
+        console.log(email, password);
+        let response = await API.create("/login", {
+            email: email,
+            password: password,
+        });
+        let data = response.data;
+        localStorage.setItem("refresh_token", data.refresh_token);
+        response = await axios.get(`${API_ENDPOINT}/users`, {
+            headers: {
+                Authorization: `Bearer ${data.access_token}`,
+            },
+        });
+        data = response.data;
+        localStorage.setItem("user", JSON.stringify(data));
+        navigate("/tickets");
     };
 
     return (
