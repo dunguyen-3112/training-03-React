@@ -3,8 +3,6 @@ import PropTypes from "prop-types";
 
 import { Context } from "../../context/Context";
 
-import { PAGES } from "../../constants/constants";
-
 import classes from "./Navbar.module.sass";
 import { Modal } from "../../components/Uis/Modal";
 import { Button } from "../../components/Uis/Button";
@@ -34,7 +32,7 @@ const NavBar = ({ handleLogout }) => {
 
     return (
         <span className={classes.navbar}>
-            <h1 className={classes["nav__title"]}>{PAGES[page].label}</h1>
+            <h1 className={classes["nav__title"]}>123</h1>
             <span className={classes["nav-menu"]}>
                 {isSearch && (
                     <form

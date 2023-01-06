@@ -35,7 +35,7 @@ function FormNewTicket(props) {
                     value=""
                     message=""
                     placeholder=""
-                    onChange={() => { }}
+                    onChange={() => {}}
                     type="text"
                 />
                 <Input
@@ -43,7 +43,7 @@ function FormNewTicket(props) {
                     value=""
                     message=""
                     placeholder=""
-                    onChange={() => { }}
+                    onChange={() => {}}
                     type="date"
                 />
             </span>
@@ -51,12 +51,12 @@ function FormNewTicket(props) {
                 <DropDown
                     label="Status"
                     options={statuses}
-                    onChange={() => { }}
+                    onChange={() => {}}
                 />
                 <DropDown
                     label="Priority"
                     options={statuses}
-                    onChange={() => { }}
+                    onChange={() => {}}
                 />
             </span>
             <span className="form__Ticket--row">

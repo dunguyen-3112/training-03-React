@@ -6,9 +6,7 @@ function useFetch(url, options) {
     const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
-        const fetchData = async () => {
-
-        };
+        const fetchData = async () => {};
         fetchData();
     }, []);
 

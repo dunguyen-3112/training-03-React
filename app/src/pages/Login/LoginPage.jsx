@@ -1,16 +1,16 @@
 import React, { useEffect } from "react";
-import PropTypes from "prop-types";
+import { useNavigate } from "react-router-dom";
 
 import classes from "./LoginPage.module.sass";
 import { FormLogin } from "./FormLogin";
-
 import { Logo } from "../../components/Uis/Logo";
-import useFetch from "../../hooks/useFetch";
 import { useState } from "react";
 
-const LoginPage = ({ onLogin }) => {
+export default function LoginPage() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const navigate = useNavigate();
 
     // const { response, error, isLoading } = useFetch("/login", {
     //     method: "POST",
@@ -20,11 +20,12 @@ const LoginPage = ({ onLogin }) => {
     const handleLogin = (email, password) => {
         // setEmail(email)
         // setPassword(password)
-        onLogin();
+        console.log("OK");
+        navigate("/");
     };
 
     return (
-        <main data-login="false" className={classes["login-page"]}>
+        <section data-login="false" className={classes["login-page"]}>
             <header className={classes["header"]}>
                 <Logo col />
                 <h1 className={classes["header__title"]}>
@@ -41,12 +42,6 @@ const LoginPage = ({ onLogin }) => {
                 </span>
                 <a href="/signup">Sign Up</a>
             </footer>
-        </main>
+        </section>
     );
-};
-
-LoginPage.propTypes = {
-    onLogin: PropTypes.func.isRequired,
-};
-
-export default LoginPage;
+}

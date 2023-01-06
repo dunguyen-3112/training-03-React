@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 
 import classes from "./TicketPage.module.sass";
 
-import { TicketRow } from "./ticket-row";
+import { TicketRow } from "./TicketRow";
 import { Button } from "../../components/Uis/Button";
 import { FormNewTicket } from "./form-new-ticket";
 
 import { FormEditTicket } from "./form-edit-ticket";
 
-const TicketPage = () => {
+export default function TicketPag() {
     const [tickets, setTickets] = useState([]);
 
     const [isNew, setIsNew] = useState(false);
@@ -199,8 +199,4 @@ const TicketPage = () => {
             </table>
         </section>
     );
-};
-
-TicketPage.propTypes = {};
-
-export default TicketPage;
+}

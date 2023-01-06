@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import classes from "./TicketRow.module.sass";
-import { Proritys } from "../../../constants/constants";
 import { Modal } from "../../../components/Uis/Modal";
 import { Button } from "../../../components/Uis/Button";
 
@@ -18,6 +17,21 @@ const TicketRow = ({ ticket, index, onEdit }) => {
     const handleBtnEdit = () => {
         onEdit(ticket.id);
     };
+
+    const Proritys = [
+        {
+            id: 0,
+            value: "High",
+        },
+        {
+            id: 1,
+            value: "Low",
+        },
+        {
+            id: 2,
+            value: "Normal",
+        },
+    ];
 
     return (
         <tr

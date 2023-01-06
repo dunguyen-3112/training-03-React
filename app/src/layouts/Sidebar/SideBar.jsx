@@ -1,19 +1,18 @@
 import React from "react";
-import PropTypes from "prop-types";
 
-import { PAGES } from "../../constants/constants";
 import { SidebarItem } from "./SidebarItem";
-
 import { Logo } from "../../components/Uis/Logo";
-
 import classes from "./Sidebar.module.sass";
+import { routes } from "../../routes/routes";
 
 const SideBar = () => {
-    const sibarList = PAGES.map((page, i) => (
+    const pages = routes.filter((route) => route.icon);
+
+    const sibarList = pages.map((page, i) => (
         <SidebarItem
             path={page.path}
             icon={page.icon}
-            title={page.label}
+            title={page.title}
             index={i}
             key={i}
         />

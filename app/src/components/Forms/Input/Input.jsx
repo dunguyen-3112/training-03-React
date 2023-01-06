@@ -1,11 +1,8 @@
 import React, { forwardRef, useState } from "react";
 import PropTypes from "prop-types";
 
-import classes from "./Input.module.sass";
-
-import icon from "../../../assets/images/active.png";
-import icon1 from "../../../assets/images/inactive.png";
-
+import Active from "../../../assets/images/active.svg";
+import InActive from "../../../assets/images/View_fill.svg";
 import "../base.sass";
 
 const Input = forwardRef(
@@ -34,7 +31,7 @@ const Input = forwardRef(
                 />
                 {type === "password" && (
                     <img
-                        src={hide ? icon1 : icon}
+                        src={hide ? Active : InActive}
                         height={20}
                         width={20}
                         className="hide"

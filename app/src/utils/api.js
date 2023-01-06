@@ -10,25 +10,25 @@ export async function makeRequest(method, path, data) {
         if (accessToken) {
             switch (method) {
                 case methods.GET:
-                    response = await axios.get(`${API_URL}${path}`, {
+                    response = await axios.get(`${API_ENDPOINT}${path}`, {
                         headers: {
                             Authorization: `Bearer ${accessToken.data.access_token}`,
                         },
                     });
                 case methods.POST:
-                    return axios.post(`${API_URL}${path}`, data, {
+                    return axios.post(`${API_ENDPOINT}${path}`, data, {
                         headers: {
                             Authorization: `Bearer ${accessToken.data.access_token}`,
                         },
                     });
                 case methods.PUT:
-                    return axios.put(`${API_URL}${path}`, data, {
+                    return axios.put(`${API_ENDPOINT}${path}`, data, {
                         headers: {
                             Authorization: `Bearer ${accessToken.data.access_token}`,
                         },
                     });
                 case methods.DELETE:
-                    return axios.delete(`${API_URL}${path}`, {
+                    return axios.delete(`${API_ENDPOINT}${path}`, {
                         headers: {
                             Authorization: `Bearer ${accessToken.data.access_token}`,
                         },
@@ -64,9 +64,9 @@ export function update(path, data) {
 }
 
 export function remove(path) {
-    return makeRequest(methods.DELETE, path, data);
+    return makeRequest(methods.DELETE, path);
 }
 
 export function get(path) {
-    return makeRequest(methods.GET, path, data);
+    return makeRequest(methods.GET, path);
 }

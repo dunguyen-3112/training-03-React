@@ -32,7 +32,7 @@ function FormEditTicket({ ticketId }) {
                     value=""
                     message=""
                     placeholder=""
-                    onChange={() => { }}
+                    onChange={() => {}}
                     type="text"
                 />
                 <Input
@@ -40,7 +40,7 @@ function FormEditTicket({ ticketId }) {
                     value=""
                     message=""
                     placeholder=""
-                    onChange={() => { }}
+                    onChange={() => {}}
                     type="date"
                 />
             </span>
@@ -48,12 +48,12 @@ function FormEditTicket({ ticketId }) {
                 <DropDown
                     label="Status"
                     options={statuses}
-                    onChange={() => { }}
+                    onChange={() => {}}
                 />
                 <DropDown
                     label="Priority"
                     options={statuses}
-                    onChange={() => { }}
+                    onChange={() => {}}
                 />
             </span>
             <span className="form__Ticket--row">
