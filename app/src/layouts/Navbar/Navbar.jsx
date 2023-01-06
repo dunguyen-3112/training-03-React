@@ -6,11 +6,15 @@ import { Context } from "../../context/Context";
 import classes from "./Navbar.module.sass";
 import { Modal } from "../../components/Uis/Modal";
 import { Button } from "../../components/Uis/Button";
+import { SearchIcon } from "../../components/Uis/Icon";
+import { routes } from "../../routes/routes";
 
 const NavBar = ({ handleLogout }) => {
     const { page } = useContext(Context);
 
     const [isActive, setIsActive] = useState(false);
+
+    const user = JSON.parse(localStorage.getItem("user"));
 
     const searchRef = useRef();
 
@@ -24,7 +28,6 @@ const NavBar = ({ handleLogout }) => {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        console.log(searchRef.current.value);
         searchRef.current.value = "";
     };
 
@@ -32,7 +35,7 @@ const NavBar = ({ handleLogout }) => {
 
     return (
         <span className={classes.navbar}>
-            <h1 className={classes["nav__title"]}>123</h1>
+            <h1 className={classes["nav__title"]}>{routes[page].title}</h1>
             <span className={classes["nav-menu"]}>
                 {isSearch && (
                     <form
@@ -47,27 +50,7 @@ const NavBar = ({ handleLogout }) => {
                     </form>
                 )}
                 <span className={classes["menu-icon"]} onClick={handleClick}>
-                    <svg
-                        width="16"
-                        height="16"
-                        viewBox="0 0 16 16"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                    >
-                        <circle
-                            cx="6.5"
-                            cy="6.5"
-                            r="5.75"
-                            stroke="#C5C7CD"
-                            strokeWidth="1.5"
-                        />
-                        <path
-                            d="M11 11L15 15"
-                            stroke="#C5C7CD"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                        />
-                    </svg>
+                    <SearchIcon />
                 </span>
                 <div className={classes.line}></div>
                 <span
@@ -75,20 +58,13 @@ const NavBar = ({ handleLogout }) => {
                     onClick={handleShowInfo}
                     onMouseLeave={() => setIsActive(false)}
                 >
-                    <h3 className={classes["userName"]}>Jones Ferdinand</h3>
+                    <h3 className={classes["userName"]}>{`${user.name}`}</h3>
                     <figure className={classes.avatar}>
-                        <img
-                            src="https://firebasestorage.googleapis.com/v0/b/react-my-example.appspot.com/o/12.png?alt=media&token=fa3462cd-96dc-4abf-bf8a-2c444266d0bc"
-                            alt="avatar"
-                        />
+                        <img src={user.avatarUrl} alt="avatar" />
                     </figure>
                     <Modal active={isActive}>
                         <Button outline>
-                            <img
-                                src="https://firebasestorage.googleapis.com/v0/b/react-my-example.appspot.com/o/12.png?alt=media&token=fa3462cd-96dc-4abf-bf8a-2c444266d0bc"
-                                alt="avatar"
-                                width={20}
-                            />
+                            <img src={user.avatarUrl} alt="avatar" width={20} />
                             <span className={classes["menu__item__title"]}>
                                 Profile
                             </span>

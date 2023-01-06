@@ -2,7 +2,7 @@ import React, { forwardRef, useState } from "react";
 import PropTypes from "prop-types";
 
 import Active from "../../../assets/images/active.svg";
-import InActive from "../../../assets/images/View_fill.svg";
+import { ViewIcon } from "../../Uis/Icon";
 import "../base.sass";
 
 const Input = forwardRef(
@@ -31,7 +31,7 @@ const Input = forwardRef(
                 />
                 {type === "password" && (
                     <img
-                        src={hide ? Active : InActive}
+                        src={hide ? Active : ViewIcon}
                         height={20}
                         width={20}
                         className="hide"
