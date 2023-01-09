@@ -1,4 +1,4 @@
-import React, { useRef, useState, memo } from "react";
+import React, { useRef, useState, memo, useContext } from "react";
 import PropTypes from "prop-types";
 
 import classes from "./Navbar.module.sass";
@@ -7,9 +7,11 @@ import { Button } from "../../components/Uis/Button";
 import { SearchIcon } from "../../components/Uis/Icon";
 import { routes } from "../../routes/routes";
 import useSearch from "../../hooks/useSearch";
+import { Context } from "../../context/Context";
 
 const NavBar = ({ handleLogout }) => {
     const [isActive, setIsActive] = useState(false);
+    const { page } = useContext(Context);
 
     const user = JSON.parse(localStorage.getItem("user"));
 
@@ -46,7 +48,7 @@ const NavBar = ({ handleLogout }) => {
     return (
         <span className={classes.navbar}>
             <h1 className={classes["nav__title"]}>
-                {routes.find((item) => location.href.includes(item.path)).title}
+                {routes.filter((route) => route.icon).at(page).title}
             </h1>
             <span className={classes["nav-menu"]}>
                 {isSearch && (

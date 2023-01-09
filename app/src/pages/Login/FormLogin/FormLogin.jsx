@@ -33,7 +33,7 @@ const FormLogin = ({ onLogin }) => {
                 placeholder="Email address"
                 title="Email"
                 value={email}
-                ref={emailRef}
+                inputRef={emailRef}
                 type="email"
                 onChange={(event) => setEmail(event.target.value)}
             />
@@ -42,7 +42,7 @@ const FormLogin = ({ onLogin }) => {
                 placeholder="Password"
                 title="Password"
                 value={password}
-                ref={passwordRef}
+                inputRef={passwordRef}
                 type="password"
                 onChange={(event) => setPassword(event.target.value)}
             />

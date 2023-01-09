@@ -6,7 +6,7 @@ import classes from "./TextArea.module.sass";
 
 import "../base.sass";
 
-function TextArea({ title, message, value, onChange }, ref) {
+function TextArea({ title, message, value, onChange, tabIndex }) {
     const classList = ["form-group", classes["text-Area"]];
 
     const name = title.replace(" ", "_").toLowerCase();
@@ -20,6 +20,7 @@ function TextArea({ title, message, value, onChange }, ref) {
                 value={value}
                 className="form-control"
                 onChange={onChange}
+                tabIndex={tabIndex}
             ></textarea>
             <span className="form-message">{message}</span>
         </label>
@@ -31,6 +32,7 @@ TextArea.propTypes = {
     message: PropTypes.string,
     value: PropTypes.string,
     onChange: PropTypes.func,
+    tabIndex: PropTypes.number,
 };
 
 export default TextArea;

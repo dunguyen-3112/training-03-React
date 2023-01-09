@@ -1,4 +1,4 @@
-export function validate(form, rules) {
+export function validate(form, rules, onSubmit) {
     const getParentSelector = function (element, parentSelector) {
         parentSelector = parentSelector.replace(".", "");
         while (element) {
@@ -9,7 +9,26 @@ export function validate(form, rules) {
         return null;
     };
 
+    const validator = () => {
+        for (const rule of rules) {
+            const element = form[rule.selector];
+            const parent = getParentSelector(element, rule.parentSelector);
+            const elementMessage = parent.querySelector(rule.messageSelector);
+            const fieldRules = rule.rules;
+            for (const fieldRule of fieldRules) {
+                const value = element.value;
+
+                if (!fieldRule.validator(value)) {
+                    elementMessage.innerHTML = fieldRule.message;
+                    errors[rule.selector] = true;
+                    elementMessage.classList.add("invalid");
+                }
+            }
+        }
+    };
+
     const errors = {};
+
     for (const rule of rules) {
         const element = form[rule.selector];
         const parent = getParentSelector(element, rule.parentSelector);
@@ -21,21 +40,28 @@ export function validate(form, rules) {
 
                 if (!fieldRule.validator(value)) {
                     elementMessage.innerHTML = fieldRule.message;
+                    errors[rule.selector] = true;
                     elementMessage.classList.add("invalid");
                     break;
                 }
                 elementMessage.innerHTML = "";
+                errors[rule.selector] = false;
                 elementMessage.classList.remove("invalid");
             }
         });
 
-        element.addEventListener("change", () => {
+        element.addEventListener("keydown", () => {
             elementMessage.innerHTML = "";
+            errors[rule.selector] = false;
             elementMessage.classList.remove("invalid");
         });
     }
 
-    return errors;
+    form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        validator();
+        Object.values(errors).every((item) => item === false) && onSubmit();
+    });
 }
 /**
  *

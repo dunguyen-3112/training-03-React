@@ -1,16 +1,20 @@
-import React, { useState, memo } from "react";
+import React, { useState, memo, useContext } from "react";
 import PropTypes from "prop-types";
 
 import classes from "./TicketRow.module.sass";
+import {
+    getDateFormat,
+    getTimeString,
+    getTimeAgo,
+} from "../../../helpers/date";
 import { Modal } from "../../../components/Uis/Modal";
 import { Button } from "../../../components/Uis/Button";
 import { DeleteIcon, EditIcon, ViewIcon } from "../../../components/Uis/Icon";
+import { Context } from "../../../context/Context";
 
 const TicketRow = ({ ticket, onEdit }) => {
-    const d = new Date().getDate() - ticket.createDate.getDate();
-
     const [isActive, setIsActive] = useState(false);
-
+    const { priorities } = useContext(Context);
     const handleClick = () => setIsActive((prev) => !prev);
 
     const handleMouseleave = () => setIsActive(false);
@@ -18,21 +22,6 @@ const TicketRow = ({ ticket, onEdit }) => {
     const handleBtnEdit = () => {
         onEdit(ticket.id);
     };
-
-    const Proritys = [
-        {
-            id: 0,
-            value: "High",
-        },
-        {
-            id: 1,
-            value: "Low",
-        },
-        {
-            id: 2,
-            value: "Normal",
-        },
-    ];
 
     const url =
         ticket.customerAvatar ||
@@ -53,7 +42,7 @@ const TicketRow = ({ ticket, onEdit }) => {
                         </span>
                         <span
                             className={classes["tdata__subtitle"]}
-                        >{`updated ${d} days ago `}</span>
+                        >{`updated ${getTimeAgo(ticket.createDate)}`}</span>
                     </div>
                 </div>
             </td>
@@ -65,22 +54,20 @@ const TicketRow = ({ ticket, onEdit }) => {
             <td className={classes.tdata}>
                 <div className={classes["tdata-content"]}>
                     <span className={classes["tdata__title"]}>
-                        {ticket.createDate
-                            .toUTCString()
-                            .split(",")[1]
-                            .trim()
-                            .substring(0, 12)}
+                        {getDateFormat(ticket.createDate)}
                     </span>
                     <span className={classes["tdata__subtitle"]}>
-                        {/* {ticket.date.toLocaleTimeString().slice(0, 5) +
-                            " " +
-                            ticket.date.toLocaleTimeString().slice(9, 12)} */}
+                        {getTimeString(ticket.createDate)}
                     </span>
                 </div>
             </td>
             <td className={classes.tdata}>
                 <span className={classes.priority} data-id={ticket.priority}>
-                    {Proritys.find((item) => item.id === ticket.priority).value}
+                    {
+                        priorities.find(
+                            (item) => item.value === ticket.priority
+                        ).text
+                    }
                 </span>
             </td>
             <td className={classes.tdata}>

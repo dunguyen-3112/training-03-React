@@ -11,18 +11,14 @@ import { HandleLogout } from "./services/auth";
 
 function App() {
     const [isAuthentication, setIsAuthentication] = useState(false);
+    const index = routes.findIndex(
+        (route) =>
+            route.icon && route.path.includes(location.href.split("/").at(3))
+    );
+    const [page, setPage] = useState(index);
     const navigate = useNavigate();
 
     useEffect(() => {
-        // function getPage() {
-        //     const href = location.href.split("/").at(-1);
-        //     const index = routes.findIndex((route) =>
-        //         route.path.includes(href)
-        //     );
-        //     setPage(index);
-        // }
-        // getPage();
-
         const refreshToken = localStorage.getItem("refresh_token");
         refreshToken && setIsAuthentication(true);
     }, [navigate, isAuthentication]);
@@ -41,7 +37,7 @@ function App() {
     if (!isAuthentication) return <LoginPage onLogin={handleLogin} />;
 
     return (
-        <ContextProvider value={{ isLogin: isAuthentication }}>
+        <ContextProvider value={{ isLogin: isAuthentication, page, setPage }}>
             <main className="main-container">
                 <SideBar />
                 <div className="main-section">

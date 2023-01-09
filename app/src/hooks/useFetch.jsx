@@ -1,4 +1,3 @@
-import { useMemo } from "react";
 import { useState, useEffect } from "react";
 
 import * as API from "../utils/api";
@@ -10,7 +9,7 @@ import * as API from "../utils/api";
  * @returns
  */
 export default function useFetch(url, options) {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [data, setData] = useState(null);
     const [error, setError] = useState(null);
 
@@ -21,13 +20,13 @@ export default function useFetch(url, options) {
                 const response = await API.get(url);
                 const data = response.data.data;
                 setData(data);
-                setError(null);
+                setLoading(false);
             } catch (error) {
                 setError(error);
+                setLoading(false);
             }
-            setLoading(false);
         }
         fetchData();
     }, [url, options]);
-    return useMemo(() => [loading, data, error], [loading, data, error]);
+    return [loading, data, error];
 }

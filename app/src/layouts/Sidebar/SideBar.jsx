@@ -1,24 +1,23 @@
-import React, { memo } from "react";
+import React, { memo, useContext } from "react";
 
 import { SidebarItem } from "./SidebarItem";
 import { Logo } from "../../components/Uis/Logo";
 import classes from "./Sidebar.module.sass";
 import { routes } from "../../routes/routes";
-import { useState } from "react";
-import { useEffect } from "react";
+import { Context } from "../../context/Context";
 
 const SideBar = () => {
     const pages = routes.filter((route) => route.icon);
 
-    const [pageIndex, setPage] = useState(0);
+    const { page, setPage } = useContext(Context);
 
-    const sibarList = pages.map((page, index) => (
+    const sibarList = pages.map((_page, index) => (
         <SidebarItem
-            path={page.path}
-            icon={page.icon}
-            title={page.title}
+            path={_page.path}
+            icon={_page.icon}
+            title={_page.title}
             key={index}
-            active={index === pageIndex}
+            active={index === page}
             onClick={() => setPage(index)}
         />
     ));
