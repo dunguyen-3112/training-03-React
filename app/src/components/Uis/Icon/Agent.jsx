@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { memo } from "react";
 
 function AgentIcon({ active }) {
     return (
@@ -23,4 +24,4 @@ AgentIcon.propTypes = {
     active: PropTypes.bool,
 };
 
-export default AgentIcon;
+export default memo(AgentIcon);

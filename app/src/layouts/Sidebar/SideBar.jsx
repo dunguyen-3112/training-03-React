@@ -1,20 +1,25 @@
-import React from "react";
+import React, { memo } from "react";
 
 import { SidebarItem } from "./SidebarItem";
 import { Logo } from "../../components/Uis/Logo";
 import classes from "./Sidebar.module.sass";
 import { routes } from "../../routes/routes";
+import { useState } from "react";
+import { useEffect } from "react";
 
 const SideBar = () => {
     const pages = routes.filter((route) => route.icon);
 
-    const sibarList = pages.map((page, i) => (
+    const [pageIndex, setPage] = useState(0);
+
+    const sibarList = pages.map((page, index) => (
         <SidebarItem
             path={page.path}
             icon={page.icon}
             title={page.title}
-            index={i}
-            key={i}
+            key={index}
+            active={index === pageIndex}
+            onClick={() => setPage(index)}
         />
     ));
 
@@ -28,4 +33,4 @@ const SideBar = () => {
 
 SideBar.propTypes = {};
 
-export default SideBar;
+export default memo(SideBar);

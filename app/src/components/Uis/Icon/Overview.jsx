@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { memo } from "react";
 
 function OverviewIcon({ active }) {
     return (
@@ -23,4 +24,4 @@ OverviewIcon.propTypes = {
     active: PropTypes.bool,
 };
 
-export default OverviewIcon;
+export default memo(OverviewIcon);

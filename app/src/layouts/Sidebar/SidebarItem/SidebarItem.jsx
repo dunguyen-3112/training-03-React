@@ -1,24 +1,16 @@
-import React, { useContext, useEffect } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
 import classes from "./SidebarItem.module.sass";
 
-import { Context } from "../../../context/Context";
-
-const SidebarItem = ({ title, icon, path, index }) => {
-    const { page, setPage } = useContext(Context);
-
-    const handleClick = () => {
-        setPage(index);
-    };
-
+const SidebarItem = ({ title, icon, path, active, onClick }) => {
     return (
         <Link
             className={classes.sidebar__item}
             to={path}
-            data-active={index === page}
-            onClick={handleClick}
+            data-active={active}
+            onClick={onClick}
         >
             {icon}
             <span className={classes["sidebar__item__title"]}>{title}</span>
@@ -30,7 +22,9 @@ SidebarItem.propTypes = {
     title: PropTypes.string.isRequired,
     icon: PropTypes.node,
     path: PropTypes.string.isRequired,
-    index: PropTypes.number.isRequired,
+    active: PropTypes.bool.isRequired,
+    onClick: PropTypes.func,
+    index: PropTypes.number,
 };
 
 export default SidebarItem;

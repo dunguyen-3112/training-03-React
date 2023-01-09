@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { memo } from "react";
 
 function IdeaIcon({ active }) {
     return (
@@ -30,4 +31,4 @@ IdeaIcon.propTypes = {
     active: PropTypes.bool,
 };
 
-export default IdeaIcon;
+export default memo(IdeaIcon);

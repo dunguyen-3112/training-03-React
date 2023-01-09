@@ -19,14 +19,8 @@ server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
 server.use((req, res) => {
-  const path = req.path;
-  const route = req.path.split("/").at(-1);
-
-  console.log("Routing: " + route);
-  if (path.includes("/api/v1/") === false) return res.sendStatus(404);
-  if (route === "login" || route === "logout") return routes(req, res);
   authenticateToken(req, res);
-  req.userId !== undefined && routes(req, res);
+  routes(req, res);
 });
 
 server.use("/api/v1", router);
@@ -36,16 +30,22 @@ server.listen(PORT, () => {
 });
 
 function authenticateToken(req, res) {
+  console.log("Route: ", req.path);
+  const route = req.path.split("/").at(-1);
+  // if route is login then pass authentication
+  if (route === "login") return;
+  const SECRET =
+    route === "token" || route === "logout"
+      ? process.env.REFRESH_TOKEN_SECRET
+      : process.env.ACCESS_TOKEN_SECRET;
+
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
   if (token == null) return res.sendStatus(401);
-  const route = req.path.split("/")[3];
-  const SECRET =
-    route != "token"
-      ? process.env.ACCESS_TOKEN_SECRET
-      : process.env.REFRESH_TOKEN_SECRET;
+
   jwt.verify(token, SECRET, (err, { id }) => {
     if (err) return res.sendStatus(403);
     req.userId = id;
+    console.log(id);
   });
 }

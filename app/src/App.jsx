@@ -7,41 +7,41 @@ import SideBar from "./layouts/Sidebar/SideBar";
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { routes } from "./routes/routes";
 import { LoginPage } from "./pages/Login";
-import * as API from "./utils/api";
+import { HandleLogout } from "./services/auth";
 
 function App() {
     const [isAuthentication, setIsAuthentication] = useState(false);
-    const [page, setPage] = useState(1);
-
     const navigate = useNavigate();
-    const refreshToken = localStorage.getItem("refresh_token");
 
     useEffect(() => {
-        function getPage() {
-            const href = location.href.split("/").at(-1);
-            const index = routes.findIndex((route) =>
-                route.path.includes(href)
-            );
-            setPage(index);
-        }
-        getPage();
-        if (refreshToken === null) {
-            return navigate("/login");
-        }
+        // function getPage() {
+        //     const href = location.href.split("/").at(-1);
+        //     const index = routes.findIndex((route) =>
+        //         route.path.includes(href)
+        //     );
+        //     setPage(index);
+        // }
+        // getPage();
+
+        const refreshToken = localStorage.getItem("refresh_token");
+        refreshToken && setIsAuthentication(true);
+    }, [navigate, isAuthentication]);
+
+    const handleLogin = () => {
         setIsAuthentication(true);
-    }, [isAuthentication, refreshToken, navigate]);
+    };
 
     const handleLogout = async () => {
-        const response = await API.create("/logout");
+        const response = await HandleLogout();
         console.log(response);
         localStorage.clear();
         setIsAuthentication(false);
     };
 
-    if (!isAuthentication) return <LoginPage />;
+    if (!isAuthentication) return <LoginPage onLogin={handleLogin} />;
 
     return (
-        <ContextProvider value={{ isLogin: isAuthentication, page, setPage }}>
+        <ContextProvider value={{ isLogin: isAuthentication }}>
             <main className="main-container">
                 <SideBar />
                 <div className="main-section">

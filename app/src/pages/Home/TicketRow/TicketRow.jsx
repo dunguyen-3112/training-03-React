@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, memo } from "react";
 import PropTypes from "prop-types";
 
 import classes from "./TicketRow.module.sass";
@@ -6,8 +6,8 @@ import { Modal } from "../../../components/Uis/Modal";
 import { Button } from "../../../components/Uis/Button";
 import { DeleteIcon, EditIcon, ViewIcon } from "../../../components/Uis/Icon";
 
-const TicketRow = ({ ticket, index, onEdit }) => {
-    const d = new Date().getDate() - ticket.date.getDate();
+const TicketRow = ({ ticket, onEdit }) => {
+    const d = new Date().getDate() - ticket.createDate.getDate();
 
     const [isActive, setIsActive] = useState(false);
 
@@ -34,6 +34,10 @@ const TicketRow = ({ ticket, index, onEdit }) => {
         },
     ];
 
+    const url =
+        ticket.customerAvatar ||
+        "https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg";
+
     return (
         <tr
             key={ticket.id}
@@ -42,14 +46,10 @@ const TicketRow = ({ ticket, index, onEdit }) => {
         >
             <td className={classes.tdata}>
                 <div className="flex" style={{ gap: "24px" }}>
-                    <img
-                        className={classes.avatar}
-                        src={ticket.avatar}
-                        alt="avatar"
-                    />
+                    <img className={classes.avatar} src={url} alt="avatar" />
                     <div className={classes["tdata-content"]}>
                         <span className={classes["tdata__title"]}>
-                            {ticket.details}
+                            {ticket.description}
                         </span>
                         <span
                             className={classes["tdata__subtitle"]}
@@ -59,28 +59,28 @@ const TicketRow = ({ ticket, index, onEdit }) => {
             </td>
             <td className={classes.tdata}>
                 <span className={classes["tdata__title"]}>
-                    {ticket.customer_name}
+                    {ticket.customerName}
                 </span>
             </td>
             <td className={classes.tdata}>
                 <div className={classes["tdata-content"]}>
                     <span className={classes["tdata__title"]}>
-                        {ticket.date
+                        {ticket.createDate
                             .toUTCString()
                             .split(",")[1]
                             .trim()
                             .substring(0, 12)}
                     </span>
                     <span className={classes["tdata__subtitle"]}>
-                        {ticket.date.toLocaleTimeString().slice(0, 5) +
+                        {/* {ticket.date.toLocaleTimeString().slice(0, 5) +
                             " " +
-                            ticket.date.toLocaleTimeString().slice(9, 12)}
+                            ticket.date.toLocaleTimeString().slice(9, 12)} */}
                     </span>
                 </div>
             </td>
             <td className={classes.tdata}>
-                <span className={classes.prority} data-id={ticket.prority}>
-                    {Proritys.find((item) => item.id === ticket.prority).value}
+                <span className={classes.priority} data-id={ticket.priority}>
+                    {Proritys.find((item) => item.id === ticket.priority).value}
                 </span>
             </td>
             <td className={classes.tdata}>
@@ -120,4 +120,4 @@ TicketRow.propTypes = {
     onEdit: PropTypes.func.isRequired,
 };
 
-export default TicketRow;
+export default memo(TicketRow);

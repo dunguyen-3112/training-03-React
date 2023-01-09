@@ -1,7 +1,7 @@
 import { TicketPage } from "../pages/Home";
 import { LoginPage } from "../pages/Login";
 import React from "react";
-import { NotFoundPage } from "../pages/NotFound";
+import { ErrorPage } from "../pages/Error";
 import {
     OverviewIcon,
     AgentIcon,
@@ -12,12 +12,14 @@ import {
     TicketIcon,
     SubscriptionIcon,
 } from "../components/Uis/Icon";
+import NewTicket from "../pages/Home/NewTicket/NewTicket";
+import EditTicket from "../pages/Home/EditTicket/EditTicket";
 
 export const routes = [
     {
         title: "Overview",
         path: "/",
-        element: <NotFoundPage />,
+        element: <ErrorPage />,
         icon: <OverviewIcon />,
     },
     {
@@ -27,47 +29,59 @@ export const routes = [
         title: "Tickets",
     },
     {
+        path: "/tickets/new_ticket",
+        element: <NewTicket />,
+    },
+    {
+        path: "/tickets/edit_ticket/:ticketId",
+        element: <EditTicket />,
+    },
+    {
         title: "Ideas",
         path: "/ideas",
         icon: <IdeaIcon />,
-        element: <NotFoundPage />,
+        element: <ErrorPage />,
     },
     {
         title: "Contacts",
         path: "/contacts",
-        element: <NotFoundPage />,
+        element: <ErrorPage />,
         icon: <ContactIcon />,
     },
     {
         title: "Agents",
         path: "/agents",
         icon: <AgentIcon />,
-        element: <NotFoundPage />,
+        element: <ErrorPage />,
     },
     {
         title: "Articles",
         path: "/acticles",
         icon: <ArticlesIcon />,
-        element: <NotFoundPage />,
+        element: <ErrorPage />,
     },
     {
         title: "Settings",
         path: "/settings",
         icon: <SettingIcon />,
-        element: <NotFoundPage />,
+        element: <ErrorPage />,
     },
     {
         title: "Subscription",
         path: "/subscription",
         icon: <SubscriptionIcon />,
-        element: <NotFoundPage />,
+        element: <ErrorPage />,
     },
     {
         path: "/login",
         element: <LoginPage />,
     },
     {
+        path: "/notfound/:id",
+        element: <ErrorPage />,
+    },
+    {
         path: "*",
-        element: <NotFoundPage />,
+        element: <ErrorPage />,
     },
 ];

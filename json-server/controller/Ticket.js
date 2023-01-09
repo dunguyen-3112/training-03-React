@@ -24,9 +24,10 @@ class TicketController {
         data &&
         (data.createBy === this.req.userId || this.user.role === "manager")
       )
-        return this.res.json({ data });
+        return this.res.json({ data: await this.combineDatas(data) });
       return this.res.sendStatus(404);
     }
+    this.res.status(200);
 
     data = await TicketsModel.getAll();
     if (this.user.role !== "manager") {
@@ -36,7 +37,7 @@ class TicketController {
 
       pages = paginate(tickets);
       return this.res.json({
-        data: pages[page - 1],
+        data: await this.combineDatas(pages[page - 1]),
         meta: {
           current_page: page,
           total_pages: pages.length,
@@ -45,8 +46,9 @@ class TicketController {
       });
     }
     pages = paginate(data);
+
     return this.res.json({
-      data: pages[page - 1],
+      data: await this.combineDatas(pages[page - 1]),
       meta: {
         current_page: page,
         total_pages: pages.length,
@@ -74,7 +76,7 @@ class TicketController {
     if (ticket) {
       this.res.status(201);
       return this.res.json({
-        data: ticket,
+        data: this.combineDatas(ticket),
       });
     }
     return this.res.sendStatus(500);
@@ -93,15 +95,37 @@ class TicketController {
       status,
       id,
     });
-    if (ticket) return this.res.json(ticket);
+    if (ticket) return this.res.json({ data: this.combineDatas(ticket) });
     return this.res.sendStatus(500);
   }
 
   async DELETE() {
     const id = this.req.path.split("/")[4];
     const ticket = TicketModel.delete(id);
-    if (ticket) return this.res.json({ ticket });
+    if (ticket) return this.res.json({ data: this.combineDatas(ticket) });
     return this.res.sendStatus(404);
+  }
+
+  /**
+   *
+   * @param {<Array<Ticket>} data
+   * @returns
+   */
+  async combineDatas(data) {
+    const combineData = async (item) => {
+      const user = await User.findUserById(item.assignBy);
+      item = {
+        ...item,
+        customerAvatar: user.avatarUrl,
+        customerName: `${user.firstName} ${user.lastName}`,
+      };
+      return item;
+    };
+    if (data.length > 0) {
+      data = await Promise.all(data.map((item) => combineData(item)));
+      return data;
+    }
+    return await combineData(data);
   }
 }
 

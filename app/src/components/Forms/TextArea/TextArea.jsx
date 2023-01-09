@@ -6,19 +6,31 @@ import classes from "./TextArea.module.sass";
 
 import "../base.sass";
 
-function TextArea({ label }, ref) {
+function TextArea({ title, message, value, onChange }, ref) {
     const classList = ["form-group", classes["text-Area"]];
 
+    const name = title.replace(" ", "_").toLowerCase();
     return (
         <label className={classList.join(" ")}>
-            <span className="form-label__title">{label}</span>
-            <textarea cols="30" rows="5" className="form-control"></textarea>
+            <span className="form-label__title">{title}</span>
+            <textarea
+                cols="30"
+                rows="5"
+                name={name}
+                value={value}
+                className="form-control"
+                onChange={onChange}
+            ></textarea>
+            <span className="form-message">{message}</span>
         </label>
     );
 }
 
 TextArea.propTypes = {
-    label: PropTypes.string.isRequired,
+    title: PropTypes.string.isRequired,
+    message: PropTypes.string,
+    value: PropTypes.string,
+    onChange: PropTypes.func,
 };
 
 export default TextArea;

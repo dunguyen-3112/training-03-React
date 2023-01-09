@@ -2,79 +2,94 @@ import axios from "axios";
 
 import { API_ENDPOINT } from "../constants/api";
 import * as methods from "../constants/methods";
+import { BAD_REQUEST, OK } from "../constants/statusCodes";
 
 export async function makeRequest(method, path, data) {
     try {
-        if (path === "/logout") {
-            const refreshToken = localStorage.getItem("refresh_token");
-            return await axios.post(
-                API_ENDPOINT + path,
-                {},
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                        Authorization: `Bearer ${refreshToken}`,
-                    },
-                }
-            );
-        }
         const accessToken = await getAccessToken();
-        if (path === "/login") {
-            return await axios.post(API_ENDPOINT + path, data, {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            });
-        }
+        let response;
         if (accessToken) {
             switch (method) {
                 case methods.GET:
-                    return await axios.get(`${API_ENDPOINT}${path}`, {
+                    response = await axios.get(`${API_ENDPOINT}${path}`, {
                         headers: {
-                            Authorization: `Bearer ${accessToken.data.access_token}`,
+                            Authorization: `Bearer ${accessToken}`,
                         },
                     });
+                    return {
+                        data: response.data,
+                        status: response.status,
+                    };
                 case methods.POST:
-                    return await axios.post(`${API_ENDPOINT}${path}`, data, {
-                        headers: {
-                            "Content-Type": "application/json",
-                            Authorization: `Bearer ${accessToken.data.access_token}`,
-                        },
-                    });
+                    response = await axios.post(
+                        `${API_ENDPOINT}${path}`,
+                        data,
+                        {
+                            headers: {
+                                "Content-Type": "application/json",
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
+                    );
+                    return {
+                        data: response.data,
+                        status: response.status,
+                    };
                 case methods.PUT:
-                    return await axios.put(`${API_ENDPOINT}${path}`, data, {
+                    response = await axios.put(`${API_ENDPOINT}${path}`, data, {
                         headers: {
                             "Content-Type": "application/json",
-                            Authorization: `Bearer ${accessToken.data.access_token}`,
+                            Authorization: `Bearer ${accessToken}`,
                         },
                     });
+                    return {
+                        data: response.data,
+                        status: response.status,
+                    };
                 case methods.DELETE:
-                    return await axios.delete(`${API_ENDPOINT}${path}`, {
+                    response = await axios.delete(`${API_ENDPOINT}${path}`, {
                         headers: {
-                            Authorization: `Bearer ${accessToken.data.access_token}`,
+                            Authorization: `Bearer ${accessToken}`,
                         },
                     });
+                    return {
+                        data: response.data,
+                        status: response.status,
+                    };
                 default:
-                    throw new Error(`Invalid method: ${method}`);
+                    return {
+                        status: BAD_REQUEST,
+                    };
             }
         }
     } catch (e) {
-        return null;
+        return {
+            status: BAD_REQUEST,
+            message: e.message,
+        };
     }
 }
 
 async function getAccessToken() {
     const refreshToken = localStorage.getItem("refresh_token");
     if (refreshToken) {
-        const accessToken = await axios.get(
+        const response = await axios.post(
             `${API_ENDPOINT}/token`,
-            refreshToken
+            {},
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                    Authorization: `Bearer ${refreshToken}`,
+                },
+            }
         );
-
-        console.log(accessToken);
-        return accessToken;
+        if (response.status !== OK) {
+            localStorage.clear();
+            return;
+        }
+        return response.data.accessToken;
     }
-    return null;
+    return;
 }
 
 export function create(path, data) {

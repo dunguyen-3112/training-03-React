@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { memo } from "react";
 
 function LogoutIcon({ active }) {
     return (
@@ -26,4 +27,4 @@ LogoutIcon.propTypes = {
     active: PropTypes.bool,
 };
 
-export default LogoutIcon;
+export default memo(LogoutIcon);

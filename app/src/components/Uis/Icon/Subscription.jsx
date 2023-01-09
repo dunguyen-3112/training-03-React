@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { memo } from "react";
 
 function SubscriptionIcon({ active }) {
     return (
@@ -30,4 +31,4 @@ SubscriptionIcon.propTypes = {
     active: PropTypes.bool,
 };
 
-export default SubscriptionIcon;
+export default memo(SubscriptionIcon);

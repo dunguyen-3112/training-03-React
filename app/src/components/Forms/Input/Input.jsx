@@ -1,14 +1,16 @@
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef, useState, memo } from "react";
 import PropTypes from "prop-types";
 
 import Active from "../../../assets/images/active.svg";
-import { ViewIcon } from "../../Uis/Icon";
+import NotActive from "../../../assets/images/View.svg";
 import "../base.sass";
+import { useEffect } from "react";
 
 const Input = forwardRef(
-    ({ title, value, message, placeholder, onChange, type }, ref) => {
+    ({ title, value, message, placeholder, type, onChange }, ref) => {
         const [hide, setHide] = useState(true);
 
+        const name = title.replace(" ", "_").toLowerCase();
         return (
             <label className="form-group">
                 <span className="form-label">
@@ -28,10 +30,11 @@ const Input = forwardRef(
                     type={hide ? type : "text"}
                     className="form-control"
                     ref={ref}
+                    name={name}
                 />
                 {type === "password" && (
                     <img
-                        src={hide ? Active : ViewIcon}
+                        src={!hide ? Active : NotActive}
                         height={20}
                         width={20}
                         className="hide"
@@ -53,7 +56,7 @@ Input.propTypes = {
     message: PropTypes.string,
     placeholder: PropTypes.string,
     onChange: PropTypes.func,
-    type: PropTypes.oneOf(["text", "email", "password"]),
+    type: PropTypes.oneOf(["text", "email", "password", "date"]),
 };
 
-export default Input;
+export default memo(Input);

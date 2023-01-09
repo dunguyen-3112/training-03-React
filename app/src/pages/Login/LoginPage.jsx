@@ -1,37 +1,30 @@
-import React, { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
-import axios from "axios";
+import React from "react";
+import PropTypes from "prop-types";
 
 import classes from "./LoginPage.module.sass";
 import { FormLogin } from "./FormLogin";
 import { Logo } from "../../components/Uis/Logo";
-import { useState } from "react";
 
-import * as API from "../../utils/api"
 import { API_ENDPOINT } from "../../constants/api";
+import { HandleLogin } from "../../services/auth";
+import axios from "axios";
 
-export default function LoginPage() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
+import { useNavigate } from "react-router-dom";
 
+export default function LoginPage({ onLogin }) {
     const navigate = useNavigate();
 
     const handleLogin = async (email, password) => {
-        console.log(email, password);
-        let response = await API.create("/login", {
-            email: email,
-            password: password,
-        });
-        let data = response.data;
-        localStorage.setItem("refresh_token", data.refresh_token);
-        response = await axios.get(`${API_ENDPOINT}/users`, {
+        const accessToken = await HandleLogin(email, password);
+        const response = await axios.get(`${API_ENDPOINT}/users`, {
             headers: {
-                Authorization: `Bearer ${data.access_token}`,
+                Authorization: `Bearer ${accessToken}`,
             },
         });
-        data = response.data;
+
+        const data = response.data;
         localStorage.setItem("user", JSON.stringify(data));
-        navigate("/tickets");
+        onLogin ? onLogin() : navigate("/tickets");
     };
 
     return (
@@ -48,10 +41,14 @@ export default function LoginPage() {
             <FormLogin onLogin={handleLogin} />
             <footer className={classes.footer}>
                 <span className={classes["footer__message"]}>
-                    Don't have an account?
+                    Don&apos;t have an account?
                 </span>
                 <a href="/signup">Sign Up</a>
             </footer>
         </section>
     );
 }
+
+LoginPage.propTypes = {
+    onLogin: PropTypes.func,
+};
