@@ -5,14 +5,45 @@
     height: max-content
     border-radius: 8px
     padding: 32px 0
-    .title
-        font-weight: v.$font-weight-bold
-        font-size: v.$font-size-l
+    .form__ticket
+        display: flex
+        padding: 30px 40px
+        justify-content: space-between
+        .info
+            min-width: 30%
+        .avatar
+            width: calc( 100% - 40px )
+            overflow: hidden
+            margin: 20px
+            display: flex
+            flex-direction: column
+            gap: 20px
+            justify-content: center
+            align-items: center
+            margin-top: 50px
+            img
+                width: 150px
+            // figcaption
+            //     color: v.$text-gray-dark-color
+            //     font-size: v.$font-size-l
+            //     font-weight: v.$font-weight-bold
+        form
+            .form-row
+                display: grid
+                grid-template-columns: 1fr 1fr
+                gap: 20px
+                width: 100%
+                justify-content: space-between
+
     .tickets__title
         display: flex
         justify-content: space-between
         align-items: center
         padding: 0 32px
+        width: 100%
+        .title
+            font-weight: v.$font-weight-bold
+            font-size: v.$font-size-l
     .nav__action
         display: flex
         gap: 32px
