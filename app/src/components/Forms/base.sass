@@ -1,0 +1,57 @@
+@use '../../assets/style/valiable' as v
+form
+    width: max-content
+    min-width: 60%
+    display: flex
+    flex-direction: column
+    gap: 20px
+    form
+        min-width: 100%
+    .form-group
+        position: relative
+        display: flex
+        flex-direction: column
+        align-items: stretch
+        text-align: left
+        gap: 6px
+        span> span:first-child ,>span
+        text-transform: uppercase
+        .form-label__title
+            font-weight: v.$font-weight-bold
+            font-size: v.$font-size-xs
+        .form-label
+            display: flex
+            justify-content: space-between
+            a
+                text-decoration: none
+                .form-lable__password,.form-message
+                    font-weight: v.$font-weight-regular
+                    font-size: v.$font-size-xs
+                    color: v.$gray-color
+                &:hover
+                    text-decoration: underline
+                    .form-lable__password
+                        color: v.$blue-color
+        .form-control
+            padding: 11px 8px 11px 16px
+            background-color: #FCFDFE
+            border: 1px solid v.$gray-color
+            border-radius: 8px
+            font-size: 14px
+            font-weight: 400
+            color: v.$text-gray-dark-color
+            &:disabled
+                background-color: v.$text-gray-light-color
+            &:focus-visible
+                outline: none
+            &::placeholder
+                color: v.$text-gray-dark-color
+        .hide
+            position: absolute
+            bottom: 11px
+            right: 16px
+            cursor: pointer
+        .form-message
+            color: v.$red-color
+            font-weight: v.$font-weight-bold
+            font-size: v.$font-size-s

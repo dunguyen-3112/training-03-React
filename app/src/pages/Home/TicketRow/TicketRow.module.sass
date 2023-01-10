@@ -1,0 +1,51 @@
+@use '../../../assets/style/valiable' as v
+tr
+    padding: 24px 31px
+    td
+        padding: 24px 32px
+        .priority
+            padding: 5px 12px
+            border-radius: 100px
+            text-transform: uppercase
+            color: v.$white-color
+            font-size: 11px
+            font-weight: v.$font-weight-bold
+        [data-id="0"]
+            background-color: v.$yellow-color
+        [data-id="1"]
+            background-color: v.$red-color
+        [data-id="2"]
+            background-color: v.$green-color
+
+        .tdata-content
+            display: flex
+            flex-direction: column
+        .tdata__title
+            font-weight: v.$font-weight-semi-bold
+            font-size: v.$font-size-s
+            color: v.$text-black-color
+        .tdata__subtitle
+            font-weight: v.$font-weight-regular
+            font-size: v.$font-size-xs
+            color: v.$text-gray-light-color
+
+        .tdata--menu
+            display: flex
+            align-items: center
+            flex-direction: column
+            gap: 2px
+            cursor: pointer
+            position: relative
+            .item__title
+                font-weight: v.$font-weight-semi-bold
+                font-size: v.$font-size-s
+            .point
+                height: 3px
+                width: 3px
+                border-radius: 50%
+                background-color: v.$gray-color
+
+        img.avatar
+            height: 44px
+            width: 44px
+            border-radius: 50%

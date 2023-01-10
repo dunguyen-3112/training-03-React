@@ -1,0 +1,37 @@
+@use '../../../assets/style/valiable' as v
+.logo
+    display: flex
+    gap: 12px
+    align-items: center
+    margin: 37px 0 63px 33px
+    .logo__title
+        font-weight: v.$font-weight-bold
+        font-size: v.$font-size-l
+        color: v.$text-gray-color
+    &[data-column="true"]
+        flex-direction: column
+        margin: 0
+        .logo__icon
+            height: 48px
+            width: 48px
+            &::after
+                height: 21px
+                width: 18px
+                
+    .logo__icon
+        height: 32px
+        width: 32px
+        background-color: v.$blue-color
+        border-radius: 50%
+        position: relative
+        &::after
+            content: ''
+            position: absolute
+            top: 50%
+            left: 50%
+            height: 14px
+            width: 12px
+            background: linear-gradient(143.7deg, rgba(255, 255, 255, 0.7) 0%, #FFFFFF 100%)
+            transform: translate(-50% ,-50%)
+            border-bottom-right-radius: 10px
+            border-top-right-radius: 10px

@@ -1,11 +1,12 @@
 /* eslint-disable no-undef */
-const jsonServer = require('json-server');
-require('dotenv').config();
-const jwt = require('jsonwebtoken');
+const jsonServer = require("json-server");
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
+const LoginController = require("./controller/Login");
 
-const routes = require('./routes');
+const routes = require("./routes");
 
-const fileName = './db.json';
+const fileName = "./db.json";
 
 const PORT = process.env.PORT || 3000;
 
@@ -18,29 +19,33 @@ server.use(middlewares);
 server.use(jsonServer.bodyParser);
 
 server.use((req, res) => {
-    const path = req.path;
-
-    if (path.includes('/api/v1/') === false) {
-        return res.sendStatus(404);
-    }
-    if (req.path.split('/')[3] !== 'login') authenticateToken(req, res);
-    routes(req, res);
+  authenticateToken(req, res);
+  routes(req, res);
 });
 
-server.use('/api/v1', router);
+server.use("/api/v1", router);
 
 server.listen(PORT, () => {
-    console.log('JSON Server is running on port ' + PORT);
+  console.log("JSON Server is running on port " + PORT);
 });
 
 function authenticateToken(req, res) {
-    const authHeader = req.headers['authorization'];
-    const token = authHeader && authHeader.split(' ')[1];
+  console.log("Route: ", req.path);
+  const route = req.path.split("/").at(-1);
+  // if route is login then pass authentication
+  if (route === "login") return;
+  const SECRET =
+    route === "token" || route === "logout"
+      ? process.env.REFRESH_TOKEN_SECRET
+      : process.env.ACCESS_TOKEN_SECRET;
 
-    if (token == null) return res.sendStatus(401);
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token == null) return res.sendStatus(401);
 
-    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, { id }) => {
-        if (err) return res.sendStatus(403);
-        req.userId = id;
-    });
+  jwt.verify(token, SECRET, (err, { id }) => {
+    if (err) return res.sendStatus(403);
+    req.userId = id;
+    console.log(id);
+  });
 }

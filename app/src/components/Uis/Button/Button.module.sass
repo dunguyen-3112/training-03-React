@@ -1,0 +1,28 @@
+@use '../../../assets/style/valiable' as v
+.btn
+    padding: 15px 24px 15px 24px
+    padding-bottom: 13px
+    background-color: v.$green-color
+    border-radius: 8px
+    border: none
+    display: flex
+    align-items: center
+    justify-content: center
+    gap: 8px
+    color: v.$white-color
+    font-weight: v.$font-weight-semi-bold
+    font-size: v.$font-size-s
+    &:hover
+        cursor: pointer
+        color: v.$white-color
+        box-shadow: 0px 4px 12px rgba(55, 81, 255, 0.24)
+        opacity: .6
+    &[data-outline="true"]
+        justify-content: start
+        background-color: transparent
+        &>*
+            color: v.$text-black-color
+        &:hover
+            background-color: v.$text-gray-light-color
+            color: v.$white-color
+            opacity: .6
