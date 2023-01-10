@@ -55,12 +55,14 @@
 ## HOW TO RUN THE PROJECT
 
 - Step 1: Clone the project and select branch develop
+
 > ```
 > git  clone git@github.com:dunguyen-3112/training-03-React.git
 > git checkout develop
 > ```
 
 - Step 2: Install dependencies  and run Backend
+
 > ```
 > cd json-server
 > npm install
@@ -68,6 +70,7 @@
 > ```
 
 - Step 3: Install dependencies  and run frontend
+
 > ```
 > cd app
 > npm install
