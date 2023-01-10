@@ -13,11 +13,14 @@ const Input = ({
     type,
     onChange,
     inputRef,
+    onFocus,
     tabIndex,
+    disabled,
+    onBlur,
 }) => {
     const [hide, setHide] = useState(true);
 
-    const name = title.replace(" ", "_").toLowerCase();
+    const name = title?.replace(" ", "_").toLowerCase();
     return (
         <label className="form-group">
             <span className="form-label">
@@ -38,6 +41,9 @@ const Input = ({
                 className="form-control"
                 ref={inputRef}
                 name={name}
+                onFocus={onFocus}
+                onBlur={onBlur}
+                disabled={disabled}
                 tabIndex={tabIndex}
             />
             {type === "password" && (
@@ -63,6 +69,9 @@ Input.propTypes = {
     onChange: PropTypes.func,
     inputRef: PropTypes.object,
     tabIndex: PropTypes.number,
+    onFocus: PropTypes.func,
+    onBlur: PropTypes.func,
+    disabled: PropTypes.bool,
     type: PropTypes.oneOf(["text", "email", "password", "date"]),
 };
 
