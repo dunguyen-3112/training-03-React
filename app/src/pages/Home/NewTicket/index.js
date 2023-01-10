@@ -1,3 +1,3 @@
-import FormNewTicket from "./FormNewTicket";
+import NewTicket from "./NewTicket";
 
-export { FormNewTicket };
+export { NewTicket };

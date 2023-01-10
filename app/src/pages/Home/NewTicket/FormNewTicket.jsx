@@ -8,7 +8,6 @@ import React, {
 } from "react";
 import { useNavigate } from "react-router-dom";
 
-import "../base/FormTicket.sass";
 import { Input } from "../../../components/Forms/Input";
 import { DropDown } from "../../../components/Forms/DropDown";
 import { TextReal } from "../../../components/Forms/TextArea";
@@ -17,10 +16,16 @@ import { validate } from "../../../utils/validate";
 import { Button } from "../../../components/Uis/Button";
 import classes from "../TicketPage.module.sass";
 import { Context } from "../../../context/Context";
+import * as API from "../../../utils/api";
+import { Search } from "../../../components/Forms/Search";
+import { useFetch } from "../../../hooks";
 
 function FormNewTicket() {
     const formRef = useRef(null);
     const navigate = useNavigate();
+    const [user, setUser] = useState();
+    const [ticket, setTicket] = useState();
+    const [loading1, data1, error1] = useFetch(`/users/${ticket?.assignBy}`);
 
     let { statuses, priorities } = useContext(Context);
     statuses = statuses || JSON.parse(localStorage.getItem("statuses"));
@@ -29,19 +34,31 @@ function FormNewTicket() {
     const handleNew = useCallback(() => {
         const formData = getFormData(formRef.current);
         console.log(formData);
-    }, [formRef.current]);
+    }, []);
 
-    const [ticket, setTicket] = useState({
-        name: "",
-        description: "",
-        status: undefined,
-        priority: undefined,
-        dueDate: "2022-01-01",
-    });
+    const handleSelect = useCallback(
+        (id) => {
+            setTicket({ ...ticket, assignBy: id });
+        },
+        [ticket]
+    );
+
+    const handleSearchUsers = useCallback(async (query) => {
+        const response = await API.get(`/users?_query=${query}`);
+        const users = response.data.data;
+        console.log("123");
+        return users;
+    }, []);
+
+    useEffect(() => {
+        setUser(data1);
+    }, [ticket, user, data1]);
 
     useEffect(() => {
         const form = formRef.current;
+        console.log(form);
         if (form) {
+            console.log("re-rendering...");
             const formData = getFormData(form);
 
             if (formData) {
@@ -129,76 +146,117 @@ function FormNewTicket() {
                 );
             }
         }
-    }, [formRef, handleNew]);
+    }, [formRef]);
 
     return (
-        <form className="form__ticket" ref={formRef}>
-            <span className="form__ticket--row">
-                <Input
-                    title="Name"
-                    value={ticket.name}
-                    message=""
-                    placeholder=""
-                    type="text"
-                    tabIndex={1}
-                    onChange={(event) =>
-                        setTicket({ ...ticket, name: event.target.value })
-                    }
+        <div className={classes["form__ticket"]}>
+            <form ref={formRef}>
+                <span className={classes["form-row"]}>
+                    <Input
+                        title="Name"
+                        value={ticket?.name || ""}
+                        message=""
+                        placeholder=""
+                        type="text"
+                        tabIndex={1}
+                        onChange={(event) =>
+                            setTicket({ ...ticket, name: event.target.value })
+                        }
+                    />
+                    <Input
+                        title="Due Date"
+                        value={ticket?.dueDate || "2022-01-01"}
+                        message=""
+                        placeholder=""
+                        type="date"
+                        tabIndex={2}
+                        onChange={(event) =>
+                            setTicket({
+                                ...ticket,
+                                dueDate: event.target.value,
+                            })
+                        }
+                    />
+                </span>
+                <span className={classes["form-row"]}>
+                    <Input
+                        title="Assign By"
+                        value={ticket?.assignBy || ""}
+                        message=""
+                        placeholder=""
+                        type="text"
+                        tabIndex={3}
+                        onChange={(event) =>
+                            setTicket({
+                                ...ticket,
+                                assignBy: event.target.value,
+                            })
+                        }
+                    />
+                </span>
+                <span className={classes["form-row"]}>
+                    <DropDown
+                        title="Status"
+                        options={statuses}
+                        value={ticket?.status || 0}
+                        onChange={(event) =>
+                            setTicket({ ...ticket, status: event.target.value })
+                        }
+                        tabIndex={3}
+                    />
+                    <DropDown
+                        title="Priority"
+                        options={priorities}
+                        value={ticket?.priority}
+                        onChange={(event) =>
+                            setTicket({
+                                ...ticket,
+                                priority: event.target.value,
+                            })
+                        }
+                        tabIndex={4}
+                    />
+                </span>
+                <span className={classes["form-row"]}>
+                    <TextReal
+                        title="Description"
+                        value={ticket?.description || ""}
+                        onChange={(event) =>
+                            setTicket({
+                                ...ticket,
+                                description: event.target.value,
+                            })
+                        }
+                        tabIndex={5}
+                    />
+                </span>
+                <span className={classes["nav__action"]}>
+                    <Button type="submit" tabIndex={6}>
+                        <span className={classes["item__title"]}>Save</span>
+                    </Button>
+                    <Button onClick={() => navigate("/tickets")} tabIndex={7}>
+                        <span className={classes["item__title"]}>Cancel</span>
+                    </Button>
+                </span>
+            </form>
+            <div className={classes["info"]}>
+                <Search
+                    onSearch={handleSearchUsers}
+                    title="AssignBy"
+                    onSelect={handleSelect}
                 />
-                <Input
-                    title="Due Date"
-                    value={ticket.dueDate}
-                    message=""
-                    placeholder=""
-                    type="date"
-                    tabIndex={2}
-                    onChange={(event) =>
-                        setTicket({ ...ticket, dueDate: event.target.value })
-                    }
-                />
-            </span>
-            <span className="form__ticket--row">
-                <DropDown
-                    title="Status"
-                    options={statuses}
-                    value={ticket.status}
-                    onChange={(event) =>
-                        setTicket({ ...ticket, status: event.target.value })
-                    }
-                    tabIndex={3}
-                />
-                <DropDown
-                    title="Priority"
-                    options={priorities}
-                    value={ticket.priority}
-                    onChange={(event) =>
-                        setTicket({ ...ticket, priority: event.target.value })
-                    }
-                    tabIndex={4}
-                />
-            </span>
-            <span className="form__ticket--row">
-                <TextReal
-                    title="Description"
-                    value={ticket.description}
-                    onChange={(event) =>
-                        setTicket({
-                            ...ticket,
-                            description: event.target.value,
-                        })
-                    }
-                    tabIndex={5}
-                />
-            </span>
-            <span className={classes["nav__action"]}>
-                <Button type="submit" tabIndex={6}>
-                    <span className={classes["item__title"]}>Save</span>
-                </Button>
-                <Button onClick={() => navigate("/tickets")} tabIndex={7}>
-                    <span className={classes["item__title"]}>Cancel</span>
-                </Button>
-            </span>
-        </form>
+                <figure className={classes["avatar"]}>
+                    <img
+                        src={
+                            user?.avatar ||
+                            "https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg"
+                        }
+                        alt=""
+                    />
+                    <figcaption>{data1?.name || ""}</figcaption>
+                </figure>
+            </div>
+        </div>
     );
 }
 

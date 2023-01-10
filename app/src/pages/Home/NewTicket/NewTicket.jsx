@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 // import PropTypes from "prop-types";
 
 import FormNewTicket from "./FormNewTicket";
@@ -17,4 +17,4 @@ function NewTicket() {
 
 NewTicket.propTypes = {};
 
-export default NewTicket;
+export default memo(NewTicket);
