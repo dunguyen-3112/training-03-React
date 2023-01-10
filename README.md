@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 # training-03-React
 
 ### OVERVIEW
@@ -169,20 +169,8 @@ This is not in the plan, trainees may want to read more about debugging tools, s
 + [Reactotron](https://github.com/infinitered/reactotron)
 
 > State Management
-
-+ [Redux](https://redux.js.org/)
-<<<<<<< HEAD
-<<<<<<< HEAD
     + [Redux logger](https://github.com/evgenyrodionov/redux-logger)
     + [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
-=======
->> [Redux logger](https://github.com/evgenyrodionov/redux-logger)
->> [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
->>>>>>> edit readme file
-=======
-    + [Redux logger](https://github.com/evgenyrodionov/redux-logger)
-    + [Redux DevTools](https://chrome.google.com/webstore/detail/redux-devtools/lmhkpmbekcpmknklioeibfkpmmfibljd?hl=en)
->>>>>>> readme file
 + [Mobx](https://mobx.js.org/)
 > React Component libraries
 + [Chakra UI](https://chakra-ui.com/)
@@ -191,31 +179,6 @@ This is not in the plan, trainees may want to read more about debugging tools, s
 + [Ant Design](https://ant.design/)
 > React Router
 + [React Router v6](https://reactrouter.com/)
-<<<<<<< HEAD
-
-
-=======
-# Expense-Management
-
-## Overview
-
-- Finance: Expense Management
-
-* Nowadays, people shop so much that they become unable to regulate their expenditures.
-* Many e-commerce websites, particularly in the technological era, such as Tiki, Shoppe, Lazada, and Grab (bikes, marts), make it simple for customers to make purchases online without carefully considering their choices.
-* Typically, people buy things like clothing, gadgets, phones, books, coffee, milk tea, and other beverages.
-* The following are some issues folks are having today:
-  - How can they monitor their expenditures both physically (when they go to the store) and digitally?
-  - How can they connect to their banks and various e-commerce sites to monitor their spending?
-  - How do they create spending restrictions and notify consumers when they are met?
-  - Challenge Statement:
-    - Create a solution to address those issues;
-    - don't limit yourself to the issues listed above;
-    - consider additional issues people are already encountering.
-* Notes:
-  - Although some e-commerce companies do not offer APIs to access consumer data, for the purposes of this challenge, let's suppose that they do.
-=======
->>>>>>> edit readme file
 
 ## TECHNICAL
 
@@ -243,4 +206,3 @@ This is not in the plan, trainees may want to read more about debugging tools, s
     npm run dev
     output: http://localhost:5173/
 ```
->>>>>>> 64de6ef026cf7b8b977edff45f902e79fa5aa5fd
