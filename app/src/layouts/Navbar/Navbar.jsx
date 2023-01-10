@@ -6,8 +6,9 @@ import { Modal } from "../../components/Uis/Modal";
 import { Button } from "../../components/Uis/Button";
 import { SearchIcon } from "../../components/Uis/Icon";
 import { routes } from "../../routes/routes";
-import useSearch from "../../hooks/useSearch";
 import { Context } from "../../context/Context";
+import { Search } from "../../components/Forms/Search";
+import * as API from "../../utils/api";
 
 const NavBar = ({ handleLogout }) => {
     const [isActive, setIsActive] = useState(false);
@@ -17,31 +18,19 @@ const NavBar = ({ handleLogout }) => {
 
     const searchRef = useRef();
 
-    // const { results, loading, error } = useSearch(
-    //     "",
-    //     async function search(query) {
-    //         const response = await fetch(`/search?q=${query}`);
-    //         const results = await response.json();
-    //         return results;
-    //     }
-    // );
-
     const [isSearch, setIsSearch] = useState(false);
 
     const handleClick = () => {
         setIsSearch((prev) => !prev);
     };
 
-    const handleSearch = (event) => {
-        const query = event.target.value;
+    const handleSearch = async (query) => {
+        const response = await API.get(`/tickets?_ticket_name=${query}`);
+        const results = response.data;
+        return results;
     };
 
     if (isSearch && searchRef.current) searchRef.current.focus();
-
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        searchRef.current.value = "";
-    };
 
     const handleShowInfo = () => setIsActive((prev) => !prev);
 
@@ -52,17 +41,18 @@ const NavBar = ({ handleLogout }) => {
             </h1>
             <span className={classes["nav-menu"]}>
                 {isSearch && (
-                    <form
-                        className={classes["form-search"]}
-                        onSubmit={handleSubmit}
-                    >
-                        <input
-                            ref={searchRef}
-                            type="search"
-                            onKeyUp={handleSearch}
-                            className={classes["search-control"]}
-                        />
-                    </form>
+                    // <form
+                    //     className={classes["form-search"]}
+                    //     onSubmit={handleSubmit}
+                    // >
+                    //     <input
+                    //         ref={searchRef}
+                    //         type="search"
+                    //         onKeyUp={handleSearch}
+                    //         className={classes["search-control"]}
+                    //     />
+                    // </form>
+                    <Search onSearch={handleSearch} />
                 )}
                 <span className={classes["menu-icon"]} onClick={handleClick}>
                     <SearchIcon />
