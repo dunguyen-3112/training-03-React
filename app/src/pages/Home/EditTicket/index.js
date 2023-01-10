@@ -1,3 +1,3 @@
-import FormEditTicket from "./FormEditTicket";
+import EditTicket from "./EditTicket";
 
-export { FormEditTicket };
+export { EditTicket };
