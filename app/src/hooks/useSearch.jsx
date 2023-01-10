@@ -9,14 +9,14 @@ function useSearch(query, searchFunction) {
         async function doSearch() {
             setLoading(true);
             setError(null);
-
-            try {
-                const results = await searchFunction(query);
-                setResults(results);
-            } catch (error) {
-                setError(error);
+            if (query && query.length > 0) {
+                try {
+                    const results = await searchFunction(query);
+                    setResults(results);
+                } catch (error) {
+                    setError(error);
+                }
             }
-
             setLoading(false);
         }
 
@@ -27,7 +27,7 @@ function useSearch(query, searchFunction) {
         }
     }, [query, searchFunction]);
 
-    return { results, loading, error };
+    return [loading, results, error];
 }
 
 export default useSearch;
