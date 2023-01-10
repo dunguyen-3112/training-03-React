@@ -12,8 +12,8 @@ import {
     TicketIcon,
     SubscriptionIcon,
 } from "../components/Uis/Icon";
-import NewTicket from "../pages/Home/NewTicket/NewTicket";
-import EditTicket from "../pages/Home/EditTicket/EditTicket";
+import { NewTicket } from "../pages/Home/NewTicket";
+import { EditTicket } from "../pages/Home/EditTicket";
 
 export const routes = [
     {
