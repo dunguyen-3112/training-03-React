@@ -16,7 +16,7 @@ export function validate(form, rules, onSubmit) {
             const elementMessage = parent.querySelector(rule.messageSelector);
             const fieldRules = rule.rules;
             for (const fieldRule of fieldRules) {
-                const value = element.value;
+                let value = element.value;
 
                 if (!fieldRule.validator(value)) {
                     elementMessage.innerHTML = fieldRule.message;

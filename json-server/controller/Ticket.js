@@ -12,14 +12,15 @@ class TicketController {
 
   async GET() {
     this.user = await User.findUserById(this.req.userId);
-    const id = this.req.query._ticketId || this.req.path.split("/")[4];
+    let { _ticketId, _ticket_name } = this.req.query;
+    _ticketId = _ticketId || this.req.path.split("/tickets/").at(1);
     const page = parseInt(this.req.query._page) || 1;
 
     let data;
     let pages;
 
-    if (id) {
-      data = await TicketModel.getById(id);
+    if (_ticketId) {
+      data = await TicketModel.getById(_ticketId);
       if (
         data &&
         (data.createBy === this.req.userId || this.user.role === "manager")
@@ -27,7 +28,13 @@ class TicketController {
         return this.res.json({ data: await this.combineDatas(data) });
       return this.res.sendStatus(404);
     }
-    this.res.status(200);
+    if (_ticket_name) {
+      const data = TicketsModel.tickets.filter((ticket) =>
+        ticket.name.includes(_ticket_name)
+      );
+
+      return this.res.json({ data });
+    }
 
     data = await TicketsModel.getAll();
     if (this.user.role !== "manager") {
