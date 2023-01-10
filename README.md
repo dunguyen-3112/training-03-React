@@ -36,20 +36,20 @@
 
 ## REQUIREMENTS
 
-> * Database:
+> ### Database:
 - User: (id, first name, last name, email, avatarUrl,role, password). We have 2 roles: (Manager, Developer)
-* Ticket: (id, name description, createDate, dueDate, createBy, assignBy, priority, status). Priority: (High, low, normal). Status: (Todo, > - > - In-progress, Review, Done)
-> * Login page.  Refer to the design
+- Ticket: (id, name description, createDate, dueDate, createBy, assignBy, priority, status). Priority: (High, low, normal). Status: (Todo, > - > - In-progress, Review, Done)
+> ### Login page.  Refer to the design
 - Using Json server create API login
 - Admin can login with email and password.
-> * Home page. Refer to the design
+> ### Home page. Refer to the design
 -  Using Json server create API get list tickets.
 - Admin can sort by create date, due date,  can filter by assign user, priority, status, and can search by name
 - Only show 10 items for 1 page. Admin can see next previous page
 - Admin can create a ticket.
 - Admin can delete, edit a ticket. If role is Developer they have permission do on ticket that they had created
 
-> * Design
+> ### Design
 - [Login page](https://www.figma.com/file/5Ha1GwptmFrvaH4gC29FQb/Figma-Admin-Dashboard-UI-Kit-(Community)?node-id=4856%3A178&t=SZab39wbi7L9elX6-0)
 - [Ticket page](https://www.figma.com/file/5Ha1GwptmFrvaH4gC29FQb/Figma-Admin-Dashboard-UI-Kit-(Community)?node-id=597%3A2&t=jI3iw2K6RWIqQ6Qg-0)
 ## HOW TO RUN THE PROJECT
