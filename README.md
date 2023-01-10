@@ -192,17 +192,3 @@ This is not in the plan, trainees may want to read more about debugging tools, s
 
 - Node.js 18.10.0
 - npm 8.19.2
-
-## SETUP & RUN
-
-- Install node and npm : [Link](https://nodejs.org/en/)
-- Setup and run projectL
-
-```
-    git clone https://github.com/dunguyen-3112/Expense-Management.git
-    cd Expense-Management
-    npm install
-    npm run build
-    npm run dev
-    output: http://localhost:5173/
-```
