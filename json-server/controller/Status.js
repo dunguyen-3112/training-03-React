@@ -12,7 +12,7 @@ class StatusController {
       value: index + 1,
       text: item,
     }));
-    return this.res.json({ data });
+    return this.res.json(data );
   }
 }
 

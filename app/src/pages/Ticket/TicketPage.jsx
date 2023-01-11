@@ -43,6 +43,7 @@ export default function TicketPage() {
   );
 
   const navigate = useNavigate();
+  console.log(tickets);
 
   localStorage.setItem("priorities", JSON.stringify(priorities));
   localStorage.setItem("statuses", JSON.stringify(statuses));

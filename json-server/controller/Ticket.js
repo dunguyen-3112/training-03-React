@@ -21,19 +21,19 @@ class TicketController {
 
     if (_ticketId) {
       data = await TicketModel.getById(_ticketId);
-      if (
-        data &&
-        (data.createBy === this.req.userId || this.user.role === "manager")
-      )
-        return this.res.json({ data: await this.combineDatas(data) });
+      if (data?.createBy === this.req.userId || this.user.role === "manager")
+      {
+        data =  await this.combineDatas(data);
+        return this.res.json(data);
+      }
+      
       return this.res.sendStatus(404);
     }
     if (_ticket_name) {
       const data = TicketsModel.tickets.filter((ticket) =>
         ticket.name.includes(_ticket_name)
       );
-
-      return this.res.json({ data });
+      return this.res.json( data );
     }
 
     data = await TicketsModel.getAll();
@@ -41,21 +41,22 @@ class TicketController {
       const tickets = data.filter(
         (ticket) => ticket.createBy === this.req.userId
       );
-
       pages = paginate(tickets);
-      return this.res.json({
-        data: await this.combineDatas(pages[page - 1]),
-        meta: {
-          current_page: page,
-          total_pages: pages.length,
-          total_items: tickets.length,
-        },
-      });
+      const  data1 = await this.combineDatas(pages[page - 1])
+      return this.res.json(data1);
+      // {
+      //   data: data1,
+      //    meta: {
+      //      current_page: page,
+      //      total_pages: pages.length,
+      //      total_items: tickets.length,
+      //    },
+      //  }
     }
     pages = paginate(data);
-
+    const data1 =  await this.combineDatas(pages[page - 1])
     return this.res.json({
-      data: await this.combineDatas(pages[page - 1]),
+      data: data1,
       meta: {
         current_page: page,
         total_pages: pages.length,
@@ -80,11 +81,10 @@ class TicketController {
       createBy,
       createDate,
     });
-    if (ticket) {
+    const data  = await this.combineDatas(ticket);
+    if (data){ 
       this.res.status(201);
-      return this.res.json({
-        data: this.combineDatas(ticket),
-      });
+      return this.res.json(data);
     }
     return this.res.sendStatus(500);
   }
@@ -102,14 +102,22 @@ class TicketController {
       status,
       id,
     });
-    if (ticket) return this.res.json({ data: this.combineDatas(ticket) });
+   
+    const data  = await this.combineDatas(ticket);
+    if (data){ 
+      return this.res.json(data);
+    }
     return this.res.sendStatus(500);
   }
 
   async DELETE() {
     const id = this.req.path.split("/")[4];
     const ticket = TicketModel.delete(id);
-    if (ticket) return this.res.json({ data: this.combineDatas(ticket) });
+   
+    if (ticket) { 
+      const data  = await this.combineDatas(ticket);
+      return this.res.json(data);
+    }
     return this.res.sendStatus(404);
   }
 
@@ -119,6 +127,7 @@ class TicketController {
    * @returns
    */
   async combineDatas(data) {
+    console.log(data)
     const combineData = async (item) => {
       const user = await User.findUserById(item.assignBy);
       item = {

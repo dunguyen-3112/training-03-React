@@ -1,18 +1,12 @@
 import axios from "axios";
 import { API_ENDPOINT } from "../constants/api";
 
-const refreshToken = localStorage.getItem("refresh_token");
-
 export async function HandleLogin(username, password) {
   const response = await axios.post(`${API_ENDPOINT}/login`, {
     username,
     password,
   });
-  const data = response.data;
-  const refreshToken = data.refreshToken;
-  const accessToken = data.accessToken;
-  localStorage.setItem("refresh_token", refreshToken);
-  return accessToken;
+  return response;
 }
 
 export async function HandleLogout() {
@@ -30,6 +24,7 @@ export async function HandleLogout() {
 }
 
 export async function HandleRefresh() {
+  const refreshToken = localStorage.getItem("refresh_token");
   if (refreshToken === null) return;
   return await axios.post(
     API_ENDPOINT + "/token",

@@ -63,15 +63,15 @@ const NavBar = ({ handleLogout }) => {
           onClick={handleShowInfo}
           onMouseLeave={() => setIsActive(false)}
         >
-          <h3 className={classes["userName"]}>{`${user.name}`}</h3>
+          <h3 className={classes["userName"]}>{`${user?.name}`}</h3>
           <figure className={classes.avatar}>
-            <img src={user.avatarUrl} alt="avatar" />
+            <img src={user.avatar} alt="avatar" />
           </figure>
           <Modal active={isActive}>
-            <Button outline>
-              <img src={user.avatarUrl} alt="avatar" width={20} />
-              <span className={classes["menu__item__title"]}>Profile</span>
-            </Button>
+            <div className="flex">
+              <img src={user.avatar} alt="avatar" width={50} />
+              <span className={classes["menu__item__title"]}>{user.name}</span>
+            </div>
             <Button outline onClick={handleLogout}>
               <span className={classes["menu__item__title"]}>Logout</span>
             </Button>
