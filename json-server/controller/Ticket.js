@@ -127,6 +127,7 @@ class TicketController {
    * @returns
    */
   async combineDatas(data) {
+    console.log(data)
     const combineData = async (item) => {
       const user = await User.findUserById(item.assignBy);
       item = {

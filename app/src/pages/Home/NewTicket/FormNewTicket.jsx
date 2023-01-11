@@ -19,6 +19,7 @@ import { Context } from "../../../context/Context";
 import * as API from "../../../utils/api";
 import { Search } from "../../../components/Forms/Search";
 import { useFetch } from "../../../hooks";
+import { CREATED_SUCCESS } from "../../../constants/statusCodes";
 
 function FormNewTicket() {
   const formRef = useRef(null);
@@ -33,7 +34,10 @@ function FormNewTicket() {
 
   const handleNew = useCallback(() => {
     const formData = getFormData(formRef.current);
-    console.log(formData);
+    const response = API.create("/tickets", formData);
+    if (response.status === CREATED_SUCCESS)
+      alert("New Ticket was created successfully");
+    else console.log("Error creating Ticket!");
   }, []);
 
   const handleSelect = useCallback(
@@ -56,12 +60,8 @@ function FormNewTicket() {
 
   useEffect(() => {
     const form = formRef.current;
-    console.log(form);
     if (form) {
-      console.log("re-rendering...");
-      const formData = getFormData(form);
-
-      if (formData) {
+      return () =>
         validate(
           form,
           [
@@ -135,9 +135,8 @@ function FormNewTicket() {
           ],
           handleNew
         );
-      }
     }
-  }, [formRef]);
+  }, [formRef, handleNew]);
 
   return (
     <div className={classes["form__ticket"]}>

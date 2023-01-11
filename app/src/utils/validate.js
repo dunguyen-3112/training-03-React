@@ -65,10 +65,10 @@ export function validate(form, rules, onSubmit) {
   }
   if (_handleSubmit === undefined) _handleSubmit = handleSubmit.bind(this);
 
-  form.addEventListener("submit", _handleSubmit);
+  form.addEventListener("submit", handleSubmit);
 
   return () => {
-    form.removeEventListener("submit", _handleSubmit);
+    form.removeEventListener("submit", handleSubmit);
   };
 }
 /**
