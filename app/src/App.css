@@ -6,6 +6,8 @@
 main.main-container
 {
     display: flex;
+    position: relative;
+    z-index: 1;
 }
 
 main.main-container > div.main-section{
@@ -14,9 +16,9 @@ main.main-container > div.main-section{
   padding: 36px 33px 30px 30px;
   overflow: scroll;
 }
-main.main-container > div.main-section section{
+/* main.main-container > div.main-section section{
   margin-top: 56px;
-}
+} */
 
 
 /* main[data-login=true]

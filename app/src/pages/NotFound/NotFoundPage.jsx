@@ -3,7 +3,7 @@ import useQuery from "../../hooks/useQuery";
 import { BAD_REQUEST } from "../../constants/statusCodes";
 import { Link } from "react-router-dom";
 
-function Error() {
+function NotFoundPage() {
   const query = useQuery();
 
   const statusCode = query.get("status_code");
@@ -28,4 +28,4 @@ function Error() {
   );
 }
 
-export default Error;
+export default NotFoundPage;

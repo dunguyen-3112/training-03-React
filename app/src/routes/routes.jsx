@@ -1,7 +1,7 @@
-import { TicketPage } from "../pages/Home";
+import { TicketPage } from "../pages/Ticket";
 import { LoginPage } from "../pages/Login";
 import React from "react";
-import { ErrorPage } from "../pages/Error";
+import { NotFoundPage } from "../pages/NotFound";
 import {
   OverviewIcon,
   AgentIcon,
@@ -12,14 +12,14 @@ import {
   TicketIcon,
   SubscriptionIcon,
 } from "../components/Uis/Icon";
-import { NewTicket } from "../pages/Home/NewTicket";
-import { EditTicket } from "../pages/Home/EditTicket";
+import { NewTicket } from "../pages/Ticket/NewTicket";
+import { EditTicket } from "../pages/Ticket/EditTicket";
 
 export const routes = [
   {
     title: "Overview",
     path: "/",
-    element: <ErrorPage />,
+    element: <NotFoundPage />,
     icon: <OverviewIcon />,
   },
   {
@@ -40,37 +40,37 @@ export const routes = [
     title: "Ideas",
     path: "/ideas",
     icon: <IdeaIcon />,
-    element: <ErrorPage />,
+    element: <NotFoundPage />,
   },
   {
     title: "Contacts",
     path: "/contacts",
-    element: <ErrorPage />,
+    element: <NotFoundPage />,
     icon: <ContactIcon />,
   },
   {
     title: "Agents",
     path: "/agents",
     icon: <AgentIcon />,
-    element: <ErrorPage />,
+    element: <NotFoundPage />,
   },
   {
     title: "Articles",
     path: "/acticles",
     icon: <ArticlesIcon />,
-    element: <ErrorPage />,
+    element: <NotFoundPage />,
   },
   {
     title: "Settings",
     path: "/settings",
     icon: <SettingIcon />,
-    element: <ErrorPage />,
+    element: <NotFoundPage />,
   },
   {
     title: "Subscription",
     path: "/subscription",
     icon: <SubscriptionIcon />,
-    element: <ErrorPage />,
+    element: <NotFoundPage />,
   },
   {
     path: "/login",
@@ -78,10 +78,10 @@ export const routes = [
   },
   {
     path: "/notfound/:id",
-    element: <ErrorPage />,
+    element: <NotFoundPage />,
   },
   {
     path: "*",
-    element: <ErrorPage />,
+    element: <NotFoundPage />,
   },
 ];
