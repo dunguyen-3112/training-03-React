@@ -25,12 +25,12 @@ export const FilterIcon = () => <img src={FilterImage} />;
 export const SearchIcon = () => <img src={SearchImage} />;
 
 export {
-    IdeaIcon,
-    SettingIcon,
-    OverviewIcon,
-    AgentIcon,
-    ContactIcon,
-    TicketIcon,
-    ArticlesIcon,
-    SubscriptionIcon,
+  IdeaIcon,
+  SettingIcon,
+  OverviewIcon,
+  AgentIcon,
+  ContactIcon,
+  TicketIcon,
+  ArticlesIcon,
+  SubscriptionIcon,
 };

@@ -2,8 +2,7 @@
     "arrowParens": "always",
     "bracketSpacing": true,
     "printWidth": 80,
-    "tabWidth": 4,
-    "useTabs": false,
+    "tabWidth": 2,
     "semi": true,
     "singleQuote": false
 }

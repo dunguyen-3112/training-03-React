@@ -6,16 +6,16 @@ import classes from "../TicketPage.module.sass";
 import FormEditTicket from "./FormEditTicket";
 
 function EditTicket() {
-    const { ticketId } = useParams();
+  const { ticketId } = useParams();
 
-    return (
-        <section className={classes["tickets"]}>
-            <span className={classes["tickets__title"]}>
-                <h2 className={classes["title"]}>Update Ticket</h2>
-            </span>
-            <FormEditTicket ticketId={ticketId} />
-        </section>
-    );
+  return (
+    <section className={classes["tickets"]}>
+      <span className={classes["tickets__title"]}>
+        <h2 className={classes["title"]}>Update Ticket</h2>
+      </span>
+      <FormEditTicket ticketId={ticketId} />
+    </section>
+  );
 }
 
 EditTicket.propTypes = {};

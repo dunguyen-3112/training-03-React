@@ -7,27 +7,27 @@ import { routes } from "../../routes/routes";
 import { Context } from "../../context/Context";
 
 const SideBar = () => {
-    const pages = routes.filter((route) => route.icon);
+  const pages = routes.filter((route) => route.icon);
 
-    const { page, setPage } = useContext(Context);
+  const { page, setPage } = useContext(Context);
 
-    const sibarList = pages.map((_page, index) => (
-        <SidebarItem
-            path={_page.path}
-            icon={_page.icon}
-            title={_page.title}
-            key={index}
-            active={index === page}
-            onClick={() => setPage(index)}
-        />
-    ));
+  const sibarList = pages.map((_page, index) => (
+    <SidebarItem
+      path={_page.path}
+      icon={_page.icon}
+      title={_page.title}
+      key={index}
+      active={index === page}
+      onClick={() => setPage(index)}
+    />
+  ));
 
-    return (
-        <nav className={classes.sidebar}>
-            <Logo />
-            {sibarList}
-        </nav>
-    );
+  return (
+    <nav className={classes.sidebar}>
+      <Logo />
+      {sibarList}
+    </nav>
+  );
 };
 
 SideBar.propTypes = {};

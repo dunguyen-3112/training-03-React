@@ -10,47 +10,46 @@ import { LoginPage } from "./pages/Login";
 import { HandleLogout } from "./services/auth";
 
 function App() {
-    const [isAuthentication, setIsAuthentication] = useState(false);
-    const index = routes.findIndex(
-        (route) =>
-            route.icon && route.path.includes(location.href.split("/").at(3))
-    );
-    const [page, setPage] = useState(index);
-    const navigate = useNavigate();
+  const [isAuthentication, setIsAuthentication] = useState(false);
+  const index = routes.findIndex(
+    (route) => route.icon && route.path.includes(location.href.split("/").at(3))
+  );
+  const [page, setPage] = useState(index);
+  const navigate = useNavigate();
 
-    useEffect(() => {
-        const refreshToken = localStorage.getItem("refresh_token");
-        refreshToken && setIsAuthentication(true);
-    }, [navigate, isAuthentication]);
+  useEffect(() => {
+    const refreshToken = localStorage.getItem("refresh_token");
+    refreshToken && setIsAuthentication(true);
+  }, [navigate, isAuthentication]);
 
-    const handleLogin = () => {
-        setIsAuthentication(true);
-    };
+  const handleLogin = () => {
+    setIsAuthentication(true);
+  };
 
-    const handleLogout = async () => {
-        const response = await HandleLogout();
-        console.log(response);
-        localStorage.clear();
-        setIsAuthentication(false);
-    };
+  const handleLogout = async () => {
+    const response = await HandleLogout();
+    console.log(response);
+    localStorage.clear();
+    setIsAuthentication(false);
+  };
 
-    if (!isAuthentication) return <LoginPage onLogin={handleLogin} />;
+  if (!isAuthentication) return <LoginPage onLogin={handleLogin} />;
 
-    return (
-        <ContextProvider value={{ isLogin: isAuthentication, page, setPage }}>
-            <main className="main-container">
-                <SideBar />
-                <div className="main-section">
-                    <Navbar handleLogout={handleLogout} />
-                    <Routes>
-                        {routes.map((route) => (
-                            <Route key={route.path} {...route} />
-                        ))}
-                    </Routes>
-                </div>
-            </main>
-        </ContextProvider>
-    );
+  return (
+    <ContextProvider value={{ isLogin: isAuthentication, page, setPage }}>
+      <main className="main-container">
+        <SideBar />
+        <div className="main-section">
+          <Navbar handleLogout={handleLogout} />
+          <Routes>
+            {routes.map((route) => (
+              <Route key={route.path} {...route} />
+            ))}
+          </Routes>
+        </div>
+      </main>
+    </ContextProvider>
+  );
 }
 
 export default App;
