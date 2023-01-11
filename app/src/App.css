@@ -3,11 +3,6 @@
     width: 100vw;
 } */
 
-main.main-container
-{
-    display: flex;
-}
-
 main.main-container > div.main-section{
   width: calc(100% - 255px);
   height: 100vh;

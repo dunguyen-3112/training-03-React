@@ -1,3 +1,4 @@
+let _handleSubmit;
 export function validate(form, rules, onSubmit) {
   const getParentSelector = function (element, parentSelector) {
     parentSelector = parentSelector.replace(".", "");
@@ -57,11 +58,18 @@ export function validate(form, rules, onSubmit) {
     });
   }
 
-  form.addEventListener("submit", (event) => {
+  function handleSubmit(event) {
     event.preventDefault();
     validator();
     Object.values(errors).every((item) => item === false) && onSubmit();
-  });
+  }
+  if (_handleSubmit === undefined) _handleSubmit = handleSubmit.bind(this);
+
+  form.addEventListener("submit", _handleSubmit);
+
+  return () => {
+    form.removeEventListener("submit", _handleSubmit);
+  };
 }
 /**
  *

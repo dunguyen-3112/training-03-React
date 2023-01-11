@@ -20,31 +20,21 @@ class UserController {
       }));
       return this.res.json({ data: users });
     }
-    const id = this.req.path.split("/users/").at(-1);
+    const id = this.req.path.split("/users/").at(-1)
+    console.log("ID: ",id);
     if (id) {
       let user = await User.findUserById(id);
-      console.log(user);
       if (user)
         user = {
           name: `${user.firstName} ${user.lastName}`,
           avatar: user.avatarUrl,
           id: user.id,
+          email: user.email,
+          password: jwt.sign(user.password, process.env.PASSWORD_SECRET)
         };
-      return this.res.json({
-        data: user,
-      });
+      return this.res.json(user);
     }
-    const { password, email, firstName, lastName, avatarUrl } =
-      await User.findUserById(this.req.userId);
-    const _password = jwt.sign(password, process.env.PASSWORD_SECRET);
-    return this.res.json({
-      data: {
-        password: _password,
-        email,
-        name: `${firstName} ${lastName}`,
-        avatarUrl,
-      },
-    });
+    return this.res.sendStatus(403);
   }
 }
 

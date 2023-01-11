@@ -37,7 +37,7 @@ function App() {
 
   return (
     <ContextProvider value={{ isLogin: isAuthentication, page, setPage }}>
-      <main className="main-container">
+      <main className="main-container flex">
         <SideBar />
         <div className="main-section">
           <Navbar handleLogout={handleLogout} />

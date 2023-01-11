@@ -77,7 +77,7 @@ export const routes = [
     element: <LoginPage />,
   },
   {
-    path: "/notfound/:id",
+    path: "/not_found/:id",
     element: <ErrorPage />,
   },
   {

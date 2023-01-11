@@ -14,6 +14,7 @@ export default function TicketPage() {
   const [loading2, priorities, error2] = useFetch("/priorities");
 
   const navigate = useNavigate();
+  console.log(tickets);
 
   localStorage.setItem("priorities", JSON.stringify(priorities));
   localStorage.setItem("statuses", JSON.stringify(statuses));

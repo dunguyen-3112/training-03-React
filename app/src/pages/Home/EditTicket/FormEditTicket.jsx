@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 import { Input } from "../../../components/Forms/Input";
 import { DropDown } from "../../../components/Forms/DropDown";
 import { TextReal } from "../../../components/Forms/TextArea";
-import { useFetch } from "../../../hooks";
 import classes from "../TicketPage.module.sass";
 import { getDateISOSString } from "../../../helpers/date";
 import { Button } from "../../../components/Uis/Button";
@@ -21,26 +20,17 @@ import { validate } from "../../../utils/validate";
 import { getFormData } from "../../../utils/form";
 import { Search } from "../../../components/Forms/Search";
 import * as API from "../../../utils/api";
+import { OK } from "../../../constants/statusCodes";
 
-function FormEditTicket({ ticketId }) {
-  const [loading, data, error] = useFetch(`/tickets?_ticketId=${ticketId}`);
+function FormEditTicket({ data }) {
   const [ticket, setTicket] = useState(data);
   const formRef = useRef(null);
-  const [loading1, data1, error1] = useFetch(`/users/${ticket?.assignBy}`);
   const [user, setUser] = useState();
 
   let { statuses, priorities } = useContext(Context);
   statuses = statuses || JSON.parse(localStorage.getItem("statuses"));
   priorities = priorities || JSON.parse(localStorage.getItem("priorities"));
   const navigate = useNavigate();
-
-  useEffect(() => {
-    setTicket(data);
-  }, [data, loading, error]);
-
-  useEffect(() => {
-    setUser(data1);
-  }, [data1, loading1, error1, ticket, user]);
 
   const handleSearchUsers = useCallback(async (query) => {
     const response = await API.get(`/users?_query=${query}`);
@@ -69,15 +59,13 @@ function FormEditTicket({ ticketId }) {
     };
     const response = await API.update(`/tickets/${id}`, data);
     console.log(response);
-    navigate("/tickets");
   }, []);
 
   useEffect(() => {
     const form = formRef.current;
-    if (form) {
-      const formData = getFormData(form);
-      if (formData) {
-        validate(
+    if (form)
+      return (form) => {
+        return validate(
           form,
           [
             {
@@ -150,25 +138,33 @@ function FormEditTicket({ ticketId }) {
           ],
           handleEdit
         );
+      };
+  }, [formRef, data, handleEdit]);
+
+  useEffect(() => {
+    setTicket(data);
+  }, [data]);
+
+  useEffect(() => {
+    async function fetchUser() {
+      const response = await API.get(`/users/${ticket?.assignBy}`);
+      if (response.status === OK) {
+        setUser(response.data);
       }
     }
-  }, [formRef, handleEdit, data]);
+    fetchUser();
+  }, [ticket]);
 
-  if (loading || ticket === null)
+  if (ticket === null)
     return (
       <div>
         <p>Loading...</p>
       </div>
     );
-  if (
-    error ||
-    ticket === null ||
-    statuses === undefined ||
-    priorities === undefined
-  )
+  if (ticket === null || statuses === undefined || priorities === undefined)
     return (
       <div>
-        <p>{error.message}</p>
+        <p>Error...</p>
       </div>
     );
   return (
@@ -269,11 +265,11 @@ function FormEditTicket({ ticketId }) {
           />
         </span>
         <span className={classes["nav__action"]}>
-          <Button tabIndex={6}>
+          <Button tabIndex={6} type="submit">
             <span className={classes["item__title"]}>Save</span>
           </Button>
           <Button onClick={() => navigate("/tickets")} tabIndex={6}>
-            <span className={classes["item__title"]}>Cancel</span>
+            <span className={classes["item__title"]}>Back</span>
           </Button>
         </span>
       </form>
@@ -291,7 +287,7 @@ function FormEditTicket({ ticketId }) {
             }
             alt=""
           />
-          <figcaption>{data1?.name || ""}</figcaption>
+          <figcaption>{user?.name || ""}</figcaption>
         </figure>
       </div>
     </div>
@@ -300,7 +296,7 @@ function FormEditTicket({ ticketId }) {
 
 FormEditTicket.propTypes = {
   onSubmit: PropTypes.func,
-  ticketId: PropTypes.string,
+  data: PropTypes.object,
 };
 
 export default memo(FormEditTicket);

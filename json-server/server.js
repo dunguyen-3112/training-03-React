@@ -30,7 +30,6 @@ server.listen(PORT, () => {
 });
 
 function authenticateToken(req, res) {
-  console.log("Route: ", req.path);
   const route = req.path.split("/").at(-1);
   // if route is login then pass authentication
   if (route === "login") return;
@@ -46,6 +45,5 @@ function authenticateToken(req, res) {
   jwt.verify(token, SECRET, (err, { id }) => {
     if (err) return res.sendStatus(403);
     req.userId = id;
-    console.log(id);
   });
 }

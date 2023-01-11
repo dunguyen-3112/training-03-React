@@ -54,10 +54,9 @@ class LoginController {
     LoginController.refreshTokens.push(refreshToken);
 
     return this.res.json({
-      status: 200,
-      message: "Login successful!",
       accessToken,
       refreshToken,
+      id: user.id,
     });
   }
 }

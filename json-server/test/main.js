@@ -13,4 +13,3 @@ const ticket = new Ticket({
     dueDate: new Date('2022-4-1'),
 });
 
-console.log(ticket.validate());
