@@ -68,8 +68,11 @@ function FormEditTicket({ ticketId }) {
       dueDate: due_date,
     };
     const response = await API.update(`/tickets/${id}`, data);
-    console.log(response);
-    navigate("/tickets");
+    if (response.status === 200) {
+      console.log("Success updating tickets");
+      return;
+    }
+    console.log("Error updating tickets");
   }, []);
 
   useEffect(() => {
@@ -269,11 +272,11 @@ function FormEditTicket({ ticketId }) {
           />
         </span>
         <span className={classes["nav__action"]}>
-          <Button tabIndex={6}>
+          <Button tabIndex={6} type="submit">
             <span className={classes["item__title"]}>Save</span>
           </Button>
           <Button onClick={() => navigate("/tickets")} tabIndex={6}>
-            <span className={classes["item__title"]}>Cancel</span>
+            <span className={classes["item__title"]}>Back</span>
           </Button>
         </span>
       </form>

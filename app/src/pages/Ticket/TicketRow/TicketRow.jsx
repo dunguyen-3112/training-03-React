@@ -12,16 +12,12 @@ import { Button } from "../../../components/Uis/Button";
 import { DeleteIcon, EditIcon, ViewIcon } from "../../../components/Uis/Icon";
 import { Context } from "../../../context/Context";
 
-const TicketRow = ({ ticket, onEdit }) => {
+const TicketRow = ({ ticket, onEdit, onDelete }) => {
   const [isActive, setIsActive] = useState(false);
   const { priorities } = useContext(Context);
   const handleClick = () => setIsActive((prev) => !prev);
 
   const handleMouseleave = () => setIsActive(false);
-
-  const handleBtnEdit = () => {
-    onEdit(ticket.id);
-  };
 
   const url =
     ticket.customerAvatar ||
@@ -37,7 +33,9 @@ const TicketRow = ({ ticket, onEdit }) => {
           <img className={classes.avatar} src={url} alt="avatar" />
           <div className={classes["tdata-content"]}>
             <span className={classes["tdata__title"]}>
-              {ticket.description}
+              {ticket.description.length > 100
+                ? ticket.description.substring(0, 100) + "..."
+                : ticket.description}
             </span>
             <span className={classes["tdata__subtitle"]}>{`updated ${getTimeAgo(
               ticket.createDate
@@ -69,11 +67,11 @@ const TicketRow = ({ ticket, onEdit }) => {
           <span className={classes.point}></span>
           <span className={classes.point}></span>
           <Modal active={isActive}>
-            <Button outline onClick={handleBtnEdit}>
+            <Button outline onClick={onEdit}>
               <EditIcon />
               <span className={classes["item__title"]}>Edit ticket</span>
             </Button>
-            <Button outline>
+            <Button outline onClick={onDelete}>
               <DeleteIcon />
               <span className={classes["item__title"]}>Delete ticket</span>
             </Button>
@@ -91,7 +89,8 @@ const TicketRow = ({ ticket, onEdit }) => {
 TicketRow.propTypes = {
   ticket: PropTypes.object.isRequired,
   index: PropTypes.number.isRequired,
-  onEdit: PropTypes.func.isRequired,
+  onEdit: PropTypes.func,
+  onDelete: PropTypes.func,
 };
 
 export default memo(TicketRow);
