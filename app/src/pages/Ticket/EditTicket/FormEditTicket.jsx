@@ -95,17 +95,17 @@ function FormEditTicket({ data }) {
                 },
               ],
             },
-            {
-              selector: "assign_by",
-              parentSelector: ".form-group",
-              messageSelector: ".form-message",
-              rules: [
-                {
-                  validator: () => user !== undefined,
-                  message: "Assign By is required",
-                },
-              ],
-            },
+            // {
+            //   selector: "assign_by",
+            //   parentSelector: ".form-group",
+            //   messageSelector: ".form-message",
+            //   rules: [
+            //     {
+            //       validator: () => user !== undefined,
+            //       message: "Assign By is required",
+            //     },
+            //   ],
+            // },
             {
               selector: "description",
               parentSelector: ".form-group",

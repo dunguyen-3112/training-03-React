@@ -17,6 +17,7 @@ export default function LoginPage({ onLogin }) {
 
   const handleLogin = async (email, password) => {
     const responseLogin = await HandleLogin(email, password);
+    console.log(responseLogin);
     if (responseLogin.status !== OK) return navigate("/not_found");
     const data = responseLogin.data;
     localStorage.setItem("refresh_token", data.refreshToken);
@@ -25,6 +26,7 @@ export default function LoginPage({ onLogin }) {
         Authorization: `Bearer ${data.accessToken}`,
       },
     });
+    console.log(response);
 
     const data1 = response.data;
     localStorage.setItem("user", JSON.stringify(data1));

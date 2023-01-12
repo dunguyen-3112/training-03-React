@@ -1,7 +1,6 @@
 const jsonServer = require("json-server");
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const LoginController = require("./controller/Login");
 
 const routes = require("./routes");
 
@@ -25,6 +24,7 @@ server.use((req, res) => {
 server.use("/api/v1", router);
 
 server.listen(PORT, () => {
+  console.log(process.env.REFRESH_TOKEN_SECRET);
   console.log(`JSON Server is running on port ${PORT}`);
 });
 
@@ -32,7 +32,8 @@ function authenticateToken(req, res) {
   const route = req.path.split("/").at(-1);
   // if route is login then pass authentication
   if (route === "login") return;
-  const SECRET =    route === 'token' || route === 'logout'
+  const SECRET =
+    route === "token" || route === "logout"
       ? process.env.REFRESH_TOKEN_SECRET
       : process.env.ACCESS_TOKEN_SECRET;
 
