@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-const jwt = require('jsonwebtoken');
-const User = require('../model/User');
-require('dotenv').config();
+const jwt = require("jsonwebtoken");
+const User = require("../model/User");
+require("dotenv").config();
 
 class UserController {
   constructor(req, res) {
@@ -20,7 +20,7 @@ class UserController {
       }));
       return this.res.json(users);
     }
-    const id = this.req.path.split('/users/').at(-1);
+    const id = this.req.path.split("/users/").at(-1);
     if (id) {
       let user = await User.findUserById(id);
       if (user) {

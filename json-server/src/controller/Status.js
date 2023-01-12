@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const { statuses } = require('../config/constant');
+const { statuses } = require("../config/constant");
 
 class StatusController {
   constructor(req, res) {

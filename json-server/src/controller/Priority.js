@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const { priorities } = require('../config/constant');
+const { priorities } = require("../config/constant");
 
 class PriorityController {
   constructor(req, res) {

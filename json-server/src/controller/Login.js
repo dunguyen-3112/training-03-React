@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-require('dotenv').config();
-const jwt = require('jsonwebtoken');
-const User = require('../model/User');
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
+const User = require("../model/User");
 
 class LoginController {
   static refreshTokens = [];
@@ -13,19 +13,20 @@ class LoginController {
 
   async POST() {
     const date = new Date();
-    const route = this.req.path.split('/').at(-1);
+    const route = this.req.path.split("/").at(-1);
 
     // extract the refresh token from the request
     const authHeader = this.req.headers.authorization;
-    const token = authHeader && authHeader.split(' ')[1];
+    const token = authHeader && authHeader.split(" ")[1];
 
     let refreshToken;
     let accessToken;
 
-    if (route === 'logout') {
+    if (route === "logout") {
       LoginController.refreshTokens.pop(token);
       return this.res.sendStatus(200);
-    } if (route === 'token') {
+    }
+    if (route === "token") {
       accessToken = generateAccessToken({
         id: this.req.userId,
         date: date.getTime(),
@@ -40,7 +41,7 @@ class LoginController {
     if (user?.password !== password) {
       this.res.status(401);
       return this.res.json({
-        message: 'Login failed! You please check email or password ?',
+        message: "Login failed! You please check email or password ?",
       });
     }
 
@@ -49,7 +50,7 @@ class LoginController {
       { id: user.id, date: date.getTime() },
       process.env.REFRESH_TOKEN_SECRET,
       {
-        expiresIn: '30d',
+        expiresIn: "30d",
       },
     );
     LoginController.refreshTokens.push(refreshToken);
@@ -64,7 +65,7 @@ class LoginController {
 
 function generateAccessToken(user) {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: '15s',
+    expiresIn: "15s",
   });
 }
 

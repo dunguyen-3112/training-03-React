@@ -1,4 +1,4 @@
-const { itemsPerPage } = require('../config/constant');
+const { itemsPerPage } = require("../config/constant");
 
 function paginate(data) {
   const pages = [];

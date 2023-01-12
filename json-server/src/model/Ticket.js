@@ -1,9 +1,9 @@
 /* eslint-disable no-undef */
-const uuid = require('uuid');
-const { priorities, statuses } = require('../config/constant');
-const db = require('../data/db.json');
-const { isValidDate } = require('../services/validate');
-const saveChanges = require('./utils');
+const uuid = require("uuid");
+const { priorities, statuses } = require("../config/constant");
+const db = require("../data/db.json");
+const { isValidDate } = require("../services/validate");
+const saveChanges = require("./utils");
 
 class Ticket {
   constructor({
@@ -30,17 +30,14 @@ class Ticket {
     });
   }
 
-  compare({
-    name, dueDate, description, priority, status, assignBy,
-  }) {
-    return (
-      name === this.name
-            && description === this.description
-            && priority === this.priority
-            && status === this.status
-            && dueDate === this.dueDate
-            && assignBy === this.assignBy
-    );
+  compare({ name, dueDate, description, priority, status, assignBy }) {
+    const isCompare = name === this.name;
+    description === this.description &&
+      priority === this.priority &&
+      status === this.status &&
+      dueDate === this.dueDate &&
+      assignBy === this.assignBy;
+    return isCompare;
   }
 
   validate() {
@@ -58,44 +55,43 @@ class Ticket {
     const _dueDate = new Date(dueDate);
     const _createDate = new Date(createDate);
 
-    return (
-      name
-            && typeof name === 'string'
-            && name.trim().length > 0
-            && dueDate
-            && isValidDate(dueDate)
-            && _dueDate.toString() !== 'Invalid Date'
-            && _dueDate.getTime() > _createDate.getTime()
-            && _createDate.getTime() < new Date().getTime()
-            && description
-            && typeof description === 'string'
-            && description.trim().length > 0
-            && assignBy
-            && createDate
-            && isValidDate(createDate)
-            && priority
-            && priorities.includes(priority)
-            && status
-            && statuses.includes(status)
-            && createBy
-            && db.users.find((user) => user.id === createBy) !== null
-    );
+    const isValid = name;
+    typeof name === "string" &&
+      name.trim().length > 0 &&
+      dueDate &&
+      isValidDate(dueDate) &&
+      _dueDate.toString() !== "Invalid Date" &&
+      _dueDate.getTime() > _createDate.getTime() &&
+      _createDate.getTime() < new Date().getTime() &&
+      description &&
+      typeof description === "string" &&
+      description.trim().length > 0 &&
+      assignBy &&
+      createDate &&
+      isValidDate(createDate) &&
+      priority &&
+      priorities.includes(priority) &&
+      status &&
+      statuses.includes(status) &&
+      createBy &&
+      db.users.find((user) => user.id === createBy) !== null;
+    return isValid;
   }
 
   /**
-     * @param {string}
-     * @returns {Ticket}
-     */
+   * @param {string}
+   * @returns {Ticket}
+   */
   static async getById(id) {
     const ticket = await db.tickets.find((ticket) => ticket.id === id);
     return ticket;
   }
 
   /**
-     *
-     * @param {Ticket} param0
-     * @returns {Ticket}
-     */
+   *
+   * @param {Ticket} param0
+   * @returns {Ticket}
+   */
   static async add(ticket) {
     ticket = new Ticket({
       id: uuid.v4(),
@@ -107,10 +103,10 @@ class Ticket {
   }
 
   /**
-     *
-     * @param {Ticket} param0
-     * @returns {Ticket}
-     */
+   *
+   * @param {Ticket} param0
+   * @returns {Ticket}
+   */
   static async update(_ticket) {
     let ticket = db.tickets.find((ticket) => ticket.id === _ticket.id);
     const isChange = new Ticket(_ticket).compare(ticket);
@@ -123,9 +119,7 @@ class Ticket {
         createDate: ticket.createDate,
       };
 
-      db.tickets = db.tickets.filter(
-        (ticket) => ticket.id !== _ticket.id,
-      );
+      db.tickets = db.tickets.filter((ticket) => ticket.id !== _ticket.id);
       db.tickets.push(ticket);
 
       saveChanges(db);
@@ -135,10 +129,10 @@ class Ticket {
   }
 
   /**
-     *
-     * @param {string} id
-     * @returns {Ticket}
-     */
+   *
+   * @param {string} id
+   * @returns {Ticket}
+   */
   static async delete(id) {
     const ticket = db.tickets.find((ticket) => ticket.id === id);
 

@@ -1,10 +1,8 @@
 /* eslint-disable no-undef */
-const db = require('../data/db.json');
+const db = require("../data/db.json");
 
 class User {
-  constructor({
-    email, password, firstName, lastName, avatarUrl, role, id,
-  }) {
+  constructor({ email, password, firstName, lastName, avatarUrl, role, id }) {
     Object.assign(this, {
       email,
       password,
@@ -25,14 +23,14 @@ class User {
     return await db.users.find((user) => user.id === id);
   }
 
-    /**
+  /**
    *
    * @param {string} email
    * @returns User
    */
-    static async findUserByEmail(email) {
-      return await db.users.find((user) => user.email === email);
-    }
+  static async findUserByEmail(email) {
+    return await db.users.find((user) => user.email === email);
+  }
 
   /**
    *
@@ -42,8 +40,9 @@ class User {
   static async searchUser(query) {
     query = query.toLowerCase();
     const users = await db.users.filter(
-      (user) => user.lastName.toLowerCase().includes(query)
-        || user.firstName.toLowerCase().includes(query),
+      (user) =>
+        user.lastName.toLowerCase().includes(query) ||
+        user.firstName.toLowerCase().includes(query),
     );
     console.log(users);
     return users;

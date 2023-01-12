@@ -1,12 +1,11 @@
-/* eslint-disable no-undef */
-const jsonServer = require('json-server');
-require('dotenv').config();
-const jwt = require('jsonwebtoken');
-const LoginController = require('./controller/Login');
+const jsonServer = require("json-server");
+require("dotenv").config();
+const jwt = require("jsonwebtoken");
+const LoginController = require("./controller/Login");
 
-const routes = require('./routes');
+const routes = require("./routes");
 
-const fileName = 'src/data/db.json';
+const fileName = "src/data/db.json";
 
 const PORT = process.env.PORT || 3000;
 
@@ -23,22 +22,22 @@ server.use((req, res) => {
   routes(req, res);
 });
 
-server.use('/api/v1', router);
+server.use("/api/v1", router);
 
 server.listen(PORT, () => {
   console.log(`JSON Server is running on port ${PORT}`);
 });
 
 function authenticateToken(req, res) {
-  const route = req.path.split('/').at(-1);
+  const route = req.path.split("/").at(-1);
   // if route is login then pass authentication
-  if (route === 'login') return;
-  const SECRET = route === 'token' || route === 'logout'
-    ? process.env.REFRESH_TOKEN_SECRET
-    : process.env.ACCESS_TOKEN_SECRET;
+  if (route === "login") return;
+  const SECRET =    route === 'token' || route === 'logout'
+      ? process.env.REFRESH_TOKEN_SECRET
+      : process.env.ACCESS_TOKEN_SECRET;
 
   const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
+  const token = authHeader && authHeader.split(" ")[1];
   if (token == null) return res.sendStatus(401);
 
   jwt.verify(token, SECRET, (err, { id }) => {
