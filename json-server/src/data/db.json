@@ -1,0 +1,141 @@
+{
+  "users": [
+    {
+      "email": "anlinh@gmail.com",
+      "password": "1234",
+      "firstName": "An",
+      "lastName": "Linh",
+      "avatarUrl": "https://firebasestorage.googleapis.com/v0/b/react-my-example.appspot.com/o/12.png?alt=media&token=fa3462cd-96dc-4abf-bf8a-2c444266d0bc",
+      "role": "manager",
+      "id": "kAAXPaH"
+    },
+    {
+      "email": "anhvu@gmail.com",
+      "password": "1234",
+      "firstName": "Anh",
+      "lastName": "Vu",
+      "avatarUrl": "https://firebasestorage.googleapis.com/v0/b/react-my-example.appspot.com/o/3.png?alt=media&token=ccd72ac2-bf82-486a-a061-053469da01d1",
+      "role": "developer",
+      "id": "N974MRn"
+    },
+    {
+      "email": "lubo@gmail.com",
+      "password": "1234",
+      "firstName": "Bo",
+      "lastName": "Lu",
+      "avatarUrl": "https://firebasestorage.googleapis.com/v0/b/react-my-example.appspot.com/o/71.png?alt=media&token=2b32491b-26de-4a64-8e27-3de6f8d23dc4",
+      "role": "manager",
+      "id": "gf44343d"
+    },
+    {
+      "email": "anhHoa@gmail.com",
+      "password": "1234",
+      "firstName": "Hoa",
+      "lastName": "Le",
+      "avatarUrl": "https://firebasestorage.googleapis.com/v0/b/react-my-example.appspot.com/o/5.png?alt=media&token=3e876690-8df9-4bfe-9df6-9de13844f934",
+      "role": "developer",
+      "id": "32srgvbt"
+    }
+  ],
+  "tickets": [
+    {
+      "id": "3b3e0fe0-e8d2-4ff4-99d3-2e9e6b676776",
+      "name": "Ticket huu as33",
+      "dueDate": "2023-01-17",
+      "description": "There are many ways and perspectives to construct a wave animation. The fundamental idea focuses on simulating the physics of waves by animating the following properties",
+      "assignBy": "kAAXPaH",
+      "priority": 2,
+      "status": 1,
+      "createDate": "1/7/2023, 10:57:21 PM",
+      "createBy": "kAAXPaH"
+    },
+    {
+      "id": "9066ac4e-9754-4321-beb8-aabb2652de07",
+      "name": "Ticket huu 444",
+      "dueDate": "2023-01-18",
+      "description": "The following example will change both the background-color and the position of the <div> element when the animation is 25% complete, 50% complete, and again when the animation is 100% complete",
+      "assignBy": "kAAXPaH",
+      "priority": 1,
+      "status": 1,
+      "createDate": "1/7/2023, 10:57:21 PM",
+      "createBy": "kAAXPaH"
+    },
+    {
+      "id": "d2d06f01-6eaf-462e-a5d7-c8c6999e0681",
+      "name": "Bán Tủ lạnh",
+      "dueDate": "2023-05-14",
+      "description": "Cuối năm shop đang xả hàng giá chưa bằng 4 bửa ăn của mọi người",
+      "assignBy": "gf44343d",
+      "priority": 3,
+      "status": 2,
+      "createDate": "2023-01-11T14:06:34.872Z",
+      "createBy": "N974MRn"
+    },
+    {
+      "id": "a0cb92af-fd7c-4220-943c-1686679be548",
+      "name": "ddddddddddd",
+      "dueDate": "2023-01-31",
+      "description": "TIN VUI CHO CÁC DEVELOPER ĐANG TÌM VIỆC SAU TẾT",
+      "assignBy": "32srgvbt",
+      "priority": 1,
+      "status": 3,
+      "createDate": "2023-01-11T14:32:22.573Z",
+      "createBy": "N974MRn"
+    },
+    {
+      "id": "4ec5ac83-7af1-4dfc-91f7-6e3978b4b137",
+      "name": "Ticket huu as33",
+      "dueDate": "2023-01-19",
+      "description": "There are many ways and perspectives to construct a wave animation.",
+      "assignBy": "32srgvbt",
+      "priority": 2,
+      "status": 1,
+      "createDate": "1/7/2023, 10:57:21 PM",
+      "createBy": "N974MRn"
+    },
+    {
+      "id": "660acbf0-bd38-4e9d-962b-8c5e7a61f9fb",
+      "name": "fdfffewew",
+      "dueDate": "2023-01-17",
+      "description": "MLOpsVN team tạo ra ở đây, khoá học hiện đã được gần 1000 người đăng ký và may mắn nhận được nhiều phản hồi tích cực. ",
+      "assignBy": "N974MRn",
+      "priority": 1,
+      "status": 3,
+      "createDate": "2023-01-11T13:54:46.547Z",
+      "createBy": "N974MRn"
+    },
+    {
+      "id": "ce3eb273-2a84-497d-aa5f-79240d78ac0f",
+      "name": "Cần tuyển người",
+      "dueDate": "2023-05-08",
+      "description": "Cần tuyển người có kinh nghiệm code java, mảng game , để hợp tác, ib để biết chi tiết ạ , tiền bạc ko quan trọng",
+      "assignBy": "gf44343d",
+      "priority": 1,
+      "status": 1,
+      "createDate": "2023-01-11T14:12:06.903Z",
+      "createBy": "N974MRn"
+    },
+    {
+      "id": "71102493-2b36-4ee7-8702-267c31a5aa83",
+      "name": "Ticket huu 33312",
+      "dueDate": "2023-01-19",
+      "description": "The following example binds the \"example\" animation to the <div> element. The animation will last for 4 seconds, and it will gradually change the background-color of the <div> element from \"red\" to \"yellow\"",
+      "assignBy": "kAAXPa",
+      "priority": 2,
+      "status": 1,
+      "createDate": "1/7/2023, 10:57:21 PM",
+      "createBy": "N974MRn"
+    },
+    {
+      "id": "e583a59c-84a1-486a-becc-75171fb11bb0",
+      "name": "ssssssssssssssss",
+      "dueDate": "2023-01-23",
+      "description": "sssssssssssssssssssssssssssssssssssssssssss",
+      "assignBy": "kAAXPaH",
+      "priority": 1,
+      "status": 2,
+      "createDate": "2023-01-11T18:18:03.086Z",
+      "createBy": "N974MRn"
+    }
+  ]
+}
