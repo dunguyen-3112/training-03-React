@@ -2,9 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 
 function Pagination(props) {
-  return <span className="flex">
-
-  </span>;
+  return <span className="flex"></span>;
 }
 
 Pagination.propTypes = {};

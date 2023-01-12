@@ -18,7 +18,7 @@ export default function useFetch(url, options) {
       try {
         setLoading(true);
         const response = await API.get(url);
-        const data = response.data.data;
+        const data = response.data;
         setData(data);
         setLoading(false);
       } catch (error) {

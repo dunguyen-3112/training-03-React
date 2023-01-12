@@ -1,5 +1,7 @@
 export function validate(form, rules, onSubmit) {
-  const getParentSelector = function (element, parentSelector) {
+  const errors = {};
+
+  function getParentSelector(element, parentSelector) {
     parentSelector = parentSelector.replace(".", "");
     while (element) {
       let className = element.className.split(" ")[0];
@@ -7,9 +9,9 @@ export function validate(form, rules, onSubmit) {
       element = element.parentElement;
     }
     return null;
-  };
+  }
 
-  const validator = () => {
+  function validator() {
     for (const rule of rules) {
       const element = form[rule.selector];
       const parent = getParentSelector(element, rule.parentSelector);
@@ -17,51 +19,77 @@ export function validate(form, rules, onSubmit) {
       const fieldRules = rule.rules;
       for (const fieldRule of fieldRules) {
         let value = element.value;
-
         if (!fieldRule.validator(value)) {
           elementMessage.innerHTML = fieldRule.message;
           errors[rule.selector] = true;
-          elementMessage.classList.add("invalid");
+          parent.classList.add("invalid");
         }
       }
     }
-  };
-
-  const errors = {};
-
-  for (const rule of rules) {
-    const element = form[rule.selector];
-    const parent = getParentSelector(element, rule.parentSelector);
-    const elementMessage = parent.querySelector(rule.messageSelector);
-    element.addEventListener("blur", () => {
-      const fieldRules = rule.rules;
-      for (const fieldRule of fieldRules) {
-        const value = element.value;
-
-        if (!fieldRule.validator(value)) {
-          elementMessage.innerHTML = fieldRule.message;
-          errors[rule.selector] = true;
-          elementMessage.classList.add("invalid");
-          break;
-        }
-        elementMessage.innerHTML = "";
-        errors[rule.selector] = false;
-        elementMessage.classList.remove("invalid");
-      }
-    });
-
-    element.addEventListener("keydown", () => {
-      elementMessage.innerHTML = "";
-      errors[rule.selector] = false;
-      elementMessage.classList.remove("invalid");
-    });
   }
 
-  form.addEventListener("submit", (event) => {
+  function handleBlur(event) {
+    const element = event.target;
+    const fieldRules = element.rules;
+    for (const fieldRule of fieldRules) {
+      const value = element.value;
+
+      if (!fieldRule.validator(value)) {
+        element.elementMessage.innerHTML = fieldRule.message;
+        errors[element.name] = true;
+        element.parent.classList.add("invalid");
+        break;
+      }
+      element.elementMessage.innerHTML = "";
+      errors[element.name] = false;
+      element.parent.classList.remove("invalid");
+    }
+  }
+
+  function handleKeydown(event) {
+    const element = event.target;
+    element.elementMessage.innerHTML = "";
+    errors[element.name] = false;
+    element.parent.classList.remove("invalid");
+  }
+
+  function initEvents() {
+    form.addEventListener("submit", handleSubmit);
+    for (const rule of rules) {
+      const element = form[rule.selector];
+      element.parent = getParentSelector(element, rule.parentSelector);
+      element.elementMessage = element.parent.querySelector(
+        rule.messageSelector
+      );
+      element.rules = rule.rules;
+      element.addEventListener("blur", handleBlur);
+      element.addEventListener("keydown", handleKeydown);
+    }
+  }
+
+  function destroyEvents() {
+    form.removeEventListener("submit", handleSubmit);
+    for (const rule of rules) {
+      const element = form[rule.selector];
+      element.parent = getParentSelector(element, rule.parentSelector);
+      element.elementMessage = element.parent.querySelector(
+        rule.messageSelector
+      );
+      element.rules = rule.rules;
+      element.removeEventListener("blur", handleBlur);
+      element.removeEventListener("keydown", handleKeydown);
+    }
+  }
+
+  function handleSubmit(event) {
     event.preventDefault();
     validator();
     Object.values(errors).every((item) => item === false) && onSubmit();
-  });
+  }
+
+  initEvents();
+
+  return () => destroyEvents();
 }
 /**
  *

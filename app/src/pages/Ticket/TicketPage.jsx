@@ -1,48 +1,53 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 import classes from "./TicketPage.module.sass";
 import { TicketRow } from "./TicketRow";
 import { Button } from "../../components/Uis/Button";
 import { FilterIcon, NewIcon, SortIcon } from "../../components/Uis/Icon";
-import { useNavigate } from "react-router-dom";
 import { useFetch } from "../../hooks";
 import ContextProvider from "../../context/Context";
 import Alert from "../../components/Uis/Alert/Alert";
 import * as API from "../../utils/api";
-import { TICKET_ROUTE } from "../../constants/routes";
-import { useEffect } from "react";
+import {
+  EDIT_TICKET_ROUTE,
+  PRIORIRY_ROUTE,
+  STATUS_ROUTE,
+  TICKET_ROUTE,
+} from "../../constants/routes";
 
 export default function TicketPage() {
-  const [loading, _tickets, error] = useFetch("/tickets");
-  const [loading1, statuses, error1] = useFetch("/statuses");
-  const [loading2, priorities, error2] = useFetch("/priorities");
+  const [loading1, statuses, error1] = useFetch(STATUS_ROUTE);
+  const [loading2, priorities, error2] = useFetch(PRIORIRY_ROUTE);
+  const [loading, tickets, error] = useFetch(TICKET_ROUTE);
 
-  const [tickets, setTickets] = useState(_tickets);
-  const [isDelete, setIsDelete] = useState();
-
-  useEffect(() => {
-    setTickets(_tickets);
-  }, [_tickets]);
+  const [indexDelete, setIndexDelete] = useState();
+  const [listTicket, setListTicket] = useState(tickets);
 
   const handleDelete = useCallback(
     async (status) => {
       if (status > 0) {
-        const response = await API.remove(`${TICKET_ROUTE}/${isDelete}`);
+        const response = await API.remove(`${TICKET_ROUTE}/${indexDelete}`);
         if (response.status == 200) {
-          const tTickets = tickets.filter((ticket) => ticket.id !== isDelete);
-          setTickets(tTickets);
-          setIsDelete(undefined);
           alert("Success to delete!");
+          setListTicket((listTicket) =>
+            listTicket.filter((ticket) => ticket.id !== indexDelete)
+          );
+          setIndexDelete(undefined);
           return;
         }
         alert("Error to delete");
       }
-      setIsDelete(undefined);
+      setIndexDelete(undefined);
     },
-    [isDelete]
+    [indexDelete]
   );
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setListTicket(tickets);
+  }, [tickets]);
 
   localStorage.setItem("priorities", JSON.stringify(priorities));
   localStorage.setItem("statuses", JSON.stringify(statuses));
@@ -90,22 +95,20 @@ export default function TicketPage() {
             </tr>
           </thead>
           <tbody>
-            {tickets &&
-              tickets.length > 0 &&
-              tickets.map((ticket, index) => {
-                return (
-                  <TicketRow
-                    index={index}
-                    key={ticket.id}
-                    ticket={ticket}
-                    onEdit={() => navigate(`/tickets/edit_ticket/${ticket.id}`)}
-                    onDelete={() => setIsDelete(ticket.id)}
-                  />
-                );
-              })}
+            {listTicket?.map((ticket, index) => {
+              return (
+                <TicketRow
+                  index={index}
+                  key={ticket.id}
+                  ticket={ticket}
+                  onEdit={() => navigate(`${EDIT_TICKET_ROUTE}/${ticket.id}`)}
+                  onDelete={() => setIndexDelete(ticket.id)}
+                />
+              );
+            })}
           </tbody>
         </table>
-        {isDelete !== undefined && (
+        {indexDelete !== undefined && (
           <Alert
             title="Are you sure you want to delete this ticket?"
             message="If you do not want to delete this ticket please select Confirm, to return please Cancel."

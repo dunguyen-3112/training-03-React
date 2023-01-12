@@ -14,8 +14,16 @@ form
         align-items: stretch
         text-align: left
         gap: 6px
-        span> span:first-child ,>span
-        text-transform: uppercase
+        span> span:first-child>span
+            text-transform: uppercase
+        &.invalid
+          .form-message
+            color: v.$red-color
+            font-weight: v.$font-weight-bold
+            font-size: v.$font-size-s
+          .form-control
+            border: 1px solid v.$red-color
+            box-shadow: 0 0 2px rgba(255, 38, 0, 0.502)
         .form-label__title
             font-weight: v.$font-weight-bold
             font-size: v.$font-size-xs
@@ -51,7 +59,3 @@ form
             bottom: 11px
             right: 16px
             cursor: pointer
-        .form-message
-            color: v.$red-color
-            font-weight: v.$font-weight-bold
-            font-size: v.$font-size-s

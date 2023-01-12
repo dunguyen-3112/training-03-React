@@ -1,12 +1,16 @@
 .flex
     display: flex
-    justify-content: flex-start
-    align-items: center
+    justify-content: space-between
     flex-wrap: wrap
     &-col
         flex-direction: column
         justify-content: center
     &[data-gap]
         gap: attr(data-gap)
+table
+    tr
+        td
+            .flex
+                justify-content: flex-start
     
     

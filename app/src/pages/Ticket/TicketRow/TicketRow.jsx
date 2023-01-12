@@ -19,9 +19,6 @@ const TicketRow = ({ ticket, onEdit, onDelete }) => {
 
   const handleMouseleave = () => setIsActive(false);
 
-  const url =
-    ticket.customerAvatar ||
-    "https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg";
   return (
     <tr
       key={ticket.id}
@@ -30,7 +27,14 @@ const TicketRow = ({ ticket, onEdit, onDelete }) => {
     >
       <td className={classes.tdata}>
         <div className="flex" style={{ gap: "24px" }}>
-          <img className={classes.avatar} src={url} alt="avatar" />
+          <img
+            className={classes.avatar}
+            src={
+              ticket.customerAvatar ||
+              "https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg"
+            }
+            alt="avatar"
+          />
           <div className={classes["tdata-content"]}>
             <span className={classes["tdata__title"]}>
               {ticket.description.length > 100
@@ -57,8 +61,8 @@ const TicketRow = ({ ticket, onEdit, onDelete }) => {
         </div>
       </td>
       <td className={classes.tdata}>
-        <span className={classes.priority} data-id={ticket.priority}>
-          {priorities.find((item) => item.value === ticket.priority).text}
+        <span className={classes.priority} data-id={ticket.priority - 1}>
+          {priorities.find((item) => item.value === ticket.priority)?.text}
         </span>
       </td>
       <td className={classes.tdata}>

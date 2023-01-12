@@ -9,6 +9,7 @@ import { routes } from "../../routes/routes";
 import { Context } from "../../context/Context";
 import { Search } from "../../components/Forms/Search";
 import * as API from "../../utils/api";
+import { useCallback } from "react";
 
 const NavBar = ({ handleLogout }) => {
   const [isActive, setIsActive] = useState(false);
@@ -24,11 +25,11 @@ const NavBar = ({ handleLogout }) => {
     setIsSearch((prev) => !prev);
   };
 
-  const handleSearch = async (query) => {
+  const handleSearch = useCallback(async (query) => {
     const response = await API.get(`/tickets?_ticket_name=${query}`);
     const results = response.data;
     return results;
-  };
+  }, []);
 
   if (isSearch && searchRef.current) searchRef.current.focus();
 
@@ -65,11 +66,11 @@ const NavBar = ({ handleLogout }) => {
         >
           <h3 className={classes["userName"]}>{`${user.name}`}</h3>
           <figure className={classes.avatar}>
-            <img src={user.avatarUrl} alt="avatar" />
+            <img src={user.avatar} alt="avatar" />
           </figure>
           <Modal active={isActive}>
             <Button outline>
-              <img src={user.avatarUrl} alt="avatar" width={20} />
+              <img src={user.avatar} alt="avatar" width={20} />
               <span className={classes["menu__item__title"]}>Profile</span>
             </Button>
             <Button outline onClick={handleLogout}>

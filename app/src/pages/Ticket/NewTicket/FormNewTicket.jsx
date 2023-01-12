@@ -1,68 +1,90 @@
 import React, {
-  useRef,
+  useState,
   useEffect,
   useContext,
-  useState,
+  useRef,
   memo,
   useCallback,
 } from "react";
+import { PropTypes } from "prop-types";
 import { useNavigate } from "react-router-dom";
 
 import { Input } from "../../../components/Forms/Input";
 import { DropDown } from "../../../components/Forms/DropDown";
 import { TextReal } from "../../../components/Forms/TextArea";
-import { getFormData } from "../../../utils/form";
-import { validate } from "../../../utils/validate";
-import { Button } from "../../../components/Uis/Button";
 import classes from "../TicketPage.module.sass";
+import { getDateISOSString } from "../../../helpers/date";
+import { Button } from "../../../components/Uis/Button";
 import { Context } from "../../../context/Context";
-import * as API from "../../../utils/api";
+import { validate } from "../../../utils/validate";
+import { getFormData } from "../../../utils/form";
 import { Search } from "../../../components/Forms/Search";
+import * as API from "../../../utils/api";
+import { CREATED_SUCCESS, OK } from "../../../constants/statusCodes";
+import { TICKET_ROUTE, USERS_ROUTE } from "../../../constants/routes";
 import { useFetch } from "../../../hooks";
 
 function FormNewTicket() {
-  const formRef = useRef(null);
-  const navigate = useNavigate();
-  const [user, setUser] = useState();
   const [ticket, setTicket] = useState();
-  const [loading1, data1, error1] = useFetch(`/users/${ticket?.assignBy}`);
+  const [loading, userCurent, error] = useFetch(
+    `${USERS_ROUTE}/${ticket?.assignBy}`
+  );
+  const formRef = useRef(null);
+  const [user, setUser] = useState();
 
   let { statuses, priorities } = useContext(Context);
   statuses = statuses || JSON.parse(localStorage.getItem("statuses"));
   priorities = priorities || JSON.parse(localStorage.getItem("priorities"));
-
-  const handleNew = useCallback(() => {
-    const formData = getFormData(formRef.current);
-    console.log(formData);
-  }, []);
-
-  const handleSelect = useCallback(
-    (id) => {
-      setTicket({ ...ticket, assignBy: id });
-    },
-    [ticket]
-  );
+  const navigate = useNavigate();
 
   const handleSearchUsers = useCallback(async (query) => {
-    const response = await API.get(`/users?_query=${query}`);
-    const users = response.data.data;
-    console.log("123");
+    const response = await API.get(`${USERS_ROUTE}?_query=${query}`);
+    const users = response.data;
     return users;
   }, []);
 
-  useEffect(() => {
-    setUser(data1);
-  }, [ticket, user, data1]);
+  useEffect(() => setUser(userCurent), [userCurent, error, loading]);
+
+  const handleSelect = useCallback(
+    (id) => setTicket({ ...ticket, assignBy: id }),
+    [ticket]
+  );
+
+  const handleNew = useCallback(async () => {
+    const { name, assign_by, priority, status, description, due_date } =
+      getFormData(formRef.current);
+
+    const data = {
+      name,
+      priority,
+      assignBy: assign_by,
+      status,
+      description,
+      dueDate: due_date,
+    };
+
+    const response = await API.create(TICKET_ROUTE, data);
+    if (response.status === CREATED_SUCCESS) {
+      console.log("Success created tickets");
+      return;
+    }
+    console.log("Error create tickets");
+  }, []);
+
+  const ruleAssignBy = useCallback(async (id) => {
+    const response = await API.get(`${USERS_ROUTE}/${id}`);
+    if (response.status !== OK) return false;
+    const user = response.data;
+    return user !== undefined;
+  }, []);
 
   useEffect(() => {
+    console.log("re-rendering...");
     const form = formRef.current;
-    console.log(form);
-    if (form) {
-      console.log("re-rendering...");
-      const formData = getFormData(form);
-
-      if (formData) {
-        validate(
+    return () => {
+      console.log(form);
+      if (form)
+        return validate(
           form,
           [
             {
@@ -77,6 +99,17 @@ function FormNewTicket() {
                 {
                   validator: (value) => validate.minLength(value, 6),
                   message: "Name min length is 6 characters!",
+                },
+              ],
+            },
+            {
+              selector: "assign_by",
+              parentSelector: ".form-group",
+              messageSelector: ".form-message",
+              rules: [
+                {
+                  validator: (value) => ruleAssignBy(value),
+                  message: "Assign By is required",
                 },
               ],
             },
@@ -135,9 +168,8 @@ function FormNewTicket() {
           ],
           handleNew
         );
-      }
-    }
-  }, [formRef]);
+    };
+  }, [formRef.current]);
 
   return (
     <div className={classes["form__ticket"]}>
@@ -149,24 +181,24 @@ function FormNewTicket() {
             message=""
             placeholder=""
             type="text"
-            tabIndex={1}
             onChange={(event) =>
               setTicket({ ...ticket, name: event.target.value })
             }
+            tabIndex={1}
           />
           <Input
             title="Due Date"
-            value={ticket?.dueDate || "2022-01-01"}
+            value={getDateISOSString(ticket?.dueDate || "2022-01-01")}
             message=""
             placeholder=""
             type="date"
-            tabIndex={2}
             onChange={(event) =>
               setTicket({
                 ...ticket,
                 dueDate: event.target.value,
               })
             }
+            tabIndex={2}
           />
         </span>
         <span className={classes["form-row"]}>
@@ -176,13 +208,13 @@ function FormNewTicket() {
             message=""
             placeholder=""
             type="text"
-            tabIndex={3}
             onChange={(event) =>
               setTicket({
                 ...ticket,
                 assignBy: event.target.value,
               })
             }
+            tabIndex={2}
           />
         </span>
         <span className={classes["form-row"]}>
@@ -198,7 +230,7 @@ function FormNewTicket() {
           <DropDown
             title="Priority"
             options={priorities}
-            value={ticket?.priority}
+            value={ticket?.priority || 0}
             onChange={(event) =>
               setTicket({
                 ...ticket,
@@ -222,11 +254,11 @@ function FormNewTicket() {
           />
         </span>
         <span className={classes["nav__action"]}>
-          <Button type="submit" tabIndex={6}>
+          <Button tabIndex={6} type="submit">
             <span className={classes["item__title"]}>Save</span>
           </Button>
-          <Button onClick={() => navigate("/tickets")} tabIndex={7}>
-            <span className={classes["item__title"]}>Cancel</span>
+          <Button onClick={() => navigate("/tickets")} tabIndex={6}>
+            <span className={classes["item__title"]}>Back</span>
           </Button>
         </span>
       </form>
@@ -244,13 +276,15 @@ function FormNewTicket() {
             }
             alt=""
           />
-          <figcaption>{data1?.name || ""}</figcaption>
+          <figcaption>{user?.name || ""}</figcaption>
         </figure>
       </div>
     </div>
   );
 }
 
-FormNewTicket.propTypes = {};
+FormNewTicket.propTypes = {
+  onSubmit: PropTypes.func,
+};
 
 export default memo(FormNewTicket);

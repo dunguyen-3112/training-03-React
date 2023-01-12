@@ -10,20 +10,24 @@ import { HandleLogin } from "../../services/auth";
 import axios from "axios";
 
 import { useNavigate } from "react-router-dom";
+import { OK } from "../../constants/statusCodes";
 
 export default function LoginPage({ onLogin }) {
   const navigate = useNavigate();
 
   const handleLogin = async (email, password) => {
-    const accessToken = await HandleLogin(email, password);
-    const response = await axios.get(`${API_ENDPOINT}/users`, {
+    const responseLogin = await HandleLogin(email, password);
+    if (responseLogin.status !== OK) return navigate("/not_found");
+    const data = responseLogin.data;
+    localStorage.setItem("refresh_token", data.refreshToken);
+    const response = await axios.get(`${API_ENDPOINT}/users/${data.id}`, {
       headers: {
-        Authorization: `Bearer ${accessToken}`,
+        Authorization: `Bearer ${data.accessToken}`,
       },
     });
 
-    const data = response.data;
-    localStorage.setItem("user", JSON.stringify(data));
+    const data1 = response.data;
+    localStorage.setItem("user", JSON.stringify(data1));
     onLogin ? onLogin() : navigate("/tickets");
   };
 

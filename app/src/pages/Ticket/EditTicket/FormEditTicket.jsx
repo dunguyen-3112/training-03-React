@@ -12,7 +12,6 @@ import { useNavigate } from "react-router-dom";
 import { Input } from "../../../components/Forms/Input";
 import { DropDown } from "../../../components/Forms/DropDown";
 import { TextReal } from "../../../components/Forms/TextArea";
-import { useFetch } from "../../../hooks";
 import classes from "../TicketPage.module.sass";
 import { getDateISOSString } from "../../../helpers/date";
 import { Button } from "../../../components/Uis/Button";
@@ -21,12 +20,16 @@ import { validate } from "../../../utils/validate";
 import { getFormData } from "../../../utils/form";
 import { Search } from "../../../components/Forms/Search";
 import * as API from "../../../utils/api";
+import { OK } from "../../../constants/statusCodes";
+import { useFetch } from "../../../hooks";
+import { USERS_ROUTE } from "../../../constants/routes";
 
-function FormEditTicket({ ticketId }) {
-  const [loading, data, error] = useFetch(`/tickets?_ticketId=${ticketId}`);
+function FormEditTicket({ data }) {
   const [ticket, setTicket] = useState(data);
+  const [loading, userCurent, error] = useFetch(
+    `${USERS_ROUTE}/${ticket.assignBy}`
+  );
   const formRef = useRef(null);
-  const [loading1, data1, error1] = useFetch(`/users/${ticket?.assignBy}`);
   const [user, setUser] = useState();
 
   let { statuses, priorities } = useContext(Context);
@@ -34,30 +37,23 @@ function FormEditTicket({ ticketId }) {
   priorities = priorities || JSON.parse(localStorage.getItem("priorities"));
   const navigate = useNavigate();
 
-  useEffect(() => {
-    setTicket(data);
-  }, [data, loading, error]);
-
-  useEffect(() => {
-    setUser(data1);
-  }, [data1, loading1, error1, ticket, user]);
-
   const handleSearchUsers = useCallback(async (query) => {
     const response = await API.get(`/users?_query=${query}`);
-    const users = response.data.data;
+    const users = response.data;
     return users;
   }, []);
 
+  useEffect(() => setUser(userCurent), [userCurent, error, loading]);
+
   const handleSelect = useCallback(
-    (id) => {
-      setTicket({ ...ticket, assignBy: id });
-    },
+    (id) => setTicket({ ...ticket, assignBy: id }),
     [ticket]
   );
 
   const handleEdit = useCallback(async () => {
     const { name, assign_by, priority, id, status, description, due_date } =
       getFormData(formRef.current);
+
     const data = {
       name,
       id,
@@ -67,8 +63,9 @@ function FormEditTicket({ ticketId }) {
       description,
       dueDate: due_date,
     };
+
     const response = await API.update(`/tickets/${id}`, data);
-    if (response.status === 200) {
+    if (response.status === OK) {
       console.log("Success updating tickets");
       return;
     }
@@ -77,10 +74,10 @@ function FormEditTicket({ ticketId }) {
 
   useEffect(() => {
     const form = formRef.current;
-    if (form) {
-      const formData = getFormData(form);
-      if (formData) {
-        validate(
+    return () => {
+      console.log(form);
+      if (form)
+        return validate(
           form,
           [
             {
@@ -95,6 +92,17 @@ function FormEditTicket({ ticketId }) {
                 {
                   validator: (value) => validate.minLength(value, 6),
                   message: "Name min length is 6 characters!",
+                },
+              ],
+            },
+            {
+              selector: "assign_by",
+              parentSelector: ".form-group",
+              messageSelector: ".form-message",
+              rules: [
+                {
+                  validator: () => user !== undefined,
+                  message: "Assign By is required",
                 },
               ],
             },
@@ -153,25 +161,23 @@ function FormEditTicket({ ticketId }) {
           ],
           handleEdit
         );
-      }
-    }
-  }, [formRef, handleEdit, data]);
+    };
+  }, [formRef.current]);
 
-  if (loading || ticket === null)
+  useEffect(() => {
+    setTicket(data);
+  }, [data]);
+
+  if (ticket === null)
     return (
       <div>
         <p>Loading...</p>
       </div>
     );
-  if (
-    error ||
-    ticket === null ||
-    statuses === undefined ||
-    priorities === undefined
-  )
+  if (ticket === null || statuses === undefined || priorities === undefined)
     return (
       <div>
-        <p>{error.message}</p>
+        <p>Error...</p>
       </div>
     );
   return (
@@ -180,7 +186,7 @@ function FormEditTicket({ ticketId }) {
         <span className={classes["form-row"]}>
           <Input
             title="Name"
-            value={`${ticket?.name}`}
+            value={ticket?.name || ""}
             message=""
             placeholder=""
             type="text"
@@ -191,7 +197,7 @@ function FormEditTicket({ ticketId }) {
           />
           <Input
             title="Due Date"
-            value={getDateISOSString(ticket?.dueDate)}
+            value={getDateISOSString(ticket?.dueDate || "2000-01-01")}
             message=""
             placeholder=""
             type="date"
@@ -207,7 +213,7 @@ function FormEditTicket({ ticketId }) {
         <span className={classes["form-row"]}>
           <Input
             title="Create Date"
-            value={getDateISOSString(ticket?.createDate)}
+            value={getDateISOSString(ticket?.createDate || "2000-01-01")}
             message=""
             placeholder=""
             type="date"
@@ -222,7 +228,7 @@ function FormEditTicket({ ticketId }) {
           />
           <Input
             title="Assign By"
-            value={ticket?.assignBy}
+            value={ticket?.assignBy || ""}
             message=""
             placeholder=""
             type="text"
@@ -239,7 +245,7 @@ function FormEditTicket({ ticketId }) {
           <DropDown
             title="Status"
             options={statuses}
-            value={ticket?.status}
+            value={ticket?.status || 0}
             onChange={(event) =>
               setTicket({ ...ticket, status: event.target.value })
             }
@@ -248,7 +254,7 @@ function FormEditTicket({ ticketId }) {
           <DropDown
             title="Priority"
             options={priorities}
-            value={ticket?.priority}
+            value={ticket?.priority || 0}
             onChange={(event) =>
               setTicket({
                 ...ticket,
@@ -261,7 +267,7 @@ function FormEditTicket({ ticketId }) {
         <span className={classes["form-row"]}>
           <TextReal
             title="Description"
-            value={ticket?.description}
+            value={ticket?.description || ""}
             onChange={(event) =>
               setTicket({
                 ...ticket,
@@ -294,7 +300,7 @@ function FormEditTicket({ ticketId }) {
             }
             alt=""
           />
-          <figcaption>{data1?.name || ""}</figcaption>
+          <figcaption>{user?.name || ""}</figcaption>
         </figure>
       </div>
     </div>
@@ -303,7 +309,7 @@ function FormEditTicket({ ticketId }) {
 
 FormEditTicket.propTypes = {
   onSubmit: PropTypes.func,
-  ticketId: PropTypes.string,
+  data: PropTypes.object,
 };
 
 export default memo(FormEditTicket);
