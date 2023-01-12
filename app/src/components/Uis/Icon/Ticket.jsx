@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { memo } from "react";
 
 function TicketIcon({ active }) {
   return (
@@ -22,4 +23,4 @@ TicketIcon.propTypes = {
   active: PropTypes.bool,
 };
 
-export default TicketIcon;
+export default memo(TicketIcon);

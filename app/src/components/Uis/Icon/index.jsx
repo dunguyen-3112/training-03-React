@@ -8,13 +8,14 @@ import ArticlesIcon from "./Articles";
 import ContactIcon from "./Contact";
 import TicketIcon from "./Ticket";
 import SubscriptionIcon from "./Subscription";
-import EditImage from "../../../assets/images/Edit.svg";
-import DeleteImage from "../../../assets/images/Trash.svg";
-import ViewImage from "../../../assets/images/View.svg";
-import NewImage from "../../../assets/images/New.svg";
-import SortImage from "../../../assets/images/Sort.svg";
-import FilterImage from "../../../assets/images/Filter.svg";
-import SearchImage from "../../../assets/images/Search.svg";
+
+import EditImage from "@assets/images/Edit.svg";
+import DeleteImage from "@assets/images/Trash.svg";
+import ViewImage from "@assets/images/View.svg";
+import NewImage from "@assets/images/New.svg";
+import SortImage from "@assets/images/Sort.svg";
+import FilterImage from "@assets/images/Filter.svg";
+import SearchImage from "@assets/images/Search.svg";
 
 export const EditIcon = () => <img src={EditImage} />;
 export const DeleteIcon = () => <img src={DeleteImage} />;

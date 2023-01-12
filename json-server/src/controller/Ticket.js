@@ -32,7 +32,9 @@ class TicketController {
       const data = TicketsModel.tickets.filter((ticket) =>
         ticket.name.includes(_ticket_name),
       );
-      return this.res.json(data);
+      const temp = data.map(({ id, name }) => ({ id, name }));
+      console.log(data);
+      return this.res.json(temp);
     }
 
     data = await TicketsModel.getAll();

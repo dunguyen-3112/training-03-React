@@ -1,8 +1,8 @@
 import axios from "axios";
 
-import { API_ENDPOINT } from "../constants/api";
-import * as methods from "../constants/methods";
-import { BAD_REQUEST, OK } from "../constants/statusCodes";
+import { API_ENDPOINT } from "@constants/api";
+import * as methods from "@constants/methods";
+import { BAD_REQUEST, OK } from "@constants/statusCodes";
 
 export async function makeRequest(method, path, data) {
   try {

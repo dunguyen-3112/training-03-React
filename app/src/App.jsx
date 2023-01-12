@@ -1,13 +1,14 @@
-import { React, useState, useEffect } from "react";
-import "./App.css";
-import ContextProvider from "./context/Context";
-import { Navbar } from "./layouts/Navbar";
-import SideBar from "./layouts/Sidebar/SideBar";
-
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { routes } from "./routes/routes";
-import { LoginPage } from "./pages/Login";
-import { HandleLogout } from "./services/auth";
+import { React, useState, useEffect } from "react";
+
+import "./App.css";
+import ContextProvider from "@context/ContextProvider";
+import Navbar from "@layouts/Navbar";
+import SideBar from "@layouts/Sidebar";
+
+import { routes } from "@routes";
+import LoginPage from "@src/pages/LoginPage";
+import { HandleLogout } from "@services/auth";
 
 function App() {
   const [isAuthentication, setIsAuthentication] = useState(false);

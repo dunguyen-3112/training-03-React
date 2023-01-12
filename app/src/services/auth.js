@@ -1,5 +1,5 @@
 import axios from "axios";
-import { API_ENDPOINT } from "../constants/api";
+import { API_ENDPOINT } from "@constants/api";
 
 export async function HandleLogin(username, password) {
   const response = await axios.post(`${API_ENDPOINT}/login`, {
