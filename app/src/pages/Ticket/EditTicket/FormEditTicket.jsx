@@ -101,7 +101,7 @@ function FormEditTicket({ data }) {
               messageSelector: ".form-message",
               rules: [
                 {
-                  validator: () => user !== undefined,
+                  validator: () => { console.log(userCurent); return userCurent !== undefined },
                   message: "Assign By is required",
                 },
               ],
