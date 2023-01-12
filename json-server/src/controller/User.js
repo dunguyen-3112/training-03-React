@@ -23,13 +23,14 @@ class UserController {
     const id = this.req.path.split("/users/").at(-1);
     if (id) {
       let user = await User.findUserById(id);
+      console.log("ID: ", user);
       if (user) {
         user = {
           name: `${user.firstName} ${user.lastName}`,
           avatar: user.avatarUrl,
           id: user.id,
           email: user.email,
-          password: jwt.sign(user.password, process.env.PASSWORD_SECRET),
+          password: jwt.sign(user.password, process.env.PASSWORD_TOKEN_SECRET),
         };
         return this.res.json(user);
       }
