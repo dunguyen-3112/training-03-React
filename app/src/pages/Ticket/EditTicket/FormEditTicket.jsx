@@ -64,6 +64,8 @@ function FormEditTicket({ data }) {
       dueDate: due_date,
     };
 
+    console.log(data);
+
     const response = await API.update(`/tickets/${id}`, data);
     if (response.status === OK) {
       console.log("Success updating tickets");

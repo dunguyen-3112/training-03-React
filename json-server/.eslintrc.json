@@ -19,12 +19,10 @@
   "plugins": ["prettier"],
   "rules": {
     "prettier/prettier": "error",
-    "no-unused-vars": "warn",
-    "no-console": "off",
-    "func-names": "off",
-    "no-process-exit": "off",
-    "class-methods-use-this": "off",
-    "eqeqeq": "error",
-    "semi": "warn"
+    // "no-unused-vars": "warn",
+    // "no-console": "off",
+    // "func-names": "off",
+    // "no-process-exit": "off",
+    // "class-methods-use-this": "off"
   }
 }

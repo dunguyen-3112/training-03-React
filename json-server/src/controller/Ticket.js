@@ -88,7 +88,6 @@ class TicketController {
   async PUT() {
     const { status, priority, name, description, assignBy, dueDate, id } =
       this.req.body;
-
     const ticket = await TicketModel.update({
       assignBy,
       description,
@@ -120,20 +119,20 @@ class TicketController {
     const combineData = async (item) => {
       const user = await User.findUserById(item.assignBy);
       if (user === undefined) return;
-      item = {
+      const tItem = {
         ...item,
         customerAvatar: user.avatarUrl || "",
         customerName: `${user.firstName} ${user.lastName}`,
       };
-      return item;
+      return tItem;
     };
 
     data =
       Array.from(data).length > 0
-      ? (await Promise.all(data.map((item) => combineData(item)))).filter(
+        ? (await Promise.all(data.map((item) => combineData(item)))).filter(
             (item) => item !== undefined,
           )
-      : (data = combineData(data));
+        : (data = combineData(data));
     return data;
   }
 }

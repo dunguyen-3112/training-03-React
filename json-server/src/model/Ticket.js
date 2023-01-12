@@ -31,12 +31,14 @@ class Ticket {
   }
 
   compare({ name, dueDate, description, priority, status, assignBy }) {
-    const isCompare = name === this.name;
-    description === this.description &&
+    const isCompare =
+      name === this.name &&
+      description === this.description &&
       priority === this.priority &&
       status === this.status &&
       dueDate === this.dueDate &&
       assignBy === this.assignBy;
+
     return isCompare;
   }
 
@@ -107,25 +109,26 @@ class Ticket {
    * @param {Ticket} param0
    * @returns {Ticket}
    */
-  static async update(_ticket) {
-    let ticket = db.tickets.find((ticket) => ticket.id === _ticket.id);
-    const isChange = new Ticket(_ticket).compare(ticket);
+  static async update(data) {
+    let ticketCurrent = db.tickets.find((ticket) => ticket.id === data.id);
+    const isChange = new Ticket(data).compare(ticketCurrent);
 
     if (!isChange) {
-      ticket = {
-        ...ticket,
-        ..._ticket,
-        createBy: ticket.createBy,
-        createDate: ticket.createDate,
+      console.log("change");
+      ticketCurrent = {
+        ...ticketCurrent,
+        ...data,
+        createBy: ticketCurrent.createBy,
+        createDate: ticketCurrent.createDate,
       };
 
-      db.tickets = db.tickets.filter((ticket) => ticket.id !== _ticket.id);
-      db.tickets.push(ticket);
+      db.tickets = db.tickets.filter((ticket) => ticket.id !== data.id);
+      db.tickets.push(ticketCurrent);
 
       saveChanges(db);
     }
 
-    return ticket;
+    return ticketCurrent;
   }
 
   /**
