@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const { priorities } = require("../config/constant");
+const { priorities } = require('../config/constant');
 
 class PriorityController {
   constructor(req, res) {
@@ -12,7 +12,7 @@ class PriorityController {
       value: index + 1,
       text: item,
     }));
-    return this.res.json({ data });
+    return this.res.json(data);
   }
 }
 

@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
-const User = require("../model/User");
-const jwt = require("jsonwebtoken");
-require("dotenv").config();
+const jwt = require('jsonwebtoken');
+const User = require('../model/User');
+require('dotenv').config();
 
 class UserController {
   constructor(req, res) {
@@ -18,33 +18,24 @@ class UserController {
         avatar: user.avatarUrl,
         id: user.id,
       }));
-      return this.res.json({ data: users });
+      return this.res.json(users);
     }
-    const id = this.req.path.split("/users/").at(-1);
+    const id = this.req.path.split('/users/').at(-1);
     if (id) {
       let user = await User.findUserById(id);
-      console.log(user);
-      if (user)
+      if (user) {
         user = {
           name: `${user.firstName} ${user.lastName}`,
           avatar: user.avatarUrl,
           id: user.id,
+          email: user.email,
+          password: jwt.sign(user.password, process.env.PASSWORD_SECRET),
         };
-      return this.res.json({
-        data: user,
-      });
+        return this.res.json(user);
+      }
+      return this.res.sendStatus(404);
     }
-    const { password, email, firstName, lastName, avatarUrl } =
-      await User.findUserById(this.req.userId);
-    const _password = jwt.sign(password, process.env.PASSWORD_SECRET);
-    return this.res.json({
-      data: {
-        password: _password,
-        email,
-        name: `${firstName} ${lastName}`,
-        avatarUrl,
-      },
-    });
+    return this.res.sendStatus(403);
   }
 }
 

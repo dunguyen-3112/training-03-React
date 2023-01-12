@@ -2,7 +2,7 @@
 const fs = require('fs');
 
 function saveChanges(json) {
-    fs.writeFileSync('db.json', JSON.stringify(json));
+  fs.writeFileSync('src/data/db.json', JSON.stringify(json));
 }
 
 module.exports = saveChanges;

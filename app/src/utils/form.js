@@ -7,9 +7,13 @@ export function getFormData(form) {
   }
   const data = {};
 
+  console.log(types);
   for (let [key, value] of formData.entries()) {
     if (types[key] === "SELECT") {
       value = parseInt(value, 10);
+    }
+    if (types[key] === "DATE") {
+      value = new Date(value);
     }
     data[key] = value;
   }

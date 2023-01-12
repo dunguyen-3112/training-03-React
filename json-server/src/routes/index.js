@@ -1,31 +1,32 @@
 /* eslint-disable no-undef */
-const TicketController = require("../controller/Ticket");
-const LoginController = require("../controller/Login");
-const PriorityController = require("../controller/Priority");
-const StatusController = require("../controller/Status");
-const UserController = require("../controller/User");
+const TicketController = require('../controller/Ticket');
+const LoginController = require('../controller/Login');
+const PriorityController = require('../controller/Priority');
+const StatusController = require('../controller/Status');
+const UserController = require('../controller/User');
+
 function routes(req, res) {
-  const route = req.path.split("/")[3];
+  const route = req.path.split('/')[3];
 
   let ctrl;
-  const method = req.method;
+  const { method } = req;
 
   switch (route) {
-    case "tickets":
+    case 'tickets':
       ctrl = new TicketController(req, res);
       break;
-    case "token":
-    case "login":
-    case "logout":
+    case 'token':
+    case 'login':
+    case 'logout':
       ctrl = new LoginController(req, res);
       break;
-    case "statuses":
+    case 'statuses':
       ctrl = new StatusController(req, res);
       break;
-    case "priorities":
+    case 'priorities':
       ctrl = new PriorityController(req, res);
       break;
-    case "users":
+    case 'users':
       ctrl = new UserController(req, res);
       break;
 
@@ -34,18 +35,18 @@ function routes(req, res) {
       break;
   }
 
-  if (ctrl !== undefined)
+  if (ctrl !== undefined) {
     switch (method) {
-      case "GET":
+      case 'GET':
         ctrl.GET();
         break;
-      case "POST":
+      case 'POST':
         ctrl.POST();
         break;
-      case "PUT":
+      case 'PUT':
         ctrl.PUT();
         break;
-      case "DELETE":
+      case 'DELETE':
         ctrl.DELETE();
         break;
 
@@ -53,6 +54,7 @@ function routes(req, res) {
         res.sendStatus(404);
         break;
     }
+  }
 }
 
 module.exports = routes;
