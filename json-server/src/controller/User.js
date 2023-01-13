@@ -10,7 +10,20 @@ class UserController {
   }
 
   async GET() {
+    const path = this.req.path;
+
+    if (path.split("/").at(-1) === "me") {
+      const meId = this.req.userId;
+      const { firstName, lastName, avatarUrl } = await User.findUserById(meId);
+      const responeData = {
+        name: `${firstName} ${lastName}`,
+        avatar: avatarUrl,
+      };
+      return this.res.json(responeData);
+    }
+
     const { _query } = this.req.query;
+
     if (_query) {
       const data = await User.searchUser(_query);
       const users = data.map((user) => ({
@@ -20,10 +33,12 @@ class UserController {
       }));
       return this.res.json(users);
     }
-    const id = this.req.path.split("/users/").at(-1);
+    const id = path.split("/users/").at(-1);
+    console.log(37, path);
+
     if (id) {
       let user = await User.findUserById(id);
-      console.log("ID: ", user);
+      console.log(41, path);
       if (user) {
         user = {
           name: `${user.firstName} ${user.lastName}`,
@@ -36,6 +51,7 @@ class UserController {
       }
       return this.res.sendStatus(404);
     }
+
     return this.res.sendStatus(403);
   }
 }

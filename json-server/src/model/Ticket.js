@@ -114,7 +114,6 @@ class Ticket {
     const isChange = new Ticket(data).compare(ticketCurrent);
 
     if (!isChange) {
-      console.log("change");
       ticketCurrent = {
         ...ticketCurrent,
         ...data,

@@ -44,7 +44,6 @@ class User {
         user.lastName.toLowerCase().includes(query) ||
         user.firstName.toLowerCase().includes(query),
     );
-    console.log(users);
     return users;
   }
 }

@@ -27,6 +27,7 @@ function routes(req, res) {
       ctrl = new PriorityController(req, res);
       break;
     case "users":
+    case "me":
       ctrl = new UserController(req, res);
       break;
 

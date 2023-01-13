@@ -33,7 +33,6 @@ class TicketController {
         ticket.name.includes(_ticket_name),
       );
       const temp = data.map(({ id, name }) => ({ id, name }));
-      console.log(data);
       return this.res.json(temp);
     }
 
@@ -99,6 +98,8 @@ class TicketController {
       status,
       id,
     });
+
+    console.log(102, ticket);
     if (ticket) return this.res.json(ticket);
     return this.res.sendStatus(500);
   }

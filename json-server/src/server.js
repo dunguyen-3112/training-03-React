@@ -24,7 +24,6 @@ server.use((req, res) => {
 server.use("/api/v1", router);
 
 server.listen(PORT, () => {
-  console.log(process.env.REFRESH_TOKEN_SECRET);
   console.log(`JSON Server is running on port ${PORT}`);
 });
 
