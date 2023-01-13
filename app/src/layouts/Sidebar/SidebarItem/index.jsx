@@ -2,18 +2,18 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link } from "react-router-dom";
 
-import classes from "./SidebarItem.module.sass";
+import classes from "./index.module.sass";
 
 const SidebarItem = ({ title, icon, path, active, onClick }) => {
   return (
     <Link
-      className={classes.sidebar__item}
+      className={classes["sidebar-item"]}
       to={path}
       data-active={active}
       onClick={onClick}
     >
       {icon}
-      <span className={classes["sidebar__item__title"]}>{title}</span>
+      <span className={classes["sidebar-item__title"]}>{title}</span>
     </Link>
   );
 };

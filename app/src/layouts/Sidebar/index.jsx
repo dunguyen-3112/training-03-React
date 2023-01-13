@@ -2,13 +2,12 @@ import React, { memo, useContext } from "react";
 
 import SidebarItem from "./SidebarItem";
 import { Logo } from "@components/Uis";
-import classes from "./Sidebar.module.sass";
+import classes from "./index.module.sass";
 import { routes } from "@routes";
 import { Context } from "@context/ContextProvider";
 
 const SideBar = () => {
   const pages = routes.filter((route) => route.icon);
-
   const { page, setPage } = useContext(Context);
 
   const sibarList = pages.map((_page, index) => (

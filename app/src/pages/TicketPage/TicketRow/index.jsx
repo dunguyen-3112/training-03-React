@@ -1,11 +1,13 @@
 import PropTypes from "prop-types";
 import React, { useState, memo, useContext } from "react";
 
-import classes from "./TicketRow.module.sass";
+import classes from "./index.module.sass";
 import { getDateFormat, getTimeString, getTimeAgo } from "@helpers/date";
 import { Button, Modal } from "@components/Uis";
 import { DeleteIcon, EditIcon, ViewIcon } from "@components/Uis/Icon";
 import { Context } from "@context/ContextProvider";
+import { AVATAR_DEFAULT } from "@src/constants/default";
+import Status from "@src/components/Uis/Status";
 
 const TicketRow = ({ ticket, onEdit, onDelete }) => {
   const [isActive, setIsActive] = useState(false);
@@ -17,17 +19,14 @@ const TicketRow = ({ ticket, onEdit, onDelete }) => {
   return (
     <tr
       key={ticket.id}
-      className={classes.trow}
+      className={classes.ticket__row}
       onMouseLeave={handleMouseleave}
     >
-      <td className={classes.tdata}>
-        <div className="flex" style={{ gap: "24px" }}>
+      <td className={classes.ticket__column}>
+        <div className={`flex ${classes["tdata"]}`} style={{ gap: "24px" }}>
           <img
             className={classes.avatar}
-            src={
-              ticket.customerAvatar ||
-              "https://t4.ftcdn.net/jpg/03/59/58/91/360_F_359589186_JDLl8dIWoBNf1iqEkHxhUeeOulx0wOC5.jpg"
-            }
+            src={ticket.customerAvatar || AVATAR_DEFAULT}
             alt="avatar"
           />
           <div className={classes["tdata-content"]}>
@@ -42,10 +41,12 @@ const TicketRow = ({ ticket, onEdit, onDelete }) => {
           </div>
         </div>
       </td>
-      <td className={classes.tdata}>
+
+      <td className={classes.ticket__column}>
         <span className={classes["tdata__title"]}>{ticket.customerName}</span>
       </td>
-      <td className={classes.tdata}>
+
+      <td className={classes.ticket__column}>
         <div className={classes["tdata-content"]}>
           <span className={classes["tdata__title"]}>
             {getDateFormat(ticket.createDate)}
@@ -55,13 +56,15 @@ const TicketRow = ({ ticket, onEdit, onDelete }) => {
           </span>
         </div>
       </td>
-      <td className={classes.tdata}>
-        <span className={classes.priority} data-id={ticket.priority - 1}>
+
+      <td className={classes.ticket__column}>
+        <Status status={ticket.priority - 1}>
           {priorities.find((item) => item.value === ticket.priority)?.text}
-        </span>
+        </Status>
       </td>
-      <td className={classes.tdata}>
-        <div className={classes["tdata--menu"]} onClick={handleClick}>
+
+      <td className={classes.ticket__column}>
+        <div className={classes.points} onClick={handleClick}>
           <span className={classes.point}></span>
           <span className={classes.point}></span>
           <span className={classes.point}></span>

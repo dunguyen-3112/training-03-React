@@ -1,0 +1,56 @@
+@use '../../../assets/style/valiable' as v
+tr.ticket__row
+  td.ticket__column
+    border-bottom: 2px solid v.$gray-divider-color
+    padding: 24px 0
+    max-width: 180px
+    width: max-content
+    &:first-child
+      padding-left: 32px
+      width: auto
+    &:last-child
+      padding-right: 42px
+    .tdata
+      flex-direction: row
+      flex-wrap: nowrap
+    .priority
+      padding: 5px 12px
+      border-radius: 100px
+      text-transform: uppercase
+      color: v.$white-color
+      font-size: 11px
+      font-weight: v.$font-weight-bold
+      &[data-id="0"]
+        background-color: v.$yellow-color
+      &[data-id="1"]
+        background-color: v.$red-color
+      &[data-id="2"]
+        background-color: v.$green-color
+    .tdata-content
+      display: flex
+      flex-direction: column
+    .tdata__title
+      max-width: 350px
+      font-weight: v.$font-weight-semi-bold
+      font-size: v.$font-size-s
+      color: v.$text-black-color
+    .tdata__subtitle
+      font-weight: v.$font-weight-regular
+      font-size: v.$font-size-xs
+      color: v.$text-gray-light-color
+    .points
+      display: flex
+      align-items: center
+      flex-direction: column
+      gap: 2px
+      cursor: pointer
+      position: relative
+      .point
+        height: 3px
+        width: 3px
+        border-radius: 50%
+        background-color: v.$gray-color
+    img.avatar
+      height: 44px
+      width: 44px
+      border-radius: 50%

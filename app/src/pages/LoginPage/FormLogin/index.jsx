@@ -20,8 +20,8 @@ const FormLogin = ({ onLogin }) => {
     if (email && password) {
       onLogin(email, password);
     } else {
-      emailRef.current.value = "";
-      passwordRef.current.value = "";
+      setEmail("");
+      setPassword("");
       emailRef.current.focus();
     }
   };

@@ -8,3 +8,4 @@ export const USERS_ROUTE = "users";
 export const STATUS_ROUTE = "statuses";
 export const PRIORIRY_ROUTE = "priorities";
 export const EDIT_TICKET_ROUTE = `${TICKET_ROUTE}/edit_ticket`;
+export const ME_ROUTE = "me";

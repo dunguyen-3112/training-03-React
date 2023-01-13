@@ -1,34 +1,34 @@
-import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import React, { useCallback, useContext, useEffect } from "react";
 
 import { Logo } from "@components/Uis";
 import { API_ENDPOINT } from "@constants/api";
-import { OK } from "@constants/statusCodes";
-import { HandleLogin } from "@services/auth";
-import classes from "./LoginPage.module.sass";
 import FormLogin from "./FormLogin";
+import classes from "./LoginPage.module.sass";
+import { login } from "@src/services/auth";
+import { Context } from "@context";
+import { OK, TICKET_ROUTE } from "@src/constants";
 
-export default function LoginPage({ onLogin }) {
+export default function LoginPage() {
+  const { user, setUser } = useContext(Context);
   const navigate = useNavigate();
+  const handleLogin = useCallback(async (email, password) => {
+    const accessToken = await login(email, password);
+    if (accessToken) {
+      const response = await axios.get(`${API_ENDPOINT}/me`, {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      });
+      if (response.status === OK) setUser(response.data);
+    }
+  }, []);
 
-  const handleLogin = async (email, password) => {
-    const responseLogin = await HandleLogin(email, password);
-    console.log(responseLogin);
-    if (responseLogin.status !== OK) return navigate("/not_found");
-    const data = responseLogin.data;
-    localStorage.setItem("refresh_token", data.refreshToken);
-    const response = await axios.get(`${API_ENDPOINT}/users/${data.id}`, {
-      headers: {
-        Authorization: `Bearer ${data.accessToken}`,
-      },
-    });
-
-    const data1 = response.data;
-    localStorage.setItem("user", JSON.stringify(data1));
-    onLogin ? onLogin() : navigate("/tickets");
-  };
+  useEffect(() => {
+    if (user !== null) navigate(`/${TICKET_ROUTE}`);
+  }, [user]);
 
   return (
     <section data-login="false" className={classes["login-page"]}>

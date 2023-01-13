@@ -1,10 +1,12 @@
-import React, { memo } from "react";
+import React, { memo, useCallback } from "react";
 // import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { useFetch } from "@hooks";
 
-import classes from "../TicketPage.module.sass";
-import FormEditTicket from "./FormEditTicket";
+import classes from "../index.module.sass";
+import FormTicket from "../FormTicket/Index";
+import * as API from "@utils/api";
+import { OK, TICKET_ROUTE } from "@src/constants";
 
 function EditTicket() {
   const { ticketId } = useParams();
@@ -13,12 +15,17 @@ function EditTicket() {
   if (error) return <span>Error...</span>;
   if (loading) return <span>Loading...</span>;
 
+  const handleUpdate = async (data) => {
+    console.log(data);
+    // const response = await API.update(`/${TICKET_ROUTE}`, data);
+    // if (response.status === OK) alert("Updated Ticket Success!");
+    // else console.log("Error updating Ticket Success!");
+  };
+
   return (
     <section className={classes["tickets"]}>
-      <span className={classes["tickets__title"]}>
-        <h2 className={classes["title"]}>Update Ticket</h2>
-      </span>
-      <FormEditTicket data={data} />
+      <h2 className={classes["tickets__title"]}>Update Ticket</h2>
+      <FormTicket ticket={data} callback={handleUpdate} />
     </section>
   );
 }

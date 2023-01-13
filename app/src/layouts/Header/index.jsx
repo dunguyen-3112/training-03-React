@@ -2,8 +2,8 @@ import React, { useRef, useState, memo, useContext } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-import classes from "./Navbar.module.sass";
-import { Modal, Button } from "@components/Uis";
+import classes from "./index.module.sass";
+// import { Modal, Button } from "@components/Uis";
 import { SearchIcon } from "@components/Uis/Icon";
 import { routes } from "@routes";
 import { Context } from "@context/ContextProvider";
@@ -11,12 +11,14 @@ import * as API from "@utils/api";
 import { useCallback } from "react";
 import { TICKET_ROUTE } from "@constants/routes";
 import { Search } from "@components/Forms";
+import { Button, Modal } from "@src/components/Uis";
 
-const NavBar = ({ handleLogout }) => {
-  const [isActive, setIsActive] = useState(false);
-  const { page } = useContext(Context);
+const Header = () => {
+  const { page, user, setUser } = useContext(Context);
+  const [isVisible, setIsVisible] = useState(false);
 
   const navigate = useNavigate();
+  // console.log("Header")
 
   const handleSelect = useCallback((id) => {
     const route = location.pathname.split("/").at(1);
@@ -29,7 +31,10 @@ const NavBar = ({ handleLogout }) => {
     }
   }, []);
 
-  const user = JSON.parse(localStorage.getItem("user"));
+  const handleLogout = useCallback(() => {
+    setUser(null);
+    localStorage.clear();
+  }, []);
 
   const searchRef = useRef();
 
@@ -47,45 +52,44 @@ const NavBar = ({ handleLogout }) => {
 
   if (isSearch && searchRef.current) searchRef.current.focus();
 
-  const handleShowInfo = () => setIsActive((prev) => !prev);
-
   return (
-    <span className={classes.navbar}>
-      <h1 className={classes["nav__title"]}>
+    <header>
+      <h1 className={classes["header__title"]}>
         {routes.filter((route) => route.icon).at(page).title}
       </h1>
-      <span className={classes["nav-menu"]}>
+
+      <span className={classes["header__user-action"]}>
         {isSearch && <Search onSearch={handleSearch} onSelect={handleSelect} />}
-        <span className={classes["menu-icon"]} onClick={handleClick}>
+        <span className={classes["header-action"]} onClick={handleClick}>
           <SearchIcon />
         </span>
+
         <div className={classes.line}></div>
+
         <span
-          className={classes["menu-info"]}
-          onClick={handleShowInfo}
-          onMouseLeave={() => setIsActive(false)}
+          className={classes["header-user-info"]}
+          onClick={() => setIsVisible((prev) => !prev)}
+          onMouseLeave={() => setIsVisible(false)}
         >
-          <h3 className={classes["userName"]}>{`${user.name}`}</h3>
-          <figure className={classes.avatar}>
-            <img src={user.avatar} alt="avatar" />
+          <h3
+            className={classes["header-user-info__name"]}
+          >{`${user?.name}`}</h3>
+          <figure className={classes["header-user-info__avatar"]}>
+            <img src={user?.avatar} alt="avatar" />
           </figure>
-          <Modal active={isActive}>
-            <Button outline>
-              <img src={user.avatar} alt="avatar" width={20} />
-              <span className={classes["menu__item__title"]}>Profile</span>
-            </Button>
+          <Modal active={isVisible}>
             <Button outline onClick={handleLogout}>
-              <span className={classes["menu__item__title"]}>Logout</span>
+              Logout
             </Button>
           </Modal>
         </span>
       </span>
-    </span>
+    </header>
   );
 };
 
-NavBar.propTypes = {
+Header.propTypes = {
   handleLogout: PropTypes.func,
 };
 
-export default memo(NavBar);
+export default memo(Header);

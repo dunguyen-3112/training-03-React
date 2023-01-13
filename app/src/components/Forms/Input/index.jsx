@@ -1,9 +1,8 @@
 import React, { useState, memo } from "react";
 import PropTypes from "prop-types";
 
-import Active from "../../../assets/images/active.svg";
-import NotActive from "../../../assets/images/View.svg";
-import "../base.sass";
+import Active from "@assets/images/active.svg";
+import NotActive from "@assets/images/View.svg";
 
 const Input = ({
   title,
@@ -13,15 +12,17 @@ const Input = ({
   onChange,
   inputRef,
   onFocus,
+  onKeyDown,
   tabIndex,
   disabled,
+  valid,
   onBlur,
 }) => {
-  const [hide, setHide] = useState(true);
+  const [isVisible, setIsVisible] = useState(false);
+  const { status, message } = valid || {};
 
-  const name = title?.replace(" ", "_").toLowerCase();
   return (
-    <label className="form-group">
+    <label className={`form-group ${status ? "invalid" : ""}`}>
       <span className="form-label">
         <span className="form-label__title">{title}</span>
         {type === "password" && (
@@ -34,10 +35,10 @@ const Input = ({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        type={hide ? type : "text"}
+        type={!isVisible ? type : "text"}
         className="form-control"
         ref={inputRef}
-        name={name}
+        onKeyDown={onKeyDown}
         onFocus={onFocus}
         onBlur={onBlur}
         disabled={disabled}
@@ -45,14 +46,14 @@ const Input = ({
       />
       {type === "password" && (
         <img
-          src={!hide ? Active : NotActive}
+          src={!isVisible ? Active : NotActive}
           height={20}
           width={20}
           className="hide"
-          onClick={() => setHide((prev) => !prev)}
+          onClick={() => setIsVisible((prev) => !prev)}
         />
       )}
-      <span className="form-message"></span>
+      {status && message && <span className="form-message">{message}</span>}
     </label>
   );
 };
@@ -67,6 +68,11 @@ Input.propTypes = {
   onFocus: PropTypes.func,
   onBlur: PropTypes.func,
   disabled: PropTypes.bool,
+  onKeyDown: PropTypes.func,
+  valid: PropTypes.exact({
+    status: PropTypes.bool,
+    message: PropTypes.string,
+  }),
   type: PropTypes.oneOf(["text", "email", "password", "date"]),
 };
 
