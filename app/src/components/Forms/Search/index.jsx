@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 import { useSearch } from "@hooks";
 import { Input } from "@components/Forms";
-import classes from "./Search.module.sass";
+import classes from "./index.module.sass";
 import Info from "@components/Uis/Info";
 
 function Search({ onSearch, title, onSelect }) {
@@ -28,7 +28,7 @@ function Search({ onSearch, title, onSelect }) {
       />
       <ul className={classes.result} data-active={active}>
         {results?.map((result, index) => (
-          <li key={index} onClick={() => handleClick(result.id)}>
+          <li key={index} onClick={() => handleClick(result)}>
             <Info data={result} key={result.id} />
           </li>
         ))}

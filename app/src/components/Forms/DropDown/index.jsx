@@ -1,37 +1,40 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { memo } from "react";
+import { SELECT_OPTIONS_DEFAULT } from "@src/constants/default";
 
-function DropDown({ title, options, message, value, tabIndex, onChange }) {
-  const name = title.replace(" ", "_").toLowerCase();
+function DropDown({ title, options, valid, value, tabIndex, onChange }) {
+  const { message, status } = valid || {};
   return (
-    <label className="form-group">
+    <label className={`form-group ${status === true ? "invalid" : ""}`}>
       <span className="form-label__title">{title}</span>
       <select
         className="form-control"
-        name={name}
         value={value}
         onChange={onChange}
         tabIndex={tabIndex}
       >
-        <option value="">{title}</option>
-        {options.map((option) => (
+        <option value={SELECT_OPTIONS_DEFAULT}>{title}</option>
+        {options?.map((option) => (
           <option key={option.value} value={option.value}>
             {option.text}
           </option>
         ))}
       </select>
-      <span className="form-message">{message}</span>
+      {message && status && <span className="form-message">{message}</span>}
     </label>
   );
 }
 
 DropDown.propTypes = {
-  title: PropTypes.string.isRequired,
-  options: PropTypes.array.isRequired,
-  message: PropTypes.string,
+  title: PropTypes.string,
+  options: PropTypes.array,
+  valid: PropTypes.exact({
+    message: PropTypes.string,
+    status: PropTypes.bool,
+  }),
   value: PropTypes.any,
-  onChange: PropTypes.func.isRequired,
+  onChange: PropTypes.func,
   tabIndex: PropTypes.number,
 };
 

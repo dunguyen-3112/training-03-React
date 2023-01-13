@@ -1,0 +1,43 @@
+@use  '../../assets/style/valiable' as v
+.tickets
+  background-color: v.$white-color
+  border: 1px solid v.$gray-color
+  height: max-content
+  border-radius: 8px
+  padding: 32px 0
+  margin: 0 30px
+  .tickets__header
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding: 0 32px
+    width: 100%
+    .tickets-header__title
+      font-weight: v.$font-weight-bold
+      font-size: v.$font-size-l
+    .tickets-header__action
+      display: flex
+      gap: 32px
+      justify-content: flex-end
+      .nav__action__item
+          display: flex
+          gap: 9px
+          align-items: center
+          cursor: pointer
+          .item__title
+            color: v.$text-gray-dark-color
+            font-weight: v.$font-weight-semi-bold
+            font-size: v.$font-size-s
+  .tickets__table
+    width: 100%
+    text-align: left
+    margin-top: 48px
+    th
+      padding-bottom: 12px
+      color: v.$gray-color
+      border-bottom: 2px solid v.$gray-divider-color
+      &:first-child
+        padding-left: 32px
+      &:last-child
+        padding-right: 42px
+    
