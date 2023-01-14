@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const { statuses } = require("../config/constant");
+const { STATUSES } = require("../config/constant");
 
 class StatusController {
   constructor(req, res) {
@@ -8,7 +8,7 @@ class StatusController {
   }
 
   GET() {
-    const data = statuses.map((item, index) => ({
+    const data = STATUSES.map((item, index) => ({
       value: index + 1,
       text: item,
     }));

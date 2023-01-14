@@ -17,7 +17,6 @@ import { rules } from "./TicketRules";
 import { DropDown, Input, Search, TextArea } from "@components/Forms";
 
 function FormTicket({ ticket, callback }) {
-  console.log("re-rendering");
   const [formDataTicket, setFormDataTicket] = useState(
     ticket || {
       assignBy: INPUT_EMPTY_DEFAULT,
@@ -56,7 +55,7 @@ function FormTicket({ ticket, callback }) {
       }
       setFormError(t);
     }
-  }, []);
+  }, [formDataTicket, formError, ticket?.assignBy]);
 
   const handleFetchUser = useCallback(async (id) => {
     const response = await API.get(`/${USERS_ROUTE}/${id}`);
@@ -85,29 +84,29 @@ function FormTicket({ ticket, callback }) {
       event.preventDefault();
       if (formDataTicket) {
         const formDatakeys = Object.keys(formDataTicket);
-        const t = {};
+        const errors = {};
         for (const key of formDatakeys) {
           const listRule = rules[key];
           if (listRule !== undefined) {
             const value = formDataTicket[key];
             for (const rule of listRule) {
               const check = !rule.validator(value);
-              t[key] = { status: check, message: rule.message };
+              errors[key] = { status: check, message: rule.message };
               if (check) break;
             }
           }
         }
-        setFormError(t);
-      }
-      const errors = formError;
-      for (const key in errors) {
-        if (!errors[key].status) delete errors[key];
-      }
-      if (Object.keys(errors).length === 0) {
-        callback(formDataTicket);
+
+        for (const key in errors) {
+          if (!errors[key].status) delete errors[key];
+        }
+        if (Object.keys(errors).length === 0) {
+          callback(formDataTicket);
+        }
+        setFormError(errors);
       }
     },
-    [callback, formDataTicket, formError]
+    [callback, formDataTicket]
   );
 
   const handleValid = useCallback(
@@ -179,6 +178,7 @@ function FormTicket({ ticket, callback }) {
             }
             tabIndex={1}
           />
+
           <Input
             title="Due Date"
             value={getDateISOSString(formDataTicket?.dueDate || DATE_DEFAULT)}
@@ -204,6 +204,7 @@ function FormTicket({ ticket, callback }) {
             onChange={(event) => handleChangeDropdown(event, "status")}
             tabIndex={3}
           />
+
           <DropDown
             title="Priority"
             options={priorities}

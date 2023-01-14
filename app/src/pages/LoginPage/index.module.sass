@@ -1,0 +1,38 @@
+@use '../../assets/style/valiable' as v
+.login-page
+  width: max-content
+  background-color: v.$white-color
+  padding: 40px 32px
+  display: flex
+  text-align: center
+  flex-direction: column
+  border-radius: 8px
+  position: absolute
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  .header
+    display: flex
+    flex-direction: column
+    align-items: center
+    gap: 12px
+    h1.header__title
+      margin-top: 20px
+      font-size: v.$font-size-xl
+      font-weight: v.$font-weight-bold
+    .header__subTitle, .footer__message
+      font-size: v.$font-size-xs
+      font-weight: v.$font-weight-regular
+  .footer
+    display: flex
+    gap: 5px
+    justify-content: center
+    margin-top: 32px
+    a
+      text-decoration: none
+      color: v.$blue-color !important
+      font-weight: v.$font-weight-semi-bold
+      font-size: v.$font-size-s
+      &:hover
+        color: v.$blue-color !important
+        text-decoration: underline

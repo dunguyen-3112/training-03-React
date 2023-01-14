@@ -3,6 +3,7 @@ const TicketModel = require("../model/Ticket");
 const TicketsModel = require("../model/Tickets");
 const User = require("../model/User");
 const paginate = require("../services/pagination");
+const stringsoSlug = require("../services/text");
 
 class TicketController {
   constructor(req, res) {
@@ -12,27 +13,34 @@ class TicketController {
 
   async GET() {
     this.user = await User.findUserById(this.req.userId);
-    let { _ticketId, _ticket_name } = this.req.query;
-    _ticketId = _ticketId || this.req.path.split("/tickets/").at(1);
+    let { _ticket_id, _ticket_name } = this.req.query;
+    _ticket_id = _ticket_id || this.req.path.split("/tickets/").at(1);
     const page = parseInt(this.req.query._page) || 1;
 
     let data;
     let pages;
 
-    if (_ticketId) {
-      data = await TicketModel.getById(_ticketId);
+    if (_ticket_id) {
+      data = await TicketModel.getById(_ticket_id);
       if (data?.createBy === this.req.userId || this.user.role === "manager") {
         data = await this.combineDatas(data);
         return this.res.json(data);
       }
 
-      return this.res.sendStatus(404);
+      return this.res.sendStatus(403);
     }
     if (_ticket_name) {
       const data = TicketsModel.tickets.filter((ticket) =>
-        ticket.name.includes(_ticket_name),
+        stringsoSlug(ticket.name).includes(stringsoSlug(_ticket_name)),
       );
-      const temp = data.map(({ id, name }) => ({ id, name }));
+      const temp = await Promise.all(
+        data.map(async ({ id, name, assignBy }) => {
+          console.log(37, { id });
+          const user = await User.findUserById(assignBy);
+          return { id, name, avatar: user?.avatarUrl };
+        }),
+      );
+      console.log(41, temp);
       return this.res.json(temp);
     }
 
@@ -99,7 +107,6 @@ class TicketController {
       id,
     });
 
-    console.log(102, ticket);
     if (ticket) return this.res.json(ticket);
     return this.res.sendStatus(500);
   }

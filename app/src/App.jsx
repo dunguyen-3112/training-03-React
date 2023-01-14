@@ -6,11 +6,10 @@ import Header from "@layouts/Header";
 import SideBar from "@layouts/Sidebar";
 import * as API from "@utils/api";
 import { routes } from "@routes";
-import { LOGIN_ROUTE, ME_ROUTE, OK, TICKET_ROUTE } from "./constants";
+import { LOGIN_ROUTE, ME_ROUTE, OK } from "./constants";
 
 function App() {
-  console.log("APP");
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -22,19 +21,18 @@ function App() {
         setUser(user);
       } else navigate(`/${LOGIN_ROUTE}`);
     }
-    user === null ? refreshLogin() : navigate(`/${TICKET_ROUTE}`);
-  }, [user]);
+    user === null && refreshLogin();
+  }, [user, page, navigate]);
 
   return (
     <ContextProvider value={{ page, setPage, user, setUser }}>
-      <main className="flex" data-authenticated="true">
+      <main data-authenticated={user !== null}>
         {user && (
           <>
             <SideBar />
             <Header />
           </>
         )}
-
         <Routes>
           {routes.map((route) => (
             <Route key={route.path} {...route} />

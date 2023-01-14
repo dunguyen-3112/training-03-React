@@ -7,82 +7,90 @@
 
 html,
 body 
-    font-family: "Mulish", sans-serif
-    font-style: normal
+  font-family: "Mulish", sans-serif
+  font-style: normal
+  width: 100vw
+  height: 100vh
+#root, main
+  height: 100%
+  width: 1440px
+  margin: auto
 
-body 
+
+main
   background-color: v.$background-color
-  main[data-authenticated=true]
-    height: 100vh
-    width: 100vw
-    display: grid
-    grid-template-columns: 255px 1fr
-    grid-template-rows: 128px 1fr
-    &> header 
-      grid-column: 2/3
-    & > nav 
-      grid-row: 1/3
-
-    & > section 
-      grid-row: 2/3
-      grid-column: 2/3
-    form
-      width: max-content
-      min-width: 80%
+  form
+    width: max-content
+    display: flex
+    flex-direction: column
+    gap: 20px
+    .form-group
+      position: relative
       display: flex
       flex-direction: column
-      gap: 20px
-      .form-group
-        position: relative
-        display: flex
-        flex-direction: column
-        align-items: stretch
-        text-align: left
-        gap: 6px
-        span> span:first-child>span
-          text-transform: uppercase
-        &.invalid
-          .form-message
-            color: v.$red-color
-            font-weight: v.$font-weight-bold
-            font-size: v.$font-size-s
-          .form-control
-            border: 1px solid v.$red-color
-            box-shadow: 0 0 2px rgba(255, 38, 0, 0.502)
-          .form-label__title
-            color: v.$red-color
-        .form-label__title
+      align-items: stretch
+      text-align: left
+      gap: 6px
+      span> span:first-child>span
+        text-transform: uppercase
+      &.invalid
+        .form-message
+          color: v.$red-color
           font-weight: v.$font-weight-bold
-          font-size: v.$font-size-xs
-        .form-label
-          display: flex
-          justify-content: space-between
-          a
-            text-decoration: none
-            .form-lable__password,.form-message
-                font-weight: v.$font-weight-regular
-                font-size: v.$font-size-xs
-                color: v.$gray-color
-            &:hover
-              text-decoration: underline
-              .form-lable__password
-                  color: v.$blue-color
+          font-size: v.$font-size-s
         .form-control
-          padding: 11px 8px 11px 16px
-          background-color: #FCFDFE
-          border: 1px solid v.$gray-color
-          border-radius: 8px
-          font-size: 14px
-          font-weight: 400
+          border: 1px solid v.$red-color
+          box-shadow: 0 0 2px rgba(255, 38, 0, 0.502)
+        .form-label__title
+          color: v.$red-color
+      .form-label__title
+        font-weight: v.$font-weight-bold
+        font-size: v.$font-size-xs
+      .form-label
+        display: flex
+        justify-content: space-between
+        a
+          text-decoration: none
+          .form-lable__password,.form-message
+            font-weight: v.$font-weight-regular
+            font-size: v.$font-size-xs
+            color: v.$gray-color
+          &:hover
+            text-decoration: underline
+            .form-lable__password
+              color: v.$blue-color
+      .form-control
+        padding: 11px 8px 11px 16px
+        background-color: #FCFDFE
+        border: 1px solid v.$gray-color
+        border-radius: 8px
+        font-size: 14px
+        font-weight: 400
+        color: v.$text-gray-dark-color
+        &:disabled
+          background-color: v.$text-gray-light-color
+        &:focus-visible
+          outline: none
+        &::placeholder
           color: v.$text-gray-dark-color
-          &:disabled
-              background-color: v.$text-gray-light-color
-          &:focus-visible
-              outline: none
-          &::placeholder
-              color: v.$text-gray-dark-color
-        .hide
-            position: absolute
-            bottom: 11px
-            right: 16px
-            cursor: pointer
+      .hide
+        position: absolute
+        bottom: 11px
+        right: 16px
+        cursor: pointer
+
+main[data-authenticated=true]
+  display: grid
+  grid-template-columns: 255px 1fr
+  grid-template-rows: 128px 1fr
+  &> header 
+    grid-column: 2/3
+  & > nav 
+    grid-row: 1/3
+
+  & > section 
+    grid-row: 2/3
+    grid-column: 2/3
+    background-color: v.$background-light-color
+    padding: 30px
+    padding-top: 0

@@ -1,4 +1,4 @@
-import React, { useState, memo } from "react";
+import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import Active from "@assets/images/active.svg";
@@ -73,7 +73,7 @@ Input.propTypes = {
     status: PropTypes.bool,
     message: PropTypes.string,
   }),
-  type: PropTypes.oneOf(["text", "email", "password", "date"]),
+  type: PropTypes.oneOf(["text", "email", "password", "date", "search"]),
 };
 
-export default memo(Input);
+export default Input;

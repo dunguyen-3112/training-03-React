@@ -6,32 +6,36 @@ import React, { useCallback, useContext, useEffect } from "react";
 import { Logo } from "@components/Uis";
 import { API_ENDPOINT } from "@constants/api";
 import FormLogin from "./FormLogin";
-import classes from "./LoginPage.module.sass";
-import { login } from "@src/services/auth";
+import classes from "./index.module.sass";
+import { login } from "@services/auth";
 import { Context } from "@context";
-import { OK, TICKET_ROUTE } from "@src/constants";
+import { OK, TICKET_ROUTE } from "@constants";
 
 export default function LoginPage() {
   const { user, setUser } = useContext(Context);
   const navigate = useNavigate();
-  const handleLogin = useCallback(async (email, password) => {
-    const accessToken = await login(email, password);
-    if (accessToken) {
-      const response = await axios.get(`${API_ENDPOINT}/me`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      if (response.status === OK) setUser(response.data);
-    }
-  }, []);
 
   useEffect(() => {
     if (user !== null) navigate(`/${TICKET_ROUTE}`);
-  }, [user]);
+  }, [navigate, user]);
+
+  const handleLogin = useCallback(
+    async (email, password) => {
+      const accessToken = await login(email, password);
+      if (accessToken) {
+        const response = await axios.get(`${API_ENDPOINT}/me`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
+        if (response.status === OK) setUser(response.data);
+      }
+    },
+    [setUser]
+  );
 
   return (
-    <section data-login="false" className={classes["login-page"]}>
+    <section className={classes["login-page"]}>
       <header className={classes["header"]}>
         <Logo col />
         <h1 className={classes["header__title"]}>Log In to Dashboard Kit</h1>

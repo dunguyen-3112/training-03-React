@@ -2,20 +2,23 @@
 
 .form__search
   position: relative
-  width: 100%
   margin: 0 auto
+  .search
+    justify-content: flex-end
+    gap: 20px
+    input
+      min-width: 300px
   .result
     list-style: none
     overflow-y: scroll
-    max-height: 100px
+    max-height: 300px
     min-width: 100%
-    min-height: 50px
     position: absolute
     top: 70px
     z-index: 1
     padding: 2px 8px
     display: none
-    background-color: v.$background-color
+    background-color: v.$background-light-color
 
   .result[data-active="true"]
     display: block

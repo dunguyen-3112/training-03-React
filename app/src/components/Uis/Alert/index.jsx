@@ -1,21 +1,27 @@
 import React from "react";
 import PropTypes from "prop-types";
 
-import "./Alert.sass";
+import classes from "./index.module.sass";
 
 function Alert({ title, message, onConfirm }) {
   return (
-    <section className="alert__container">
-      <div className="alert__content flex">
-        <div className="alert__info flex">
-          <h1 className="alert__title">{title}</h1>
-          <p className="alert__message">{message}</p>
+    <section className={classes["alert__container"]}>
+      <div className={classes["alert__content flex"]}>
+        <div className={classes["alert__info flex"]}>
+          <h1 className={classes["alert__title"]}>{title}</h1>
+          <p className={classes["alert__message"]}>{message}</p>
         </div>
-        <span className="alert__action">
-          <button className="alert__btn" onClick={() => onConfirm(1)}>
+        <span className={classes["alert__action"]}>
+          <button
+            className={classes["alert__btn"]}
+            onClick={() => onConfirm(1)}
+          >
             Confirm
           </button>
-          <button className="alert__btn" onClick={() => onConfirm(0)}>
+          <button
+            className={classes["alert__btn"]}
+            onClick={() => onConfirm(0)}
+          >
             Cancel
           </button>
         </span>

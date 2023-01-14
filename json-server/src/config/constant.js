@@ -1,7 +1,7 @@
-const priorities = ["High", "Low", "Normal"];
-const statuses = ["Todo", "In-progress", "Review", "Done"];
+const PRIORITIES = ["High", "Low", "Normal"];
+const STATUSES = ["Todo", "In-progress", "Review", "Done"];
 
-const itemsPerPage = 10;
+const ITEMSPERPAGE = 8;
 
 // eslint-disable-next-line no-undef
-module.exports = { priorities, statuses, itemsPerPage };
+module.exports = { PRIORITIES, STATUSES, ITEMSPERPAGE };

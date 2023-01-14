@@ -1,10 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { memo } from "react";
 import { SELECT_OPTIONS_DEFAULT } from "@src/constants/default";
 
 function DropDown({ title, options, valid, value, tabIndex, onChange }) {
   const { message, status } = valid || {};
+
   return (
     <label className={`form-group ${status === true ? "invalid" : ""}`}>
       <span className="form-label__title">{title}</span>
@@ -38,4 +38,4 @@ DropDown.propTypes = {
   tabIndex: PropTypes.number,
 };
 
-export default memo(DropDown);
+export default DropDown;

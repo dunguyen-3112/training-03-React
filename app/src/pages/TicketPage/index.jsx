@@ -1,20 +1,20 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-import classes from "./index.module.sass";
-import TicketRow from "./TicketRow";
-import { Button } from "@components/Uis";
-import { FilterIcon, NewIcon, SortIcon } from "@components/Uis/Icon";
-import { useFetch } from "@hooks";
-import ContextProvider from "@context/ContextProvider";
-import Alert from "@components/Uis/Alert";
-import * as API from "@utils/api";
 import {
   EDIT_TICKET_ROUTE,
   PRIORIRY_ROUTE,
   STATUS_ROUTE,
   TICKET_ROUTE,
 } from "@constants/routes";
+import * as API from "@utils/api";
+import { useFetch } from "@hooks";
+import TicketRow from "./TicketRow";
+import { Button } from "@components/Uis";
+import classes from "./index.module.sass";
+import Alert from "@components/Uis/Alert";
+import ContextProvider from "@context/ContextProvider";
+import { FilterIcon, NewIcon, SortIcon } from "@components/Uis/Icon";
 
 export default function TicketPage() {
   // fetch data Status, Priority and Ticket
@@ -74,61 +74,65 @@ export default function TicketPage() {
 
   return (
     <ContextProvider value={{ statuses, priorities }}>
-      <section className={classes["tickets"]}>
-        <span className={classes["tickets__header"]}>
-          <h2 className={classes["tickets-header__title"]}>All tickets</h2>
+      <section className={classes["tickets__page"]}>
+        <div className={classes["tickets__content"]}>
+          <span className={classes["tickets__header"]}>
+            <h2 className={classes["tickets-header__title"]}>All tickets</h2>
 
-          <span className={classes["tickets-header__action"]}>
-            <Button onClick={() => navigate("/tickets/new_ticket")}>
-              <NewIcon />
-              <span className={classes["item__title"]}>Add Ticket</span>
-            </Button>
+            <span className={classes["tickets-header__action"]}>
+              <Button onClick={() => navigate("/tickets/new_ticket")}>
+                <NewIcon />
+                <span className={classes["item__title"]}>Add Ticket</span>
+              </Button>
 
-            <span className={classes["nav__action__item"]}>
-              <SortIcon />
-              <span className={classes["item__title"]}>Sort</span>
-            </span>
+              <span className={classes["nav__action__item"]}>
+                <SortIcon />
+                <span className={classes["item__title"]}>Sort</span>
+              </span>
 
-            <span className={classes["nav__action__item"]}>
-              <FilterIcon />
-              <span className={classes["item__title"]}>Filter</span>
+              <span className={classes["nav__action__item"]}>
+                <FilterIcon />
+                <span className={classes["item__title"]}>Filter</span>
+              </span>
             </span>
           </span>
-        </span>
 
-        <table className={classes.tickets__table}>
-          <thead>
-            <tr>
-              <th>Ticket Details </th>
-              <th>User</th>
-              <th>Date</th>
-              <th>Priority</th>
-              <th></th>
-            </tr>
-          </thead>
+          <table className={classes.tickets__table}>
+            <thead>
+              <tr>
+                <th>Ticket Details </th>
+                <th>User</th>
+                <th>Date</th>
+                <th>Priority</th>
+                <th></th>
+              </tr>
+            </thead>
 
-          <tbody>
-            {listTicket?.map((ticket, index) => {
-              return (
-                <TicketRow
-                  index={index}
-                  key={ticket.id}
-                  ticket={ticket}
-                  onEdit={() => navigate(`/${EDIT_TICKET_ROUTE}/${ticket.id}`)}
-                  onDelete={() => setSelectTicket(ticket.id)}
-                />
-              );
-            })}
-          </tbody>
-        </table>
+            <tbody>
+              {listTicket?.map((ticket, index) => {
+                return (
+                  <TicketRow
+                    index={index}
+                    key={ticket.id}
+                    ticket={ticket}
+                    onEdit={() =>
+                      navigate(`/${EDIT_TICKET_ROUTE}/${ticket.id}`)
+                    }
+                    onDelete={() => setSelectTicket(ticket.id)}
+                  />
+                );
+              })}
+            </tbody>
+          </table>
 
-        {selectTicket !== undefined && (
-          <Alert
-            title="Are you sure you want to delete this ticket?"
-            message="If you do not want to delete this ticket please select Confirm, to return please Cancel."
-            onConfirm={handleDelete}
-          />
-        )}
+          {selectTicket !== undefined && (
+            <Alert
+              title="Are you sure you want to delete this ticket?"
+              message="If you do not want to delete this ticket please select Confirm, to return please Cancel."
+              onConfirm={handleDelete}
+            />
+          )}
+        </div>
       </section>
     </ContextProvider>
   );

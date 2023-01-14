@@ -1,5 +1,5 @@
 /* eslint-disable no-undef */
-const { priorities } = require("../config/constant");
+const { PRIORITIES } = require("../config/constant");
 
 class PriorityController {
   constructor(req, res) {
@@ -8,7 +8,7 @@ class PriorityController {
   }
 
   GET() {
-    const data = priorities.map((item, index) => ({
+    const data = PRIORITIES.map((item, index) => ({
       value: index + 1,
       text: item,
     }));

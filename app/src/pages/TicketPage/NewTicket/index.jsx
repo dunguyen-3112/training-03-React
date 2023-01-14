@@ -3,14 +3,15 @@ import React, { memo } from "react";
 import classes from "../index.module.sass";
 import FormTicket from "../FormTicket/Index";
 import * as API from "@utils/api";
-import { OK, TICKET_ROUTE } from "@src/constants";
+import { CREATED_SUCCESS, TICKET_ROUTE } from "@src/constants";
+import { useCallback } from "react";
 
 function NewTicket() {
-  const handleNew = async (data) => {
-    const response = await API.update(`/${TICKET_ROUTE}`, data);
-    if (response.status === OK) alert("Updated Ticket Success!");
+  const handleNew = useCallback(async function (data) {
+    const response = await API.create(`/${TICKET_ROUTE}`, data);
+    if (response.status === CREATED_SUCCESS) alert("Updated Ticket Success!");
     else console.log("Error updating Ticket Success!");
-  };
+  }, []);
 
   return (
     <section className={classes["tickets"]}>

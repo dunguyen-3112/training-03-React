@@ -1,24 +1,24 @@
 @use '../../assets/style/valiable' as v
-header
-  display: flex
+header.header
   justify-content: space-between
   align-items: center
+  padding-left: 32px
+  background-color: v.$background-light-color
   .header__title
-      font-size: v.$font-size-xl
-      font-weight: v.$font-weight-bold
-      padding-left: 32px
+    font-size: v.$font-size-xl
+    font-weight: v.$font-weight-bold
   .header__user-action
-    display: flex
     gap: 32px
+    align-items: center
+    flex-wrap: nowrap
     .header-action
-        display: flex
-        gap: 25px
-        align-items: center
+      gap: 25px
+      align-items: center
     .line
-        background-color: v.$text-gray-light-color
-        width: 1.5px
+      background-color: v.$text-gray-light-color
+      width: 1.5px
+      height: 32px
     .header-user-info
-      display: flex
       gap: 14px
       align-items: center
       position: relative

@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, memo } from "react";
 
 import { Input } from "@components/Forms";
 import { Button } from "@components/Uis";
-import classes from "./FormLogin.module.sass";
+import classes from "./index.module.sass";
 
 const FormLogin = ({ onLogin }) => {
   const emailRef = useRef();
@@ -13,20 +13,18 @@ const FormLogin = ({ onLogin }) => {
 
   const handleLogin = (event) => {
     event.preventDefault();
-
     const email = emailRef.current.value;
     const password = passwordRef.current.value;
 
-    if (email && password) {
-      onLogin(email, password);
-    } else {
-      setEmail("");
-      setPassword("");
-      emailRef.current.focus();
-    }
+    if (email && password) return onLogin(email, password);
+
+    setEmail("");
+    setPassword("");
+    emailRef.current.focus();
   };
+
   return (
-    <form className={classes["form-login"]}>
+    <form className={`${classes["form-login"]} flex`}>
       <Input
         message=""
         placeholder="Email address"
@@ -54,4 +52,4 @@ FormLogin.propTypes = {
   onLogin: PropTypes.func.isRequired,
 };
 
-export default FormLogin;
+export default memo(FormLogin);

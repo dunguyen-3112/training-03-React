@@ -30,16 +30,21 @@ class Ticket {
     });
   }
 
-  compare({ name, dueDate, description, priority, status, assignBy }) {
-    const isCompare =
-      name === this.name &&
-      description === this.description &&
-      priority === this.priority &&
-      status === this.status &&
-      dueDate === this.dueDate &&
-      assignBy === this.assignBy;
+  compare(data) {
+    try {
+      const { name, dueDate, description, priority, status, assignBy } = data;
+      const isCompare =
+        name === this.name &&
+        description === this.description &&
+        priority === this.priority &&
+        status === this.status &&
+        dueDate === this.dueDate &&
+        assignBy === this.assignBy;
 
-    return isCompare;
+      return isCompare;
+    } catch (e) {
+      return false;
+    }
   }
 
   validate() {
