@@ -9,38 +9,82 @@ import {
 } from "@constants/routes";
 import * as API from "@utils/api";
 import { useFetch } from "@hooks";
-import TicketRow from "./TicketRow";
-import { Button } from "@components/Uis";
+import TicketRow from "./components/TicketRow";
+import { Button, Alert } from "@components";
 import classes from "./index.module.sass";
-import Alert from "@components/Uis/Alert";
 import ContextProvider from "@context/ContextProvider";
-import { FilterIcon, NewIcon, SortIcon } from "@components/Uis/Icon";
+import { FilterIcon, NewIcon, SortIcon } from "@components/Icon";
+import { Loading, Notification, Pagination } from "@src/components";
 
 export default function TicketPage() {
+  const [pageTicket, setPageTicket] = useState(1);
   // fetch data Status, Priority and Ticket
-  const [loading1, statuses, error1] = useFetch(`/${STATUS_ROUTE}`);
-  const [loading2, priorities, error2] = useFetch(`/${PRIORIRY_ROUTE}`);
-  const [loading, tickets, error] = useFetch(`/${TICKET_ROUTE}`);
+  const [notifi, setNotifi] = useState();
 
   // Manage state of Ticket id select
   const [selectTicket, setSelectTicket] = useState();
-  const [listTicket, setListTicket] = useState(tickets);
 
   // Init navigate
   const navigate = useNavigate();
+  let [loading1, dataStatuses] = useFetch(`${STATUS_ROUTE}`);
+  const [loading2, dataPriorities] = useFetch(`${PRIORIRY_ROUTE}`);
+  const [loading, dataTickets] = useFetch(
+    `${TICKET_ROUTE}?_page=${pageTicket}`
+  );
 
-  // Save status and priority values to local storage
-  localStorage.setItem("priorities", JSON.stringify(priorities));
-  localStorage.setItem("statuses", JSON.stringify(statuses));
+  const [tickets, setTickets] = useState(dataTickets?.data);
+  const [ticketsMeta, setTicketsMeta] = useState(dataTickets?.meta);
+  const [priorities, setPriorities] = useState(dataPriorities);
+  const [statuses, setStatuses] = useState(dataStatuses);
+
+  useEffect(() => {
+    // Save status and priority values to local storage
+    priorities !== undefined &&
+      localStorage.setItem("priorities", JSON.stringify(priorities));
+    statuses !== undefined &&
+      localStorage.setItem("statuses", JSON.stringify(statuses));
+    tickets !== undefined &&
+      localStorage.setItem("tickets", JSON.stringify(tickets));
+    ticketsMeta !== undefined &&
+      localStorage.setItem("ticketsMeta", JSON.stringify(ticketsMeta));
+
+    if (priorities === undefined) {
+      const priorities = JSON.parse(localStorage.getItem("priorities"));
+      setPriorities(priorities);
+    }
+
+    if (statuses === undefined) {
+      const statuses = JSON.parse(localStorage.getItem("statuses"));
+      setStatuses(statuses);
+    }
+    if (tickets === undefined) {
+      const tickets = JSON.parse(localStorage.getItem("tickets"));
+      setTickets(tickets);
+    }
+
+    if (ticketsMeta === undefined) {
+      const ticketsMeta = JSON.parse(localStorage.getItem("ticketsMeta"));
+      setTicketsMeta(ticketsMeta);
+    }
+  }, [tickets, priorities, statuses, pageTicket, ticketsMeta]);
+
+  useEffect(() => {
+    dataPriorities && setPriorities(dataPriorities);
+    dataStatuses && setStatuses(dataStatuses);
+    if (dataTickets) {
+      setTickets(dataTickets?.data);
+      setTicketsMeta(dataTickets?.meta);
+    }
+  }, [dataPriorities, dataTickets, dataStatuses]);
 
   // Implement function delete Ticket
   const handleDelete = useCallback(
     async (status) => {
       if (status > 0) {
-        const response = await API.remove(`/${TICKET_ROUTE}/${selectTicket}`);
+        const response = await API.remove(`${TICKET_ROUTE}/${selectTicket}`);
         if (response.status == 200) {
           alert("Success to delete!");
-          setListTicket((listTicket) =>
+          setTickets((listTicket) =>
             listTicket.filter((ticket) => ticket.id !== selectTicket)
           );
           setSelectTicket(undefined);
@@ -53,32 +97,28 @@ export default function TicketPage() {
     [selectTicket]
   );
 
-  useEffect(() => {
-    setListTicket(tickets);
-  }, [tickets]);
+  const handleChangePageTicketpage = useCallback((page) => {
+    setPageTicket(page);
+  }, []);
 
   // Handle data loading
-  if (loading || loading1 || loading2)
-    return (
-      <div>
-        <p>Loading...</p>
-      </div>
-    );
-  // Handle data loading errors
-  if (error || error1 || error2)
-    return (
-      <div>
-        <p>Error...</p>
-      </div>
-    );
+  if (
+    loading ||
+    loading1 ||
+    loading2 ||
+    tickets === undefined ||
+    priorities === undefined ||
+    statuses === undefined
+  )
+    return <Loading />;
 
   return (
     <ContextProvider value={{ statuses, priorities }}>
+      {notifi && <Notification message="Xoa" type="success" time={3} />}
       <section className={classes["tickets__page"]}>
         <div className={classes["tickets__content"]}>
           <span className={classes["tickets__header"]}>
             <h2 className={classes["tickets-header__title"]}>All tickets</h2>
-
             <span className={classes["tickets-header__action"]}>
               <Button onClick={() => navigate("/tickets/new_ticket")}>
                 <NewIcon />
@@ -107,9 +147,8 @@ export default function TicketPage() {
                 <th></th>
               </tr>
             </thead>
-
             <tbody>
-              {listTicket?.map((ticket, index) => {
+              {tickets?.map((ticket, index) => {
                 return (
                   <TicketRow
                     index={index}
@@ -124,11 +163,17 @@ export default function TicketPage() {
               })}
             </tbody>
           </table>
+          <Pagination
+            counterItems={ticketsMeta?.total_items}
+            counterPages={ticketsMeta?.total_pages}
+            page={pageTicket}
+            onSelect={handleChangePageTicketpage}
+          />
 
           {selectTicket !== undefined && (
             <Alert
-              title="Are you sure you want to delete this ticket?"
-              message="If you do not want to delete this ticket please select Confirm, to return please Cancel."
+              title="Are you sure you want to delete?"
+              message="If you really want to delete this ticket please select Confirm, to return please Cancel."
               onConfirm={handleDelete}
             />
           )}

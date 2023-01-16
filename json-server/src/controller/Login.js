@@ -34,32 +34,29 @@ class LoginController {
       return this.res.json({ accessToken });
     }
 
-    const { username, password } = this.req.body;
+    const { email, password } = this.req.body;
 
-    const user = await User.findUserByEmail(username);
+    const user = await User.findUserByEmail(email);
 
-    if (user?.password !== password) {
-      this.res.status(401);
+    if (user) {
+      if (user.password !== password) return this.res.sendStatus(401);
+      accessToken = generateAccessToken({ id: user.id, date: date.getTime() });
+      refreshToken = jwt.sign(
+        { id: user.id, date: date.getTime() },
+        process.env.REFRESH_TOKEN_SECRET,
+        {
+          expiresIn: "30d",
+        },
+      );
+      LoginController.refreshTokens.push(refreshToken);
+
       return this.res.json({
-        message: "Login failed! You please check email or password ?",
+        accessToken,
+        refreshToken,
       });
     }
 
-    accessToken = generateAccessToken({ id: user.id, date: date.getTime() });
-    refreshToken = jwt.sign(
-      { id: user.id, date: date.getTime() },
-      process.env.REFRESH_TOKEN_SECRET,
-      {
-        expiresIn: "30d",
-      },
-    );
-    LoginController.refreshTokens.push(refreshToken);
-
-    return this.res.json({
-      accessToken,
-      refreshToken,
-      id: user.id,
-    });
+    return this.res.sendStatus(400);
   }
 }
 

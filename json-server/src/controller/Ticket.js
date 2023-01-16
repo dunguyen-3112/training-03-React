@@ -13,9 +13,9 @@ class TicketController {
 
   async GET() {
     this.user = await User.findUserById(this.req.userId);
-    let { _ticket_id, _ticket_name } = this.req.query;
+    let { _ticket_id, _query, _page } = this.req.query;
     _ticket_id = _ticket_id || this.req.path.split("/tickets/").at(1);
-    const page = parseInt(this.req.query._page) || 1;
+    const page = parseInt(_page) || 1;
 
     let data;
     let pages;
@@ -29,46 +29,47 @@ class TicketController {
 
       return this.res.sendStatus(403);
     }
-    if (_ticket_name) {
+    if (_query) {
       const data = TicketsModel.tickets.filter((ticket) =>
-        stringsoSlug(ticket.name).includes(stringsoSlug(_ticket_name)),
+        stringsoSlug(ticket.name).includes(stringsoSlug(_query)),
       );
       const temp = await Promise.all(
         data.map(async ({ id, name, assignBy }) => {
-          console.log(37, { id });
           const user = await User.findUserById(assignBy);
           return { id, name, avatar: user?.avatarUrl };
         }),
       );
-      console.log(41, temp);
       return this.res.json(temp);
     }
 
     data = await TicketsModel.getAll();
+
+    const total_items = data.length;
     if (this.user.role !== "manager") {
       const tickets = data.filter(
         (ticket) => ticket.createBy === this.req.userId,
       );
       pages = paginate(tickets);
       data = await this.combineDatas(pages[page - 1]);
-      return this.res.json(data);
-      // {
-      //   data: data1,
-      //    meta: {
-      //      current_page: page,
-      //      total_pages: pages.length,
-      //      total_items: tickets.length,
-      //    },
-      //  }
+      return this.res.json({
+        data: data,
+        meta: {
+          current_page: page,
+          total_pages: pages.length,
+          total_items: tickets.length,
+        },
+      });
     }
     pages = paginate(data);
     data = await this.combineDatas(pages[page - 1]);
-    return this.res.json(data);
-    // meta: {
-    //   current_page: page,
-    //   total_pages: pages.length,
-    //   total_items: data.length,
-    // },
+    return this.res.json({
+      data: data,
+      meta: {
+        current_page: page,
+        total_pages: pages.length,
+        total_items: total_items,
+      },
+    });
   }
 
   async POST() {
@@ -77,7 +78,7 @@ class TicketController {
     const createBy = this.req.userId;
     const createDate = new Date();
 
-    const ticket = await TicketModel.add({
+    let ticket = await TicketModel.add({
       assignBy,
       description,
       dueDate,
@@ -89,6 +90,7 @@ class TicketController {
     });
     if (ticket) {
       this.res.status(201);
+      ticket = await this.combineData(ticket);
       return this.res.json(ticket);
     }
     return this.res.sendStatus(500);
@@ -97,7 +99,7 @@ class TicketController {
   async PUT() {
     const { status, priority, name, description, assignBy, dueDate, id } =
       this.req.body;
-    const ticket = await TicketModel.update({
+    let ticket = await TicketModel.update({
       assignBy,
       description,
       dueDate,
@@ -106,6 +108,8 @@ class TicketController {
       status,
       id,
     });
+
+    ticket = await this.combineData(ticket);
 
     if (ticket) return this.res.json(ticket);
     return this.res.sendStatus(500);
@@ -120,29 +124,30 @@ class TicketController {
     return this.res.sendStatus(404);
   }
 
+  async combineData(item) {
+    const user = await User.findUserById(item.assignBy);
+    if (user === undefined) return;
+    const tItem = {
+      ...item,
+      avatar: user.avatarUrl || "",
+      assignByName: `${user.firstName} ${user.lastName}`,
+    };
+    return tItem;
+  }
+
   /**
    *
    * @param {<Array<Ticket>} data
    * @returns
    */
   async combineDatas(data) {
-    const combineData = async (item) => {
-      const user = await User.findUserById(item.assignBy);
-      if (user === undefined) return;
-      const tItem = {
-        ...item,
-        customerAvatar: user.avatarUrl || "",
-        customerName: `${user.firstName} ${user.lastName}`,
-      };
-      return tItem;
-    };
-
-    data =
-      Array.from(data).length > 0
-        ? (await Promise.all(data.map((item) => combineData(item)))).filter(
-            (item) => item !== undefined,
-          )
-        : (data = combineData(data));
+    if (data)
+      data =
+        Array.from(data).length > 0
+          ? (
+              await Promise.all(data.map((item) => this.combineData(item)))
+            ).filter((item) => item !== undefined)
+          : (data = this.combineData(data));
     return data;
   }
 }

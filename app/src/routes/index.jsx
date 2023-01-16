@@ -10,9 +10,8 @@ import {
   SettingIcon,
   TicketIcon,
   SubscriptionIcon,
-} from "@components/Uis/Icon";
-import NewTicket from "@pages/TicketPage/NewTicket";
-import EditTicket from "@pages/TicketPage/EditTicket";
+} from "@components/Icon";
+import { NewTicket, EditTicket } from "@pages/TicketPage/components";
 import LoginPage from "@pages/LoginPage";
 
 export const routes = [

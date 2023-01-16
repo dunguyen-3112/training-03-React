@@ -10,7 +10,7 @@ import * as API from "../utils/api";
  */
 export default function useFetch(url, options) {
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState(undefined);
   const [error, setError] = useState(null);
 
   useEffect(() => {

@@ -11,7 +11,7 @@ export async function makeRequest(method, path, data) {
     if (accessToken) {
       switch (method) {
         case methods.GET:
-          response = await axios.get(`${API_ENDPOINT}${path}`, {
+          response = await axios.get(`${API_ENDPOINT}/${path}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },
@@ -21,7 +21,7 @@ export async function makeRequest(method, path, data) {
             status: response.status,
           };
         case methods.POST:
-          response = await axios.post(`${API_ENDPOINT}${path}`, data, {
+          response = await axios.post(`${API_ENDPOINT}/${path}`, data, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${accessToken}`,
@@ -32,7 +32,7 @@ export async function makeRequest(method, path, data) {
             status: response.status,
           };
         case methods.PUT:
-          response = await axios.put(`${API_ENDPOINT}${path}`, data, {
+          response = await axios.put(`${API_ENDPOINT}/${path}`, data, {
             headers: {
               "Content-Type": "application/json",
               Authorization: `Bearer ${accessToken}`,
@@ -43,7 +43,7 @@ export async function makeRequest(method, path, data) {
             status: response.status,
           };
         case methods.DELETE:
-          response = await axios.delete(`${API_ENDPOINT}${path}`, {
+          response = await axios.delete(`${API_ENDPOINT}/${path}`, {
             headers: {
               Authorization: `Bearer ${accessToken}`,
             },

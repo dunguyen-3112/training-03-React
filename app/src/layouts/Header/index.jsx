@@ -1,15 +1,13 @@
-import React, { useState, memo, useContext } from "react";
+import React, { useState, memo, useContext, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-import classes from "./index.module.sass";
 import { routes } from "@routes";
-import { Context } from "@context/ContextProvider";
 import * as API from "@utils/api";
-import { useCallback } from "react";
+import classes from "./index.module.sass";
 import { TICKET_ROUTE } from "@constants/routes";
-import { Search } from "@components/Forms";
-import { Button, Modal } from "@components/Uis";
+import { Context } from "@context/ContextProvider";
+import { Button, Modal, Search } from "@components";
 
 const Header = () => {
   const { page, user, setUser } = useContext(Context);
@@ -17,7 +15,7 @@ const Header = () => {
   const navigate = useNavigate();
 
   const handleSelect = useCallback(
-    (id) => {
+    ({ id }) => {
       const route = location.pathname.split("/").at(1);
       switch (route) {
         case TICKET_ROUTE:
@@ -36,9 +34,8 @@ const Header = () => {
   }, [setUser]);
 
   const handleSearch = useCallback(async (query) => {
-    const response = await API.get(`/tickets?_ticket_name=${query}`);
+    const response = await API.get(`${TICKET_ROUTE}?_query=${query}`);
     const results = response.data;
-    console.log(results);
     return results;
   }, []);
 
@@ -49,7 +46,7 @@ const Header = () => {
       </h1>
 
       <span className={`${classes["header__user-action"]} flex`}>
-        <Search onSearch={handleSearch} onSelect={handleSelect} />
+        <Search onSearch={handleSearch} onSelect={handleSelect} isVisible />
         <div className={classes.line}></div>
         <span
           className={`${classes["header-user-info"]} flex`}

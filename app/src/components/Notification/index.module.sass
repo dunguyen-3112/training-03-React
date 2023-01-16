@@ -1,0 +1,83 @@
+@use '../../assets/style/valiable' as v
+
+@keyframes visible
+  from
+    opacity: .2
+    top: -50px
+  to
+    opacity: 1
+    top: 10px
+
+@keyframes visible1
+  from
+    opacity: 1
+    top: 10px
+  to
+    opacity: .2
+    top: -50px
+
+$time_duration: 3s
+
+.notification
+  gap: 50px
+  flex-direction: row-reverse
+  padding: 12px 20px
+  border-radius: 10px
+  max-height: 100px
+  position: absolute
+  opacity: 1
+  box-shadow: 3px 3px 5px rgba(0, 0, 0, 0.3)
+  top: 10px
+  display: none
+  right: 40px
+  &__content
+    flex-direction: column
+  &__title
+    font-weight: v.$font-weight-bold
+    font-size: v.$font-size-l
+    color: v.$white-color
+    text-transform: uppercase
+  &__message
+    font-weight: v.$font-weight-regular
+    font-size: v.$font-size-m
+    color: v.$white-color
+  &__close
+    width: 20px
+    height: 20px
+    position: relative
+    overflow: hidden
+    &:hover
+      cursor: pointer
+      opacity: .5
+      &:after
+        background-color: v.$white-color
+      &:before
+        background-color: v.$white-color   
+    &:after
+      position: absolute
+      width: 20px
+      height: 5px
+      content: ""
+      background-color: v.$gray-color
+      top: 50%
+      translate: 0 -50%
+      rotate: 45deg
+    &:before
+      position: absolute
+      width: 20px
+      height: 5px
+      content: ""
+      background-color: v.$gray-color
+      top: 50%
+      translate: 0 -50%
+      rotate: -45deg
+  &.success
+    background-color: v.$green-color
+  &.error
+    background-color: v.$red-color
+  &[data-time]
+    display: flex
+    animation: visible $time_duration ease-in-out
+  &[data-time="0"]
+    display: none
+    animation: visible1 $time_duration ease-in-out

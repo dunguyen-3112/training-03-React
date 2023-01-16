@@ -15,7 +15,7 @@ function App() {
 
   useEffect(() => {
     async function refreshLogin() {
-      const response = await API.get(`/${ME_ROUTE}`);
+      const response = await API.get(ME_ROUTE);
       if (response?.status === OK) {
         const user = response.data;
         setUser(user);

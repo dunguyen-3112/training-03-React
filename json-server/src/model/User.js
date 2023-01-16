@@ -29,7 +29,12 @@ class User {
    * @returns User
    */
   static async findUserByEmail(email) {
-    return await db.users.find((user) => user.email === email);
+    return await db.users.find((user) => {
+      if (user.email === email) {
+        console.log(34, user);
+        return user;
+      }
+    });
   }
 
   /**
