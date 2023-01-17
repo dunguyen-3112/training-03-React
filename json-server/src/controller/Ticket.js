@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 const TicketModel = require("../model/Ticket");
 const TicketsModel = require("../model/Tickets");
-const User = require("../model/User");
+const Users = require("../model/Users");
 const paginate = require("../services/pagination");
 const stringsoSlug = require("../services/text");
 
@@ -9,10 +9,12 @@ class TicketController {
   constructor(req, res) {
     this.req = req;
     this.res = res;
+    this.modelTicket = new TicketsModel();
+    this.modelUser = new Users();
   }
 
   async GET() {
-    this.user = await User.findUserById(this.req.userId);
+    this.user = await this.modelUser.findUserById(this.req.userId);
     let { _ticket_id, _query, _page } = this.req.query;
     _ticket_id = _ticket_id || this.req.path.split("/tickets/").at(1);
     const page = parseInt(_page) || 1;
@@ -21,7 +23,7 @@ class TicketController {
     let pages;
 
     if (_ticket_id) {
-      data = await TicketModel.getById(_ticket_id);
+      data = await this.modelTicket.getById(_ticket_id);
       if (data?.createBy === this.req.userId || this.user.role === "manager") {
         data = await this.combineDatas(data);
         return this.res.json(data);
@@ -30,19 +32,19 @@ class TicketController {
       return this.res.sendStatus(403);
     }
     if (_query) {
-      const data = TicketsModel.tickets.filter((ticket) =>
+      const data = this.modelTicket.tickets.filter((ticket) =>
         stringsoSlug(ticket.name).includes(stringsoSlug(_query)),
       );
       const temp = await Promise.all(
         data.map(async ({ id, name, assignBy }) => {
-          const user = await User.findUserById(assignBy);
+          const user = await this.modelUser.findUserById(assignBy);
           return { id, name, avatar: user?.avatarUrl };
         }),
       );
       return this.res.json(temp);
     }
 
-    data = await TicketsModel.getAll();
+    data = await this.modelTicket.getAll();
 
     const total_items = data.length;
     if (this.user.role !== "manager") {
@@ -78,7 +80,7 @@ class TicketController {
     const createBy = this.req.userId;
     const createDate = new Date();
 
-    let ticket = await TicketModel.add({
+    let ticket = await this.modelTicket.add({
       assignBy,
       description,
       dueDate,
@@ -99,7 +101,7 @@ class TicketController {
   async PUT() {
     const { status, priority, name, description, assignBy, dueDate, id } =
       this.req.body;
-    let ticket = await TicketModel.update({
+    let ticket = await this.modelTicket.update({
       assignBy,
       description,
       dueDate,
@@ -117,7 +119,7 @@ class TicketController {
 
   async DELETE() {
     const id = this.req.path.split("/").at(-1);
-    const ticket = TicketModel.delete(id);
+    const ticket = this.modelTicket.delete(id);
     if (ticket) {
       return this.res.json(ticket);
     }
@@ -125,7 +127,7 @@ class TicketController {
   }
 
   async combineData(item) {
-    const user = await User.findUserById(item.assignBy);
+    const user = await this.modelUser.findUserById(item.assignBy);
     if (user === undefined) return;
     const tItem = {
       ...item,

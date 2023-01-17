@@ -54,7 +54,6 @@ const Input = ({
         type={!isVisible ? type : "text"}
         className="form__control"
         ref={inputRef}
-        maxLength={20}
         onFocus={handleFocusInput}
         onBlur={handleBlurInput}
         disabled={disabled}

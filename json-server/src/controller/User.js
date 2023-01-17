@@ -1,12 +1,14 @@
 /* eslint-disable no-undef */
 const jwt = require("jsonwebtoken");
 const User = require("../model/User");
+const Users = require("../model/Users");
 require("dotenv").config();
 
 class UserController {
   constructor(req, res) {
     this.req = req;
     this.res = res;
+    this.model = new Users();
   }
 
   async GET() {
@@ -14,7 +16,9 @@ class UserController {
 
     if (path.split("/").at(-1) === "me") {
       const meId = this.req.userId;
-      const { firstName, lastName, avatarUrl } = await User.findUserById(meId);
+      const { firstName, lastName, avatarUrl } = await this.model.findUserById(
+        meId,
+      );
       const responeData = {
         name: `${firstName} ${lastName}`,
         avatar: avatarUrl,
@@ -25,7 +29,7 @@ class UserController {
     const { _query } = this.req.query;
 
     if (_query) {
-      const data = await User.searchUser(_query);
+      const data = await this.model.searchUser(_query);
       const users = data.map((user) => ({
         name: `${user.firstName} ${user.lastName}`,
         avatar: user.avatarUrl,
@@ -37,7 +41,7 @@ class UserController {
     console.log(37, path);
 
     if (id) {
-      let user = await User.findUserById(id);
+      let user = await this.model.findUserById(id);
       console.log(41, path);
       if (user) {
         user = {

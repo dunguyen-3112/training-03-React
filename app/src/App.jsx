@@ -6,12 +6,15 @@ import Header from "@layouts/Header";
 import SideBar from "@layouts/Sidebar";
 import * as API from "@utils/api";
 import { routes } from "@routes";
-import { LOGIN_ROUTE, ME_ROUTE, OK } from "./constants";
+import { LOGIN_ROUTE, ME_ROUTE, OK, TICKET_ROUTE } from "./constants";
+import { Notification } from "./components";
+import { useLayoutEffect } from "react";
 
 function App() {
   const [page, setPage] = useState(1);
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
+  const [notifi, setNotifi] = useState();
 
   useEffect(() => {
     async function refreshLogin() {
@@ -19,18 +22,33 @@ function App() {
       if (response?.status === OK) {
         const user = response.data;
         setUser(user);
+        navigate(`/${TICKET_ROUTE}`);
       } else navigate(`/${LOGIN_ROUTE}`);
     }
     user === null && refreshLogin();
   }, [user, page, navigate]);
 
+  useLayoutEffect(() => {
+    console.log(notifi);
+    const timeID = setTimeout(() => {
+      if (notifi?.time > 0)
+        setNotifi((prev) => ({ ...prev, time: prev?.time - 1 }));
+    }, 1000);
+    return () => clearInterval(timeID);
+  }, [notifi]);
+
   return (
-    <ContextProvider value={{ page, setPage, user, setUser }}>
+    <ContextProvider value={{ page, setPage, user, setUser, setNotifi }}>
       <main data-authenticated={user !== null}>
         {user && (
           <>
             <SideBar />
             <Header />
+            <Notification
+              type={notifi?.type}
+              message={notifi?.message}
+              time={notifi?.time || 0}
+            />
           </>
         )}
         <Routes>

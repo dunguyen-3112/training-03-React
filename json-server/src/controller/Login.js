@@ -1,7 +1,7 @@
 /* eslint-disable no-undef */
 require("dotenv").config();
 const jwt = require("jsonwebtoken");
-const User = require("../model/User");
+const Users = require("../model/Users");
 
 class LoginController {
   static refreshTokens = [];
@@ -9,6 +9,7 @@ class LoginController {
   constructor(req, res) {
     this.req = req;
     this.res = res;
+    this.model = new Users();
   }
 
   async POST() {
@@ -36,7 +37,7 @@ class LoginController {
 
     const { email, password } = this.req.body;
 
-    const user = await User.findUserByEmail(email);
+    const user = await this.model.findUserByEmail(email);
 
     if (user) {
       if (user.password !== password) return this.res.sendStatus(401);

@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 
 import {
@@ -12,15 +12,13 @@ import { useFetch } from "@hooks";
 import TicketRow from "./components/TicketRow";
 import { Button, Alert } from "@components";
 import classes from "./index.module.sass";
-import ContextProvider from "@context/ContextProvider";
+import ContextProvider, { Context } from "@context/ContextProvider";
 import { FilterIcon, NewIcon, SortIcon } from "@components/Icon";
-import { Loading, Notification, Pagination } from "@src/components";
+import { Loading, Pagination } from "@src/components";
 
 export default function TicketPage() {
   const [pageTicket, setPageTicket] = useState(1);
-  // fetch data Status, Priority and Ticket
-  const [notifi, setNotifi] = useState();
-
+  const { setNotifi } = useContext(Context);
   // Manage state of Ticket id select
   const [selectTicket, setSelectTicket] = useState();
 
@@ -43,30 +41,7 @@ export default function TicketPage() {
       localStorage.setItem("priorities", JSON.stringify(priorities));
     statuses !== undefined &&
       localStorage.setItem("statuses", JSON.stringify(statuses));
-    tickets !== undefined &&
-      localStorage.setItem("tickets", JSON.stringify(tickets));
-    ticketsMeta !== undefined &&
-      localStorage.setItem("ticketsMeta", JSON.stringify(ticketsMeta));
-
-    if (priorities === undefined) {
-      const priorities = JSON.parse(localStorage.getItem("priorities"));
-      setPriorities(priorities);
-    }
-
-    if (statuses === undefined) {
-      const statuses = JSON.parse(localStorage.getItem("statuses"));
-      setStatuses(statuses);
-    }
-    if (tickets === undefined) {
-      const tickets = JSON.parse(localStorage.getItem("tickets"));
-      setTickets(tickets);
-    }
-
-    if (ticketsMeta === undefined) {
-      const ticketsMeta = JSON.parse(localStorage.getItem("ticketsMeta"));
-      setTicketsMeta(ticketsMeta);
-    }
-  }, [tickets, priorities, statuses, pageTicket, ticketsMeta]);
+  }, [priorities, statuses]);
 
   useEffect(() => {
     dataPriorities && setPriorities(dataPriorities);
@@ -83,23 +58,42 @@ export default function TicketPage() {
       if (status > 0) {
         const response = await API.remove(`${TICKET_ROUTE}/${selectTicket}`);
         if (response.status == 200) {
-          alert("Success to delete!");
+          setNotifi({
+            type: "success",
+            message: "Success to delete!",
+            time: 3,
+          });
           setTickets((listTicket) =>
             listTicket.filter((ticket) => ticket.id !== selectTicket)
           );
           setSelectTicket(undefined);
           return;
         }
-        alert("Error to delete");
+        setNotifi({
+          type: "error",
+          message: "Error to delete",
+          time: 3,
+        });
       }
       setSelectTicket(undefined);
     },
-    [selectTicket]
+    [selectTicket, setNotifi]
   );
 
   const handleChangePageTicketpage = useCallback((page) => {
     setPageTicket(page);
   }, []);
+
+  const handleNewTicket = useCallback(() => {
+    navigate("/tickets/new_ticket");
+  }, [navigate]);
+
+  const handleUpdate = useCallback(
+    (id) => {
+      navigate(`/${EDIT_TICKET_ROUTE}/${id}`);
+    },
+    [navigate]
+  );
 
   // Handle data loading
   if (
@@ -114,13 +108,12 @@ export default function TicketPage() {
 
   return (
     <ContextProvider value={{ statuses, priorities }}>
-      {notifi && <Notification message="Xoa" type="success" time={3} />}
       <section className={classes["tickets__page"]}>
         <div className={classes["tickets__content"]}>
           <span className={classes["tickets__header"]}>
             <h2 className={classes["tickets-header__title"]}>All tickets</h2>
             <span className={classes["tickets-header__action"]}>
-              <Button onClick={() => navigate("/tickets/new_ticket")}>
+              <Button onClick={handleNewTicket}>
                 <NewIcon />
                 <span className={classes["item__title"]}>Add Ticket</span>
               </Button>
@@ -154,9 +147,7 @@ export default function TicketPage() {
                     index={index}
                     key={ticket.id}
                     ticket={ticket}
-                    onEdit={() =>
-                      navigate(`/${EDIT_TICKET_ROUTE}/${ticket.id}`)
-                    }
+                    onEdit={() => handleUpdate(ticket.id)}
                     onDelete={() => setSelectTicket(ticket.id)}
                   />
                 );

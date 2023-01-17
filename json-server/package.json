@@ -2,15 +2,15 @@
   "name": "server-react-practice",
   "version": "0.1.0",
   "scripts": {
-    "server": "nodemon src/server.js",
+    "dev": "nodemon src/server.js",
+    "server": "node src/server",
     "lint:fix": "eslint . --ext .js --fix",
     "format": "prettier --write '**/*.js'"
   },
   "dependencies": {
     "dotenv": "^16.0.3",
     "json-server": "^0.17.1",
-    "jsonwebtoken": "^8.5.1",
-    "uuid": "^9.0.0"
+    "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
     "eslint": "^8.31.0",

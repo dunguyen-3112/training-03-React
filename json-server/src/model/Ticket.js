@@ -1,9 +1,6 @@
-/* eslint-disable no-undef */
-const uuid = require("uuid");
 const { priorities, statuses } = require("../config/constant");
 const db = require("../data/db.json");
 const { isValidDate } = require("../services/validate");
-const saveChanges = require("./utils");
 
 class Ticket {
   constructor({
@@ -30,6 +27,11 @@ class Ticket {
     });
   }
 
+  /**
+   *
+   * @param {Ticket} data
+   * @returns {boolean}
+   */
   compare(data) {
     try {
       const { name, dueDate, description, priority, status, assignBy } = data;
@@ -47,6 +49,11 @@ class Ticket {
     }
   }
 
+  /**
+   *
+   * @param {Ticket} data
+   * @returns {boolean}
+   */
   validate() {
     const {
       name,
@@ -84,72 +91,6 @@ class Ticket {
       db.users.find((user) => user.id === createBy) !== null;
     return isValid;
   }
-
-  /**
-   * @param {string}
-   * @returns {Ticket}
-   */
-  static async getById(id) {
-    const ticket = await db.tickets.find((ticket) => ticket.id === id);
-    return ticket;
-  }
-
-  /**
-   *
-   * @param {Ticket} param0
-   * @returns {Ticket}
-   */
-  static async add(ticket) {
-    ticket = new Ticket({
-      id: uuid.v4(),
-      ...ticket,
-    });
-    db.tickets.push(ticket);
-    saveChanges(db);
-    return ticket;
-  }
-
-  /**
-   *
-   * @param {Ticket} param0
-   * @returns {Ticket}
-   */
-  static async update(data) {
-    let ticketCurrent = db.tickets.find((ticket) => ticket.id === data.id);
-    const isChange = new Ticket(data).compare(ticketCurrent);
-
-    if (!isChange) {
-      ticketCurrent = {
-        ...ticketCurrent,
-        ...data,
-        createBy: ticketCurrent.createBy,
-        createDate: ticketCurrent.createDate,
-      };
-
-      db.tickets = db.tickets.filter((ticket) => ticket.id !== data.id);
-      db.tickets.push(ticketCurrent);
-
-      saveChanges(db);
-    }
-
-    return ticketCurrent;
-  }
-
-  /**
-   *
-   * @param {string} id
-   * @returns {Ticket}
-   */
-  static async delete(id) {
-    const ticket = db.tickets.find((ticket) => ticket.id === id);
-
-    db.tickets = db.tickets.filter((ticket) => ticket.id !== id);
-
-    saveChanges(db);
-
-    return { data: ticket };
-  }
 }
 
-// eslint-disable-next-line no-undef
 module.exports = Ticket;

@@ -13,44 +13,6 @@ class User {
       id,
     });
   }
-
-  /**
-   *
-   * @param {string} id
-   * @returns User
-   */
-  static async findUserById(id) {
-    return await db.users.find((user) => user.id === id);
-  }
-
-  /**
-   *
-   * @param {string} email
-   * @returns User
-   */
-  static async findUserByEmail(email) {
-    return await db.users.find((user) => {
-      if (user.email === email) {
-        console.log(34, user);
-        return user;
-      }
-    });
-  }
-
-  /**
-   *
-   * @param {string} query
-   * @returns
-   */
-  static async searchUser(query) {
-    query = query.toLowerCase();
-    const users = await db.users.filter(
-      (user) =>
-        user.lastName.toLowerCase().includes(query) ||
-        user.firstName.toLowerCase().includes(query),
-    );
-    return users;
-  }
 }
 
 module.exports = User;
