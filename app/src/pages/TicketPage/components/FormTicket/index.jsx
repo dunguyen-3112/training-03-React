@@ -51,9 +51,8 @@ function FormTicket({ ticket, onSubmit }) {
         setUser(user);
       }
     }
-
     getUser();
-  }, []);
+  }, [user?.id]);
 
   useEffect(() => {
     setFormData({ ...formData, assignBy: user?.id });

@@ -15,7 +15,7 @@ class TicketController {
 
   async GET() {
     this.user = await this.modelUser.findUserById(this.req.userId);
-    let { _ticket_id, _query, _page } = this.req.query;
+    let { _ticket_id, _query, _page, status, priority } = this.req.query;
     _ticket_id = _ticket_id || this.req.path.split("/tickets/").at(1);
     const page = parseInt(_page) || 1;
 
@@ -45,6 +45,16 @@ class TicketController {
     }
 
     data = await this.modelTicket.getAll();
+
+    if (status) {
+      status = parseInt(status, 10);
+      data = data.filter((ticket) => ticket.status === status);
+    }
+
+    if (priority) {
+      priority = parseInt(priority, 10);
+      data = data.filter((ticket) => ticket.priority === priority);
+    }
 
     const total_items = data.length;
     if (this.user.role !== "manager") {

@@ -38,7 +38,7 @@ function DropDown({
         onBlur={handleBlur}
         tabIndex={tabIndex}
       >
-        <option value={SELECT_OPTIONS_DEFAULT}>{label}</option>
+        <option value={SELECT_OPTIONS_DEFAULT}></option>
         {options?.map((option) => (
           <option key={option.value} value={option.value}>
             {option.text}

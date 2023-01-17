@@ -6,7 +6,11 @@
     border: 1px solid v.$gray-color
     height: max-content
     border-radius: 8px
+    min-height: 100%
+    flex-direction: column
+    justify-content: flex-start
     padding: 24px 40px
+    position: relative
     .tickets__header
       display: flex
       justify-content: space-between
@@ -20,11 +24,17 @@
         display: flex
         gap: 32px
         justify-content: flex-end
-        .nav__action__item
+        button
+          padding: 5px 10px
+          width: max-content
+        .nav__item
           display: flex
+          position: relative
           gap: 9px
+          padding: 2px 5px
+          width: max-content
           align-items: center
-          cursor: pointer
+          border: 2px solid transparent
           .item__title
             color: v.$text-gray-dark-color
             font-weight: v.$font-weight-semi-bold

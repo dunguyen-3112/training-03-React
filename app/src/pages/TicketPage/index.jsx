@@ -14,21 +14,27 @@ import { Button, Alert } from "@components";
 import classes from "./index.module.sass";
 import ContextProvider, { Context } from "@context/ContextProvider";
 import { FilterIcon, NewIcon, SortIcon } from "@components/Icon";
-import { Loading, Pagination } from "@src/components";
+import { Loading, Modal, Pagination } from "@src/components";
+import FormSort from "./components/FormSort";
+import FormFilter from "./components/FormFilter";
+import { OK } from "@src/constants";
 
 export default function TicketPage() {
   const [pageTicket, setPageTicket] = useState(1);
   const { setNotifi } = useContext(Context);
+  const [query, setQuery] = useState(`_page=${pageTicket}`);
+  const [dataQuery, setDataQuery] = useState();
   // Manage state of Ticket id select
   const [selectTicket, setSelectTicket] = useState();
+
+  const [isVisibleSort, setVisibleSort] = useState(false);
+  const [isVisibleFilter, setVisibleFilter] = useState(false);
 
   // Init navigate
   const navigate = useNavigate();
   let [loading1, dataStatuses] = useFetch(`${STATUS_ROUTE}`);
   const [loading2, dataPriorities] = useFetch(`${PRIORIRY_ROUTE}`);
-  const [loading, dataTickets] = useFetch(
-    `${TICKET_ROUTE}?_page=${pageTicket}`
-  );
+  const [loading, dataTickets] = useFetch(`${TICKET_ROUTE}?${query}`);
 
   const [tickets, setTickets] = useState(dataTickets?.data);
   const [ticketsMeta, setTicketsMeta] = useState(dataTickets?.meta);
@@ -51,6 +57,16 @@ export default function TicketPage() {
       setTicketsMeta(dataTickets?.meta);
     }
   }, [dataPriorities, dataTickets, dataStatuses]);
+
+  useEffect(() => {
+    if (dataQuery) {
+      const keys = Object.keys(dataQuery);
+      const stringQuery =
+        `_page=${pageTicket}` +
+        keys.map((key) => `&${[key]}=${dataQuery[key]}`).join("");
+      setQuery(stringQuery);
+    } else setQuery("");
+  }, [dataQuery, pageTicket]);
 
   // Implement function delete Ticket
   const handleDelete = useCallback(
@@ -95,21 +111,27 @@ export default function TicketPage() {
     [navigate]
   );
 
-  // Handle data loading
-  if (
-    loading ||
-    loading1 ||
-    loading2 ||
-    tickets === undefined ||
-    priorities === undefined ||
-    statuses === undefined
-  )
-    return <Loading />;
+  const handleSortTicket = useCallback((data) => {
+    console.log(data);
+  }, []);
+
+  const handleFilterTicket = useCallback((data) => {
+    if (data) setDataQuery((prev) => ({ ...prev, ...data }));
+    else setDataQuery(undefined);
+  }, []);
+
+  const handleBtnSortTicket = useCallback(() => {
+    setVisibleSort((prev) => !prev);
+  }, []);
+
+  const handleBtnFilterTicket = useCallback(() => {
+    setVisibleFilter((prev) => !prev);
+  }, []);
 
   return (
     <ContextProvider value={{ statuses, priorities }}>
       <section className={classes["tickets__page"]}>
-        <div className={classes["tickets__content"]}>
+        <div className={`${classes["tickets__content"]} flex`}>
           <span className={classes["tickets__header"]}>
             <h2 className={classes["tickets-header__title"]}>All tickets</h2>
             <span className={classes["tickets-header__action"]}>
@@ -118,24 +140,33 @@ export default function TicketPage() {
                 <span className={classes["item__title"]}>Add Ticket</span>
               </Button>
 
-              <span className={classes["nav__action__item"]}>
-                <SortIcon />
-                <span className={classes["item__title"]}>Sort</span>
-              </span>
-
-              <span className={classes["nav__action__item"]}>
-                <FilterIcon />
-                <span className={classes["item__title"]}>Filter</span>
-              </span>
+              <div className={classes.nav__item}>
+                <Button onClick={handleBtnSortTicket} outline>
+                  <SortIcon />
+                  <span className={classes["item__title"]}>Sort</span>
+                </Button>
+                <Modal active={isVisibleSort}>
+                  <FormSort onSubmit={handleSortTicket} />
+                </Modal>
+              </div>
+              <div className={classes.nav__item}>
+                <Button onClick={handleBtnFilterTicket} outline>
+                  <FilterIcon />
+                  <span className={classes["item__title"]}>Filter</span>
+                </Button>
+                <Modal active={isVisibleFilter}>
+                  <FormFilter onSubmit={handleFilterTicket} />
+                </Modal>
+              </div>
             </span>
           </span>
-
+          {tickets === undefined && <Loading />}
           <table className={classes.tickets__table}>
             <thead>
               <tr>
                 <th>Ticket Details </th>
                 <th>User</th>
-                <th>Date</th>
+                <th>Due Date</th>
                 <th>Priority</th>
                 <th></th>
               </tr>
@@ -155,6 +186,8 @@ export default function TicketPage() {
             </tbody>
           </table>
           <Pagination
+            page={pageTicket}
+            counterPages={ticketsMeta?.total_pages}
             counterItems={ticketsMeta?.total_items}
             counterPages={ticketsMeta?.total_pages}
             page={pageTicket}
