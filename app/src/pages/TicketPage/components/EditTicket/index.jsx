@@ -12,11 +12,10 @@ import { Context } from "@src/context";
 export default function EditTicket() {
   const { ticketId } = useParams();
   const { setNotifi } = useContext(Context);
-  const [loading, data, error] = useFetch(
-    `${TICKET_ROUTE}?_ticket_id=${ticketId}`
-  );
+  const [loading, data, error] = useFetch(`${TICKET_ROUTE}?id=${ticketId}`);
 
   const navigate = useNavigate();
+
   const handleUpdate = useCallback(
     async function (data) {
       const response = await API.update(`${TICKET_ROUTE}`, data);

@@ -10,7 +10,7 @@ import { Context } from "@context/ContextProvider";
 import { Button, Modal, Search } from "@components";
 
 const Header = () => {
-  const { page, user, setUser } = useContext(Context);
+  const { page, user, setUser, setInputSearch } = useContext(Context);
   const [isVisible, setIsVisible] = useState(false);
   const navigate = useNavigate();
 
@@ -33,11 +33,12 @@ const Header = () => {
     localStorage.clear();
   }, [setUser]);
 
-  const handleSearch = useCallback(async (query) => {
-    const response = await API.get(`${TICKET_ROUTE}?_query=${query}`);
-    const results = response.data;
-    return results;
-  }, []);
+  const handleSearch = useCallback(
+    (query) => {
+      setInputSearch(query);
+    },
+    [setInputSearch]
+  );
 
   return (
     <header className={`${classes.header} flex`}>

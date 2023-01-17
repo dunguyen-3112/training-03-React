@@ -15,6 +15,7 @@ function App() {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
   const [notifi, setNotifi] = useState();
+  const [inputSearch, setInputSearch] = useState("");
 
   useEffect(() => {
     async function refreshLogin() {
@@ -29,7 +30,6 @@ function App() {
   }, [user, page, navigate]);
 
   useLayoutEffect(() => {
-    console.log(notifi);
     const timeID = setTimeout(() => {
       if (notifi?.time > 0)
         setNotifi((prev) => ({ ...prev, time: prev?.time - 1 }));
@@ -38,7 +38,17 @@ function App() {
   }, [notifi]);
 
   return (
-    <ContextProvider value={{ page, setPage, user, setUser, setNotifi }}>
+    <ContextProvider
+      value={{
+        page,
+        setPage,
+        user,
+        setUser,
+        setNotifi,
+        inputSearch,
+        setInputSearch,
+      }}
+    >
       <main data-authenticated={user !== null}>
         {user && (
           <>

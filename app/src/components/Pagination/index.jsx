@@ -11,17 +11,17 @@ function Pagination({ page, counterItems, counterPages, onSelect }) {
   counterItems = counterItems || 0;
   counterPages = counterPages || 0;
   const handleNextpage = useCallback(() => {
-    // if (page < counterPages) {
-    //   const currentPage = page + 1;
-    //   onSelect(currentPage);
-    // }
+    if (page < counterPages) {
+      const currentPage = page + 1;
+      onSelect(currentPage);
+    }
   }, [counterPages, onSelect, page]);
 
   const handleBackpage = useCallback(() => {
-    // if (page > 1) {
-    //   const currentPage = page - 1;
-    //   onSelect(currentPage);
-    // }
+    if (page > 1) {
+      const currentPage = page - 1;
+      onSelect(currentPage);
+    }
   }, [onSelect, page]);
 
   return (

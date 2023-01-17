@@ -17,16 +17,15 @@ import { FilterIcon, NewIcon, SortIcon } from "@components/Icon";
 import { Loading, Modal, Pagination } from "@src/components";
 import FormSort from "./components/FormSort";
 import FormFilter from "./components/FormFilter";
-import { OK } from "@src/constants";
 
 export default function TicketPage() {
   const [pageTicket, setPageTicket] = useState(1);
-  const { setNotifi } = useContext(Context);
-  const [query, setQuery] = useState(`_page=${pageTicket}`);
+  const { setNotifi, inputSearch } = useContext(Context);
+  const [query, setQuery] = useState(`page=${pageTicket}`);
   const [dataQuery, setDataQuery] = useState();
+
   // Manage state of Ticket id select
   const [selectTicket, setSelectTicket] = useState();
-
   const [isVisibleSort, setVisibleSort] = useState(false);
   const [isVisibleFilter, setVisibleFilter] = useState(false);
 
@@ -59,14 +58,17 @@ export default function TicketPage() {
   }, [dataPriorities, dataTickets, dataStatuses]);
 
   useEffect(() => {
-    if (dataQuery) {
+    if (inputSearch && inputSearch !== "") {
+      const stringQuery = `page=${pageTicket}&name=${inputSearch}`;
+      setQuery(stringQuery);
+    } else if (dataQuery) {
       const keys = Object.keys(dataQuery);
       const stringQuery =
-        `_page=${pageTicket}` +
+        `page=${pageTicket}` +
         keys.map((key) => `&${[key]}=${dataQuery[key]}`).join("");
       setQuery(stringQuery);
-    } else setQuery("");
-  }, [dataQuery, pageTicket]);
+    } else setQuery(`page=${pageTicket}`);
+  }, [dataQuery, pageTicket, inputSearch]);
 
   // Implement function delete Ticket
   const handleDelete = useCallback(
@@ -128,6 +130,18 @@ export default function TicketPage() {
     setVisibleFilter((prev) => !prev);
   }, []);
 
+  const handleClearFormFilter = useCallback(() => {
+    setDataQuery(undefined);
+  }, []);
+
+  const handleMouseLeaveFilter = useCallback(() => {
+    setVisibleFilter(false);
+  }, []);
+
+  const handleMouseLeaveSort = useCallback(() => {
+    setVisibleSort(false);
+  }, []);
+
   return (
     <ContextProvider value={{ statuses, priorities }}>
       <section className={classes["tickets__page"]}>
@@ -141,26 +155,37 @@ export default function TicketPage() {
               </Button>
 
               <div className={classes.nav__item}>
-                <Button onClick={handleBtnSortTicket} outline>
+                <Button
+                  onClick={handleBtnSortTicket}
+                  onBlur={handleMouseLeaveSort}
+                  outline
+                >
                   <SortIcon />
                   <span className={classes["item__title"]}>Sort</span>
                 </Button>
                 <Modal active={isVisibleSort}>
-                  <FormSort onSubmit={handleSortTicket} />
+                  <FormSort
+                    onSubmit={handleSortTicket}
+                    onClear={handleClearFormFilter}
+                  />
                 </Modal>
               </div>
               <div className={classes.nav__item}>
-                <Button onClick={handleBtnFilterTicket} outline>
+                <Button
+                  onClick={handleBtnFilterTicket}
+                  onMouseLeave={handleMouseLeaveFilter}
+                  outline
+                >
                   <FilterIcon />
                   <span className={classes["item__title"]}>Filter</span>
+                  <Modal active={isVisibleFilter}>
+                    <FormFilter onSubmit={handleFilterTicket} />
+                  </Modal>
                 </Button>
-                <Modal active={isVisibleFilter}>
-                  <FormFilter onSubmit={handleFilterTicket} />
-                </Modal>
               </div>
             </span>
           </span>
-          {tickets === undefined && <Loading />}
+          {loading && loading1 && loading2 && <Loading />}
           <table className={classes.tickets__table}>
             <thead>
               <tr>
@@ -172,6 +197,14 @@ export default function TicketPage() {
               </tr>
             </thead>
             <tbody>
+              {tickets === undefined && (
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td>Not content</td>
+                  <td></td>
+                </tr>
+              )}
               {tickets?.map((ticket, index) => {
                 return (
                   <TicketRow
@@ -189,8 +222,6 @@ export default function TicketPage() {
             page={pageTicket}
             counterPages={ticketsMeta?.total_pages}
             counterItems={ticketsMeta?.total_items}
-            counterPages={ticketsMeta?.total_pages}
-            page={pageTicket}
             onSelect={handleChangePageTicketpage}
           />
 

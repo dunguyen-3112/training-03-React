@@ -1,6 +1,4 @@
-export function validate() {
-  console.log("Validate");
-}
+export function validate() {}
 
 validate.validateField = (fieldValue, rules) => {
   for (const rule of rules) {

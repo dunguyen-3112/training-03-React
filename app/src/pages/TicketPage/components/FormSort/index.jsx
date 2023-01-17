@@ -18,10 +18,9 @@ function FormSort({ onSubmit }) {
 
   return (
     <form className={`${classes.form} flex`}>
-
-      <Button outline onClick={handleClear}>
+      <a href="" onClick={handleClear}>
         clear
-      </Button>
+      </a>
     </form>
   );
 }

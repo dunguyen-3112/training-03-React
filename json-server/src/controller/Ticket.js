@@ -15,36 +15,30 @@ class TicketController {
 
   async GET() {
     this.user = await this.modelUser.findUserById(this.req.userId);
-    let { _ticket_id, _query, _page, status, priority } = this.req.query;
-    _ticket_id = _ticket_id || this.req.path.split("/tickets/").at(1);
-    const page = parseInt(_page) || 1;
+    let { id, name, page, status, priority } = this.req.query;
+    id = id || this.req.path.split("/tickets/").at(1);
+    page = parseInt(page) || 1;
 
     let data;
     let pages;
 
-    if (_ticket_id) {
-      data = await this.modelTicket.getById(_ticket_id);
+    if (id) {
+      data = await this.modelTicket.getById(id);
+
       if (data?.createBy === this.req.userId || this.user.role === "manager") {
         data = await this.combineDatas(data);
         return this.res.json(data);
       }
-
       return this.res.sendStatus(403);
-    }
-    if (_query) {
-      const data = this.modelTicket.tickets.filter((ticket) =>
-        stringsoSlug(ticket.name).includes(stringsoSlug(_query)),
-      );
-      const temp = await Promise.all(
-        data.map(async ({ id, name, assignBy }) => {
-          const user = await this.modelUser.findUserById(assignBy);
-          return { id, name, avatar: user?.avatarUrl };
-        }),
-      );
-      return this.res.json(temp);
     }
 
     data = await this.modelTicket.getAll();
+
+    if (name) {
+      data = data.filter((ticket) =>
+        stringsoSlug(ticket.name).includes(stringsoSlug(name)),
+      );
+    }
 
     if (status) {
       status = parseInt(status, 10);
@@ -56,30 +50,20 @@ class TicketController {
       data = data.filter((ticket) => ticket.priority === priority);
     }
 
-    const total_items = data.length;
     if (this.user.role !== "manager") {
       const tickets = data.filter(
         (ticket) => ticket.createBy === this.req.userId,
       );
-      pages = paginate(tickets);
-      data = await this.combineDatas(pages[page - 1]);
-      return this.res.json({
-        data: data,
-        meta: {
-          current_page: page,
-          total_pages: pages.length,
-          total_items: tickets.length,
-        },
-      });
     }
+
     pages = paginate(data);
     data = await this.combineDatas(pages[page - 1]);
     return this.res.json({
-      data: data,
+      data,
       meta: {
         current_page: page,
         total_pages: pages.length,
-        total_items: total_items,
+        total_items: data?.length,
       },
     });
   }

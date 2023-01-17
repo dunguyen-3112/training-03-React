@@ -43,11 +43,10 @@ export default function LoginPage() {
           Authorization: `Bearer ${accessToken}`,
         },
       });
-      if (responseMe.status !== OK) {
-        console.log("Please check internet connection of your!");
+      if (responseMe.status === OK) {
+        const user = responseMe.data;
+        setUser(user);
       }
-      const user = responseMe.data;
-      setUser(user);
     },
     [setUser]
   );

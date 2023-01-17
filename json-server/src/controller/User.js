@@ -38,11 +38,9 @@ class UserController {
       return this.res.json(users);
     }
     const id = path.split("/users/").at(-1);
-    console.log(37, path);
 
     if (id) {
       let user = await this.model.findUserById(id);
-      console.log(41, path);
       if (user) {
         user = {
           name: `${user.firstName} ${user.lastName}`,

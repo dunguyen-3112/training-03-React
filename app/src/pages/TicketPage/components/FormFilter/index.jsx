@@ -10,12 +10,14 @@ function FormFilter({ onSubmit }) {
   const statuses = JSON.parse(localStorage.getItem("statuses"));
   const priorities = JSON.parse(localStorage.getItem("priorities"));
 
-  const handleChangeControl = useCallback(async (value, field) => {
-    if (field === "status" || field === "priority") value = parseInt(value, 10);
-    const data = { ...formData, [field]: value };
-    await onSubmit(data);
-    setFormData(data);
-  }, []);
+  const handleChangeControl = useCallback(
+    (value, field) => {
+      value = parseInt(value, 10);
+      onSubmit({ [field]: value });
+      setFormData((prev) => ({ ...prev, [field]: value }));
+    },
+    [onSubmit]
+  );
 
   const handleClear = useCallback((event) => {
     event.preventDefault();
@@ -25,6 +27,9 @@ function FormFilter({ onSubmit }) {
 
   return (
     <form className={`${classes.form} flex`}>
+      <a href="" onClick={handleClear}>
+        clear
+      </a>
       <DropDown
         label="Status"
         options={statuses}
@@ -39,9 +44,6 @@ function FormFilter({ onSubmit }) {
         field="priority"
         onChange={handleChangeControl}
       />
-      <Button outline onClick={handleClear}>
-        clear
-      </Button>
     </form>
   );
 }

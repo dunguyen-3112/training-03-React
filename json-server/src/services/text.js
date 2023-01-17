@@ -7,7 +7,6 @@ module.exports = function stringsoSlug(str) {
   for (let i = 0, l = from.length; i < l; i++) {
     str = str.replace(from[i], to[i]);
   }
-  console.log(str);
 
   str = str
     .toLowerCase()

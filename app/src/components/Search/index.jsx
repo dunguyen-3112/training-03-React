@@ -42,6 +42,8 @@ function Search({
 
   const handleBlur = useCallback((value, field) => {
     onBlur && onBlur(value, field);
+    setQuery("");
+    setHiden(true);
   }, []);
 
   const handleFocus = useCallback((value, field) => {
@@ -71,9 +73,10 @@ function Search({
       {error && <span>Error</span>}
       {!hiden && results && (
         <div className={classes.result}>
-          {results?.map((result) => (
-            <Info data={result} key={result.id} onClick={handleSelect} />
-          ))}
+          {results &&
+            results.map((result) => (
+              <Info data={result} key={result.id} onClick={handleSelect} />
+            ))}
         </div>
       )}
     </div>

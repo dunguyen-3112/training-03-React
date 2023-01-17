@@ -38,10 +38,22 @@ function FormTicket({ ticket, onSubmit }) {
   const priorities = JSON.parse(localStorage.getItem("priorities"));
 
   useEffect(() => {
-    formValid &&
-      Object.values(formValid).every((item) => item === undefined) &&
-      setDisabled(false);
-  }, [formValid]);
+    if (ticket) {
+      const { assignBy, name, description, dueDate, status, priority } = ticket;
+      if (
+        assignBy !== formData.assignBy ||
+        name !== formData.name ||
+        description !== formData.description ||
+        formData.dueDate !== dueDate ||
+        status !== formData.status ||
+        priority !== formData.priority ||
+        (formValid &&
+          Object.values(formValid).every((item) => item !== undefined))
+      )
+        setDisabled(false);
+      else setDisabled(true);
+    }
+  }, [formData, ticket, formValid]);
 
   useEffect(() => {
     async function getUser() {
