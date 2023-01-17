@@ -95,6 +95,14 @@ class TicketController {
   async PUT() {
     const { status, priority, name, description, assignBy, dueDate, id } =
       this.req.body;
+
+    ticket = this.modelTicket.getById(id);
+    const { createBy } = ticket;
+    const user = this.modelUser.findUserById(createBy);
+    const { role } = user;
+    if (role !== "manager" && createBy !== this.req.userId)
+      return this.res.sendStatus(403);
+
     let ticket = await this.modelTicket.update({
       assignBy,
       description,
@@ -113,7 +121,12 @@ class TicketController {
 
   async DELETE() {
     const id = this.req.path.split("/").at(-1);
-    const ticket = this.modelTicket.delete(id);
+    const ticket = this.modelTicket.getById(id);
+    const { createBy } = ticket;
+    const user = this.modelUser.findUserById(createBy);
+    const { role } = user;
+    if (role !== "manager" || createBy !== this.req.userId)
+      return this.res.sendStatus(403);
     if (ticket) {
       return this.res.json(ticket);
     }
