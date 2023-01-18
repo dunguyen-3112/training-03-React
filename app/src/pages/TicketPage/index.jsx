@@ -120,7 +120,6 @@ export default function TicketPage() {
   const handleBtnSortTicket = useCallback(() => {
     setVisibleSort((prev) => !prev);
   }, []);
-  console.log(isVisibleFilter)
 
   const handleBtnFilterTicket = useCallback(() => {
     setVisibleFilter((prev) => !prev);

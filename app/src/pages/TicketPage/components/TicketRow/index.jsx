@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import React, { useState, memo } from "react";
+import React, { useState, memo, useCallback } from "react";
 
 import { AVATAR_DEFAULT } from "@src/constants";
 import { getDateFormat, getTimeString, getTimeAgo } from "@helpers/date";
@@ -11,16 +11,12 @@ const TicketRow = ({ ticket, onEdit, onDelete }) => {
   const [isActive, setIsActive] = useState(false);
   const handleClick = () => setIsActive((prev) => !prev);
 
-  const handleMouseleave = () => setIsActive(false);
+  const handleMouseDownOutSide = useCallback(() => setIsActive(false), []);
 
   const priorities = JSON.parse(localStorage.getItem("priorities"));
 
   return (
-    <tr
-      key={ticket.id}
-      className={classes.ticket__row}
-      onMouseLeave={handleMouseleave}
-    >
+    <tr key={ticket.id} className={classes.ticket__row}>
       <td className={classes.ticket__column}>
         <div className={`flex ${classes["tdata"]}`}>
           <img
@@ -67,7 +63,7 @@ const TicketRow = ({ ticket, onEdit, onDelete }) => {
           <span className={classes.point}></span>
           <span className={classes.point}></span>
           <span className={classes.point}></span>
-          <Modal active={isActive}>
+          <Modal active={isActive} onMouseDownOutSide={handleMouseDownOutSide}>
             <Button outline onClick={onEdit}>
               <EditIcon />
               <span className={classes["item__title"]}>Edit ticket</span>

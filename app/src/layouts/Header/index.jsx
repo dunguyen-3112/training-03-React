@@ -27,6 +27,8 @@ const Header = () => {
     [navigate]
   );
 
+  const handleMouseDownOutSide = useCallback(() => setIsVisible(false), []);
+
   const handleLogout = useCallback(() => {
     setUser(null);
     localStorage.clear();
@@ -37,6 +39,11 @@ const Header = () => {
       setInputSearch(query);
     },
     [setInputSearch]
+  );
+
+  const handleClickShowInfo = useCallback(
+    () => setIsVisible((prev) => !prev),
+    []
   );
 
   return (
@@ -50,8 +57,7 @@ const Header = () => {
         <div className={classes.line}></div>
         <span
           className={`${classes["header-user-info"]} flex`}
-          onClick={() => setIsVisible((prev) => !prev)}
-          onMouseLeave={() => setIsVisible(false)}
+          onClick={handleClickShowInfo}
         >
           <h3
             className={classes["header-user-info__name"]}
@@ -59,7 +65,7 @@ const Header = () => {
           <figure className={classes["header-user-info__avatar"]}>
             <img src={user?.avatar} alt="avatar" />
           </figure>
-          <Modal active={isVisible}>
+          <Modal active={isVisible} onMouseDownOutSide={handleMouseDownOutSide}>
             <Button outline onClick={handleLogout}>
               Logout
             </Button>
