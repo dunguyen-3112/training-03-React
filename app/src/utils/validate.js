@@ -9,7 +9,6 @@ validate.validateField = (fieldValue, rules) => {
 };
 
 validate.validateForm = (formData, formRules) => {
-  console.log(formData);
   let value;
   let errorMessage = {};
   for (const field in formRules) {

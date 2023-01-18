@@ -44,10 +44,10 @@ const TicketRow = ({ ticket, onEdit, onDelete }) => {
       <td className={classes.ticket__column}>
         <div className={classes["tdata-content"]}>
           <span className={classes["tdata__title"]}>
-            {getDateFormat(ticket.createDate)}
+            {getDateFormat(ticket.dueDate)}
           </span>
           <span className={classes["tdata__subtitle"]}>
-            {getTimeString(ticket.createDate)}
+            {getTimeString(ticket.dueDate)}
           </span>
         </div>
       </td>

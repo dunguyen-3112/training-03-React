@@ -108,7 +108,6 @@ function FormTicket({ ticket, onSubmit }) {
       setDisabled(true);
       // Valid form data
       const errorMessage = validate.validateForm(formData, rules);
-      console.log(errorMessage);
       let currentErrorMessage = { ...formValid, ...errorMessage };
       // Check form data hasn't valid
       if (

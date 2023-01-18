@@ -14,7 +14,6 @@ function useSearch(query, searchFunction) {
   useEffect(() => {
     async function doSearch() {
       setLoading(true);
-      setError(null);
       if (query && query.length > 0) {
         try {
           const data = await searchFunction(query);

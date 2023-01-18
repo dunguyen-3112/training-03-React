@@ -49,7 +49,7 @@ export default function LoginPage() {
         navigate(`/${TICKET_ROUTE}`);
       }
     },
-    [setUser]
+    [navigate, setUser]
   );
 
   return (

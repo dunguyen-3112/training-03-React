@@ -168,13 +168,13 @@ export default function TicketPage() {
                 <Button onClick={handleBtnFilterTicket} outline>
                   <FilterIcon />
                   <span className={classes["item__title"]}>Filter</span>
-                  <Modal
-                    active={isVisibleFilter}
-                    onMouseDownOutSide={handleMouseDownOutSideFilter}
-                  >
-                    <FormFilter onSubmit={handleFilterTicket} />
-                  </Modal>
                 </Button>
+                <Modal
+                  active={isVisibleFilter}
+                  onMouseDownOutSide={handleMouseDownOutSideFilter}
+                >
+                  <FormFilter onSubmit={handleFilterTicket} />
+                </Modal>
               </div>
             </span>
           </span>

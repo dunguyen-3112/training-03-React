@@ -15,16 +15,15 @@ export default function useFetch(url, options) {
 
   useEffect(() => {
     async function fetchData() {
+      setLoading(true);
       try {
-        setLoading(true);
         const response = await API.get(url);
         const data = response.data;
         setData(data);
-        setLoading(false);
       } catch (error) {
         setError(error);
-        setLoading(false);
       }
+      setLoading(false);
     }
     fetchData();
   }, [url, options]);

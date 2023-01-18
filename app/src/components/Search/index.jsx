@@ -43,8 +43,7 @@ function Search({
 
   const handleBlur = useCallback((value, field) => {
     onBlur && onBlur(value, field);
-    if (isIcon) {
-      setQuery("");
+    if (isIcon && value === "") {
       setIsVisible(false);
     }
   }, []);

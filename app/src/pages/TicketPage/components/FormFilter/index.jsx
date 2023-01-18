@@ -19,11 +19,14 @@ function FormFilter({ onSubmit }) {
     [onSubmit]
   );
 
-  const handleClear = useCallback((event) => {
-    event.preventDefault();
-    onSubmit();
-    setFormData(undefined);
-  }, []);
+  const handleClear = useCallback(
+    (event) => {
+      event.preventDefault();
+      onSubmit();
+      setFormData(undefined);
+    },
+    [onSubmit]
+  );
 
   return (
     <form className={`${classes.form} flex`}>
