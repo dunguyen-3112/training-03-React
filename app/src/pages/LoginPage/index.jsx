@@ -3,21 +3,21 @@ import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 import React, { useCallback, useContext, useEffect } from "react";
 
-import { Logo } from "@components";
-import { API_ENDPOINT } from "@constants/api";
-import { FormLogin } from "./components";
-import classes from "./index.module.sass";
-import { login } from "@services/auth";
-import { Context } from "@context";
 import {
   OK,
   TICKET_ROUTE,
   BAD_REQUEST,
+  API_ENDPOINT,
   UNAUTHORIZED,
   MESSAGE_LOGIN_BAD_REQUEST,
   MESSAGE_LOGIN_UNAUTHORIZED,
 } from "@constants";
+import { FormLogin } from "./components";
+import classes from "./index.module.sass";
+import { login } from "@services/auth";
+import { Context } from "@context";
 import { ME_ROUTE } from "@src/constants";
+import { Logo } from "@components";
 
 export default function LoginPage() {
   const { user, setUser } = useContext(Context);
@@ -46,6 +46,7 @@ export default function LoginPage() {
       if (responseMe.status === OK) {
         const user = responseMe.data;
         setUser(user);
+        navigate(`/${TICKET_ROUTE}`);
       }
     },
     [setUser]

@@ -5,12 +5,13 @@ import { useSearch } from "@hooks";
 import classes from "./index.module.sass";
 import { Info, Input } from "@components";
 import { SearchIcon } from "@components/Icon";
+import { Loading } from "..";
 
 function Search({
   onSearch,
   label,
   onSelect,
-  isVisible,
+  isIcon,
   value,
   errorMessage,
   onBlur,
@@ -18,10 +19,10 @@ function Search({
   field,
 }) {
   const [query, setQuery] = useState(value);
-  const [loading, results, error] = useSearch(query, onSearch);
+  const [loading, results] = useSearch(query, onSearch);
   const searchRef = useRef();
 
-  const [hiden, setHiden] = useState(isVisible);
+  const [isVisible, setIsVisible] = useState(!isIcon);
 
   useEffect(() => {
     setQuery(value);
@@ -37,13 +38,15 @@ function Search({
   }, []);
 
   const handleDisplaySearchInput = useCallback(() => {
-    setHiden((prev) => !prev);
+    setIsVisible((prev) => !prev);
   }, []);
 
   const handleBlur = useCallback((value, field) => {
     onBlur && onBlur(value, field);
-    setQuery("");
-    setHiden(true);
+    if (isIcon) {
+      setQuery("");
+      setIsVisible(false);
+    }
   }, []);
 
   const handleFocus = useCallback((value, field) => {
@@ -53,7 +56,7 @@ function Search({
   return (
     <div className={classes.form__search}>
       <label className={`flex ${classes.search}`}>
-        {!hiden && (
+        {isVisible && (
           <Input
             onChange={handleChangeInput}
             onBlur={handleBlur}
@@ -67,16 +70,14 @@ function Search({
             label={label}
           />
         )}
-        {isVisible && <SearchIcon onClick={handleDisplaySearchInput} />}
+        {loading && <Loading />}
+        {isIcon && <SearchIcon onClick={handleDisplaySearchInput} />}
       </label>
-      {loading && <span>Loading...</span>}
-      {error && <span>Error</span>}
-      {!hiden && results && (
+      {!isIcon && results && (
         <div className={classes.result}>
-          {results &&
-            results.map((result) => (
-              <Info data={result} key={result.id} onClick={handleSelect} />
-            ))}
+          {results?.map((result) => (
+            <Info data={result} key={result.id} onClick={handleSelect} />
+          ))}
         </div>
       )}
     </div>
@@ -88,7 +89,7 @@ Search.propTypes = {
   label: PropTypes.string,
   onSelect: PropTypes.func,
   searchRef: PropTypes.object,
-  isVisible: PropTypes.bool,
+  isIcon: PropTypes.bool,
   value: PropTypes.string,
   field: PropTypes.string,
   errorMessage: PropTypes.string,

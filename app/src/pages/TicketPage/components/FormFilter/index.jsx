@@ -1,8 +1,8 @@
-import React, { useCallback, useState, memo } from "react";
 import PropTypes from "prop-types";
+import React, { useCallback, useState, memo } from "react";
 
+import { DropDown } from "@components";
 import classes from "../index.module.sass";
-import { Button, DropDown } from "@components";
 
 function FormFilter({ onSubmit }) {
   const [formData, setFormData] = useState();

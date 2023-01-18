@@ -1,7 +1,13 @@
 import { useState, useEffect } from "react";
 
+/**
+ *
+ * @param {string} query
+ * @param {function} searchFunction
+ * @returns {[boolean, Array<Object>, Object]} [loading, data, error]
+ */
 function useSearch(query, searchFunction) {
-  const [results, setResults] = useState([]);
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
@@ -11,8 +17,8 @@ function useSearch(query, searchFunction) {
       setError(null);
       if (query && query.length > 0) {
         try {
-          const results = await searchFunction(query);
-          setResults(results);
+          const data = await searchFunction(query);
+          setData(data);
         } catch (error) {
           setError(error);
         }
@@ -23,11 +29,11 @@ function useSearch(query, searchFunction) {
     if (query) {
       doSearch();
     } else {
-      setResults([]);
+      setData([]);
     }
   }, [query, searchFunction]);
 
-  return [loading, results, error];
+  return [loading, data, error];
 }
 
 export default useSearch;

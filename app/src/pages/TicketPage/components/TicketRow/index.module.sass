@@ -1,4 +1,4 @@
-@use '../../../../assets/style/valiable' as v
+@use '../../../../assets/style/variables' as v
 tr.ticket__row
   td.ticket__column
     border-bottom: 2px solid v.$gray-divider-color
@@ -11,6 +11,9 @@ tr.ticket__row
     &:last-child
       padding-right: 42px
     .tdata
+      justify-content: flex-start
+      gap: 24px
+      align-items: center
       flex-direction: row
       flex-wrap: nowrap
     .priority
@@ -29,6 +32,7 @@ tr.ticket__row
     .tdata-content
       display: flex
       flex-direction: column
+      gap: 5px
     .tdata__title
       max-width: 350px
       font-weight: v.$font-weight-semi-bold

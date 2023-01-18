@@ -1,0 +1,29 @@
+@use '../../assets/style/variables' as v
+  
+main.main__container
+  background-color: v.$background-color
+  height: 100%
+
+  &[data-authenticated="false"]
+    width: 100%
+  
+  &[data-authenticated="true"]
+    max-width: 1440px
+    margin: auto
+    display: grid
+    grid-template-columns: 255px 1fr
+    grid-template-rows: 128px 1fr
+    position: relative
+    &> header 
+      grid-column: 2/3
+    & > nav 
+      grid-row: 1/3
+
+    & > section 
+      grid-row: 2/3
+      grid-column: 2/3
+      background-color: v.$background-light-color
+      padding: 30px
+      overflow-y: scroll
+      padding-top: 0
+      position: relative

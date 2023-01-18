@@ -56,6 +56,7 @@ const Input = ({
         ref={inputRef}
         onFocus={handleFocusInput}
         onBlur={handleBlurInput}
+        name={field}
         disabled={disabled}
         tabIndex={tabIndex}
       />
@@ -85,7 +86,14 @@ Input.propTypes = {
   onBlur: PropTypes.func,
   disabled: PropTypes.bool,
   errorMessage: PropTypes.string,
-  type: PropTypes.oneOf(["text", "email", "password", "date", "search"]),
+  type: PropTypes.oneOf([
+    "text",
+    "email",
+    "password",
+    "date",
+    "search",
+    "radio",
+  ]),
 };
 
 export default memo(Input);

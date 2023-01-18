@@ -21,7 +21,13 @@ import {
   ME_ROUTE,
 } from "./routes";
 
-import { PAGE_PER } from "./default";
+import {
+  PAGE_PER,
+  AVATAR_DEFAULT,
+  DATE_DEFAULT,
+  INPUT_EMPTY_DEFAULT,
+  SELECT_OPTIONS_DEFAULT,
+} from "./default";
 
 import {
   ERROR_FETCH_DATA,
@@ -56,4 +62,8 @@ export {
   MESSAGE_LOGIN_BAD_REQUEST,
   MESSAGE_LOGIN_UNAUTHORIZED,
   PAGE_PER,
+  AVATAR_DEFAULT,
+  DATE_DEFAULT,
+  INPUT_EMPTY_DEFAULT,
+  SELECT_OPTIONS_DEFAULT,
 };

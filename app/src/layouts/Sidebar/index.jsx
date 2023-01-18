@@ -1,10 +1,10 @@
 import React, { memo, useContext } from "react";
 
+import { routes } from "@routes";
+import { Context } from "@context";
+import { Logo } from "@components";
 import SidebarItem from "./SidebarItem";
 import classes from "./index.module.sass";
-import { routes } from "@routes";
-import { Context } from "@context/ContextProvider";
-import { Logo } from "@components";
 
 const SideBar = () => {
   const pages = routes.filter((route) => route.icon);
@@ -13,7 +13,7 @@ const SideBar = () => {
   const sibarList = pages.map((_page, index) => (
     <SidebarItem
       path={_page.path}
-      icon={_page.icon}
+      icon={_page.icon(page === index)}
       title={_page.title}
       key={index}
       active={index === page}

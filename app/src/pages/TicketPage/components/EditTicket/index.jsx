@@ -41,8 +41,10 @@ export default function EditTicket() {
 
   return (
     <section className={classes["tickets__page"]}>
-      <div className={classes["tickets__content"]}>
-        <h2 className={classes["tickets__title"]}>Update Ticket</h2>
+      <div className={`${classes["tickets__content"]} flex`}>
+        <span className={classes["tickets__header"]}>
+          <h2 className={classes["tickets-header__title"]}>Update Ticket</h2>
+        </span>
         <FormTicket ticket={data} onSubmit={handleUpdate} />
       </div>
     </section>

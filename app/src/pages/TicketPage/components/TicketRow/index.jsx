@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
 import React, { useState, memo } from "react";
 
-import classes from "./index.module.sass";
+import { AVATAR_DEFAULT } from "@src/constants";
 import { getDateFormat, getTimeString, getTimeAgo } from "@helpers/date";
 import { Button, Modal, Status } from "@components";
-import { DeleteIcon, EditIcon, ViewIcon } from "@components/Icon";
-import { AVATAR_DEFAULT } from "@src/constants/default";
+import { DeleteIcon, EditIcon } from "@components/Icon";
+import classes from "./index.module.sass";
 
 const TicketRow = ({ ticket, onEdit, onDelete }) => {
   const [isActive, setIsActive] = useState(false);
@@ -22,7 +22,7 @@ const TicketRow = ({ ticket, onEdit, onDelete }) => {
       onMouseLeave={handleMouseleave}
     >
       <td className={classes.ticket__column}>
-        <div className={`flex ${classes["tdata"]}`} style={{ gap: "24px" }}>
+        <div className={`flex ${classes["tdata"]}`}>
           <img
             className={classes.avatar}
             src={ticket.avatar || AVATAR_DEFAULT}

@@ -12,7 +12,7 @@ function Status({ children, status }) {
 }
 
 Status.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.string,
   status: PropTypes.number,
 };
 

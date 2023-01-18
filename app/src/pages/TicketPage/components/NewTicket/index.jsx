@@ -1,11 +1,11 @@
-import React, { memo, useCallback, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import React, { memo, useCallback, useContext } from "react";
 
-import classes from "../../index.module.sass";
-import * as API from "@utils/api";
-import { CREATED_SUCCESS, TICKET_ROUTE } from "@constants";
-import FormTicket from "../FormTicket";
 import { Context } from "@src/context";
+import { CREATED_SUCCESS, TICKET_ROUTE } from "@constants";
+import * as API from "@utils/api";
+import FormTicket from "../FormTicket";
+import classes from "../../index.module.sass";
 
 function NewTicket() {
   const navigate = useNavigate();
@@ -32,11 +32,13 @@ function NewTicket() {
   );
 
   return (
-    <section className={classes["tickets"]}>
-      <span className={classes["tickets__header"]}>
-        <h2 className={classes["tickets-header__title"]}>New Ticket</h2>
-      </span>
-      <FormTicket onSubmit={handleNew} />
+    <section className={classes["tickets__page"]}>
+      <div className={`${classes["tickets__content"]} flex`}>
+        <span className={classes["tickets__header"]}>
+          <h2 className={classes["tickets-header__title"]}>New Ticket</h2>
+        </span>
+        <FormTicket onSubmit={handleNew} />
+      </div>
     </section>
   );
 }

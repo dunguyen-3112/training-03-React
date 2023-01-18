@@ -5,7 +5,7 @@ import * as API from "../utils/api";
 /**
  *
  * @param {string} url
- * @param {object} options
+ * @param {Array<[boolean, Object, Object]>}
  * @returns
  */
 export default function useFetch(url, options) {

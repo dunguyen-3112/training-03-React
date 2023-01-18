@@ -14,56 +14,65 @@ class TicketController {
   }
 
   async GET() {
+    // get user
     this.user = await this.modelUser.findUserById(this.req.userId);
+    // get query parameters
     let { id, name, page, status, priority } = this.req.query;
     id = id || this.req.path.split("/tickets/").at(1);
     page = parseInt(page) || 1;
 
     let data;
-    let pages;
 
+    // get by id
     if (id) {
       data = await this.modelTicket.getById(id);
 
       if (data?.createBy === this.req.userId || this.user.role === "manager") {
-        data = await this.combineDatas(data);
+        data = await this.combineData(data);
         return this.res.json(data);
       }
       return this.res.sendStatus(403);
     }
 
+    // get list Ticket
+
     data = await this.modelTicket.getAll();
 
+    // query like name
     if (name) {
       data = data.filter((ticket) =>
         stringsoSlug(ticket.name).includes(stringsoSlug(name)),
       );
     }
 
+    // Filter by status
     if (status) {
       status = parseInt(status, 10);
       data = data.filter((ticket) => ticket.status === status);
     }
 
+    // Filter by Priority
     if (priority) {
       priority = parseInt(priority, 10);
       data = data.filter((ticket) => ticket.priority === priority);
     }
 
+    // if user token is developer
     if (this.user.role !== "manager") {
-      const tickets = data.filter(
-        (ticket) => ticket.createBy === this.req.userId,
-      );
+      data = data.filter((ticket) => ticket.createBy === this.req.userId);
     }
 
-    pages = paginate(data);
-    data = await this.combineDatas(pages[page - 1]);
+    const length = data?.length;
+
+    let pages = paginate(data);
+    data = pages[page - 1];
+    data = await this.combineDatas(data);
     return this.res.json({
       data,
       meta: {
         current_page: page,
         total_pages: pages.length,
-        total_items: data?.length,
+        total_items: length,
       },
     });
   }
@@ -96,14 +105,15 @@ class TicketController {
     const { status, priority, name, description, assignBy, dueDate, id } =
       this.req.body;
 
-    ticket = this.modelTicket.getById(id);
+    let ticket = await this.modelTicket.getById(id);
     const { createBy } = ticket;
-    const user = this.modelUser.findUserById(createBy);
+    const user = await this.modelUser.findUserById(this.req.userId);
     const { role } = user;
+
     if (role !== "manager" && createBy !== this.req.userId)
       return this.res.sendStatus(403);
 
-    let ticket = await this.modelTicket.update({
+    ticket = await this.modelTicket.update({
       assignBy,
       description,
       dueDate,
@@ -121,16 +131,17 @@ class TicketController {
 
   async DELETE() {
     const id = this.req.path.split("/").at(-1);
-    const ticket = this.modelTicket.getById(id);
+    const ticket = await this.modelTicket.getById(id);
     const { createBy } = ticket;
-    const user = this.modelUser.findUserById(createBy);
+    const user = await this.modelUser.findUserById(this.req.userId);
     const { role } = user;
-    if (role !== "manager" || createBy !== this.req.userId)
+
+    if (role !== "manager" && createBy !== this.req.userId)
       return this.res.sendStatus(403);
-    if (ticket) {
-      return this.res.json(ticket);
-    }
-    return this.res.sendStatus(404);
+
+    const deleteTicket = await this.modelTicket.delete(id);
+    if (deleteTicket) return this.res.json(deleteTicket);
+    return this.res.sendStatus(500);
   }
 
   async combineData(item) {

@@ -1,22 +1,21 @@
-import React, { useState, useCallback, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import React, { useState, useCallback, useEffect, useContext } from "react";
 
 import {
   EDIT_TICKET_ROUTE,
   PRIORIRY_ROUTE,
   STATUS_ROUTE,
   TICKET_ROUTE,
-} from "@constants/routes";
+} from "@constants";
 import * as API from "@utils/api";
 import { useFetch } from "@hooks";
+import ContextProvider, { Context } from "@context";
 import TicketRow from "./components/TicketRow";
-import { Button, Alert } from "@components";
-import classes from "./index.module.sass";
-import ContextProvider, { Context } from "@context/ContextProvider";
 import { FilterIcon, NewIcon, SortIcon } from "@components/Icon";
-import { Loading, Modal, Pagination } from "@src/components";
+import { Loading, Modal, Pagination, Button, Alert } from "@components";
 import FormSort from "./components/FormSort";
 import FormFilter from "./components/FormFilter";
+import classes from "./index.module.sass";
 
 export default function TicketPage() {
   const [pageTicket, setPageTicket] = useState(1);
@@ -31,14 +30,12 @@ export default function TicketPage() {
 
   // Init navigate
   const navigate = useNavigate();
-  let [loading1, dataStatuses] = useFetch(`${STATUS_ROUTE}`);
-  const [loading2, dataPriorities] = useFetch(`${PRIORIRY_ROUTE}`);
+  let [loading1, statuses] = useFetch(`${STATUS_ROUTE}`);
+  const [loading2, priorities] = useFetch(`${PRIORIRY_ROUTE}`);
   const [loading, dataTickets] = useFetch(`${TICKET_ROUTE}?${query}`);
 
   const [tickets, setTickets] = useState(dataTickets?.data);
   const [ticketsMeta, setTicketsMeta] = useState(dataTickets?.meta);
-  const [priorities, setPriorities] = useState(dataPriorities);
-  const [statuses, setStatuses] = useState(dataStatuses);
 
   useEffect(() => {
     // Save status and priority values to local storage
@@ -49,13 +46,11 @@ export default function TicketPage() {
   }, [priorities, statuses]);
 
   useEffect(() => {
-    dataPriorities && setPriorities(dataPriorities);
-    dataStatuses && setStatuses(dataStatuses);
     if (dataTickets) {
       setTickets(dataTickets?.data);
       setTicketsMeta(dataTickets?.meta);
     }
-  }, [dataPriorities, dataTickets, dataStatuses]);
+  }, [dataTickets]);
 
   useEffect(() => {
     if (inputSearch && inputSearch !== "") {
@@ -125,6 +120,7 @@ export default function TicketPage() {
   const handleBtnSortTicket = useCallback(() => {
     setVisibleSort((prev) => !prev);
   }, []);
+  console.log(isVisibleFilter)
 
   const handleBtnFilterTicket = useCallback(() => {
     setVisibleFilter((prev) => !prev);
@@ -134,11 +130,11 @@ export default function TicketPage() {
     setDataQuery(undefined);
   }, []);
 
-  const handleMouseLeaveFilter = useCallback(() => {
+  const handleMouseDownOutSideFilter = useCallback(() => {
     setVisibleFilter(false);
   }, []);
 
-  const handleMouseLeaveSort = useCallback(() => {
+  const handleMouseDownOutSideSort = useCallback(() => {
     setVisibleSort(false);
   }, []);
 
@@ -155,15 +151,14 @@ export default function TicketPage() {
               </Button>
 
               <div className={classes.nav__item}>
-                <Button
-                  onClick={handleBtnSortTicket}
-                  onBlur={handleMouseLeaveSort}
-                  outline
-                >
+                <Button onClick={handleBtnSortTicket} outline>
                   <SortIcon />
                   <span className={classes["item__title"]}>Sort</span>
                 </Button>
-                <Modal active={isVisibleSort}>
+                <Modal
+                  active={isVisibleSort}
+                  onMouseDownOutSide={handleMouseDownOutSideSort}
+                >
                   <FormSort
                     onSubmit={handleSortTicket}
                     onClear={handleClearFormFilter}
@@ -171,14 +166,13 @@ export default function TicketPage() {
                 </Modal>
               </div>
               <div className={classes.nav__item}>
-                <Button
-                  onClick={handleBtnFilterTicket}
-                  onMouseLeave={handleMouseLeaveFilter}
-                  outline
-                >
+                <Button onClick={handleBtnFilterTicket} outline>
                   <FilterIcon />
                   <span className={classes["item__title"]}>Filter</span>
-                  <Modal active={isVisibleFilter}>
+                  <Modal
+                    active={isVisibleFilter}
+                    onMouseDownOutSide={handleMouseDownOutSideFilter}
+                  >
                     <FormFilter onSubmit={handleFilterTicket} />
                   </Modal>
                 </Button>

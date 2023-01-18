@@ -2,11 +2,10 @@ import React, { useState, memo, useContext, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
+import { TICKET_ROUTE } from "@constants";
+import { Context } from "@context";
 import { routes } from "@routes";
-import * as API from "@utils/api";
 import classes from "./index.module.sass";
-import { TICKET_ROUTE } from "@constants/routes";
-import { Context } from "@context/ContextProvider";
 import { Button, Modal, Search } from "@components";
 
 const Header = () => {
@@ -47,7 +46,7 @@ const Header = () => {
       </h1>
 
       <span className={`${classes["header__user-action"]} flex`}>
-        <Search onSearch={handleSearch} onSelect={handleSelect} isVisible />
+        <Search onSearch={handleSearch} onSelect={handleSelect} isIcon />
         <div className={classes.line}></div>
         <span
           className={`${classes["header-user-info"]} flex`}

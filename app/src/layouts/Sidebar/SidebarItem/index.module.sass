@@ -1,4 +1,4 @@
-@use '../../../assets/style/valiable'
+@use '../../../assets/style/variables'
 .sidebar-item
   display: flex
   text-decoration: none
@@ -6,12 +6,13 @@
   padding: 18px 24px 18px 33px
   width: 100%
   .sidebar-item__title
-    font-size: valiable.$font-size-m
-    font-weight: valiable.$font-weight-regular
-    color: valiable.$text-gray-color
+    font-size: variables.$font-size-m
+    font-weight: variables.$font-weight-regular
+    color: variables.$text-gray-color
   &[data-active="true"]
-    background-color: valiable.$gray-color
+    background-color: variables.$gray-color
     opacity: 0.8
-    border-left: 3px solid valiable.$blue-light-color
+    border-left: 3px solid variables.$blue-light-color
     &>*
-      color: valiable.$blue-light-color
+      color: variables.$blue-light-color
+      

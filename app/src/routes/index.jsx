@@ -19,12 +19,12 @@ export const routes = [
     title: "Overview",
     path: "/",
     element: <NotFoundPage />,
-    icon: <OverviewIcon />,
+    icon: (active) => <OverviewIcon active={active} />,
   },
   {
     path: "/tickets",
     element: <TicketPage />,
-    icon: <TicketIcon />,
+    icon: (active) => <TicketIcon active={active} />,
     title: "Tickets",
   },
   {
@@ -38,37 +38,37 @@ export const routes = [
   {
     title: "Ideas",
     path: "/ideas",
-    icon: <IdeaIcon />,
+    icon: (active) => <IdeaIcon active={active} />,
     element: <NotFoundPage />,
   },
   {
     title: "Contacts",
     path: "/contacts",
     element: <NotFoundPage />,
-    icon: <ContactIcon />,
+    icon: (active) => <ContactIcon active={active} />,
   },
   {
     title: "Agents",
     path: "/agents",
-    icon: <AgentIcon />,
+    icon: (active) => <AgentIcon active={active} />,
     element: <NotFoundPage />,
   },
   {
     title: "Articles",
     path: "/acticles",
-    icon: <ArticlesIcon />,
+    icon: (active) => <ArticlesIcon active={active} />,
     element: <NotFoundPage />,
   },
   {
     title: "Settings",
     path: "/settings",
-    icon: <SettingIcon />,
+    icon: (active) => <SettingIcon active={active} />,
     element: <NotFoundPage />,
   },
   {
     title: "Subscription",
     path: "/subscription",
-    icon: <SubscriptionIcon />,
+    icon: (active) => <SubscriptionIcon active={active} />,
     element: <NotFoundPage />,
   },
   {

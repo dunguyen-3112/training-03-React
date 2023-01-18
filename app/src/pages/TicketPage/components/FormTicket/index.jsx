@@ -1,6 +1,6 @@
-import React, { useState, useCallback, useEffect, memo } from "react";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
+import React, { useState, useCallback, useEffect, memo } from "react";
 
 import {
   AVATAR_DEFAULT,
@@ -8,16 +8,16 @@ import {
   INPUT_EMPTY_DEFAULT,
   SELECT_OPTIONS_DEFAULT,
 } from "@constants/default";
-import classes from "./index.module.sass";
-import { getDateISOSString } from "@helpers/date";
-import { USERS_ROUTE } from "@constants";
+import { OK, TICKET_ROUTE, USERS_ROUTE } from "@constants";
 import * as API from "@utils/api";
+import { getDateISOSString } from "@helpers/date";
+import { validate } from "@src/utils/validate";
 import { rules } from "./TicketRules";
 import { DropDown, Input, Search, TextArea, Button } from "@components";
-import { validate } from "@src/utils/validate";
-import { OK, TICKET_ROUTE } from "@src/constants";
+import classes from "./index.module.sass";
 
 function FormTicket({ ticket, onSubmit }) {
+  // Ticket Data
   const [formData, setFormData] = useState(
     ticket || {
       assignBy: INPUT_EMPTY_DEFAULT,
@@ -29,70 +29,92 @@ function FormTicket({ ticket, onSubmit }) {
       priority: SELECT_OPTIONS_DEFAULT,
     }
   );
-  const [user, setUser] = useState({ id: formData?.assignBy });
+  // Data valid
   const [formValid, setFormValid] = useState();
+  // User assign By
+  const [user, setUser] = useState();
+  // Disiable Button submit
   const [disabled, setDisabled] = useState(false);
+
   const navigate = useNavigate();
 
+  // Get Statuses and Prioriries from localStorage
   const statuses = JSON.parse(localStorage.getItem("statuses"));
   const priorities = JSON.parse(localStorage.getItem("priorities"));
 
+  // Check Form valid and Form data change to update State Disiable Button Submit
   useEffect(() => {
-    if (ticket) {
-      const { assignBy, name, description, dueDate, status, priority } = ticket;
-      if (
-        assignBy !== formData.assignBy ||
-        name !== formData.name ||
-        description !== formData.description ||
-        formData.dueDate !== dueDate ||
-        status !== formData.status ||
-        priority !== formData.priority ||
-        (formValid &&
-          Object.values(formValid).every((item) => item !== undefined))
-      )
-        setDisabled(false);
-      else setDisabled(true);
-    }
+    const disabledButton = () => {
+      if (ticket === undefined)
+        if (
+          formValid &&
+          Object.values(formValid).every((item) => item === undefined)
+        )
+          return setDisabled(false);
+
+      if (ticket) {
+        const { assignBy, name, description, dueDate, status, priority } =
+          ticket;
+        if (
+          // If data has changed
+          assignBy !== formData.assignBy ||
+          name !== formData.name ||
+          description !== formData.description ||
+          formData.dueDate !== dueDate ||
+          status !== formData.status ||
+          priority !== formData.priority
+        )
+          return setDisabled(false);
+      }
+      setDisabled(true);
+    };
+
+    disabledButton();
   }, [formData, ticket, formValid]);
 
+  // Update State user when id change
   useEffect(() => {
     async function getUser() {
-      const response = await API.get(`${USERS_ROUTE}/${user?.id}`);
-      if (response.status === OK) {
-        const user = response.data;
-        setUser(user);
+      const id = user?.id || formData.assignBy;
+      if (id) {
+        const response = await API.get(`${USERS_ROUTE}/${id}`);
+        if (response.status === OK) {
+          const user = response.data;
+          setUser(user);
+          setFormData((prev) => ({ ...prev, assignBy: user.id }));
+        }
       }
     }
     getUser();
-  }, [user?.id]);
+  }, [formData.assignBy, user?.id]);
 
-  useEffect(() => {
-    setFormData({ ...formData, assignBy: user?.id });
-  }, [user]);
-
+  // get data user from search
   const handleSelect = useCallback(({ id, avatar, name }) => {
     setUser({ id, avatar, name });
   }, []);
 
+  // handle search user like name
   const handleSearchUsers = useCallback(async (query) => {
     const response = await API.get(`${USERS_ROUTE}?_query=${query}`);
     const users = response.data;
     return users;
   }, []);
 
+  // handle submit form
   const handleSubmit = useCallback(
     async (event) => {
-      setDisabled(true);
       event.preventDefault();
+      // Disible button submit
+      setDisabled(true);
+      // Valid form data
       const errorMessage = validate.validateForm(formData, rules);
+      console.log(errorMessage);
       let currentErrorMessage = { ...formValid, ...errorMessage };
+      // Check form data hasn't valid
       if (
-        formData &&
         Object.values(currentErrorMessage).every((item) => item === undefined)
       ) {
-        const loginMessage = await onSubmit(formData);
-        if (loginMessage)
-          currentErrorMessage = { ...errorMessage, ...loginMessage };
+        onSubmit(formData);
       }
       setDisabled(false);
       setFormValid(currentErrorMessage);
@@ -100,17 +122,20 @@ function FormTicket({ ticket, onSubmit }) {
     [formData, formValid, onSubmit]
   );
 
+  // Handle input change
   const handleChangeControl = useCallback((value, field) => {
     if (field === "status" || field === "priority") value = parseInt(value, 10);
     setFormData((prev) => ({ ...prev, [field]: value }));
   }, []);
 
+  // Handle valid control
   const handleValidControl = useCallback((value, field) => {
     const errorMessage = validate.validateField(value, rules[field]);
     errorMessage &&
       setFormValid((prev) => ({ ...prev, [field]: errorMessage }));
   }, []);
 
+  // Handle valid onBlur
   const handleBlurControl = useCallback(
     (value, field) => {
       handleValidControl(value, field);
@@ -118,10 +143,12 @@ function FormTicket({ ticket, onSubmit }) {
     [handleValidControl]
   );
 
+  // Handle valid onFocus
   const handleFocusControl = useCallback((value, field) => {
     setFormValid((prev) => ({ ...prev, [field]: undefined }));
   }, []);
 
+  // Handle back to List Ticket
   const handleBack = useCallback(
     (event) => {
       event.preventDefault();
@@ -137,20 +164,19 @@ function FormTicket({ ticket, onSubmit }) {
           <Search
             value={user?.name}
             field="assignBy"
-            errorMessage={formValid?.assignBy}
+            errorMessage={formValid?.assignBy || INPUT_EMPTY_DEFAULT}
             tabIndex={1}
             label="Assign By"
             onSearch={handleSearchUsers}
             onSelect={handleSelect}
             onBlur={handleBlurControl}
             onFocus={handleFocusControl}
-            disabled
           />
 
           {ticket && (
             <Input
               label="Create Date"
-              value={getDateISOSString(formData.createDate)}
+              value={getDateISOSString(formData.createDate || DATE_DEFAULT)}
               type="date"
               disabled
               tabIndex={2}
@@ -161,7 +187,7 @@ function FormTicket({ ticket, onSubmit }) {
         <span className={classes["form-ticket__row"]}>
           <Input
             label="Name"
-            value={formData.name}
+            value={formData.name || INPUT_EMPTY_DEFAULT}
             type="text"
             onBlur={handleBlurControl}
             onFocus={handleFocusControl}
@@ -173,7 +199,7 @@ function FormTicket({ ticket, onSubmit }) {
 
           <Input
             label="Due Date"
-            value={getDateISOSString(formData.dueDate)}
+            value={getDateISOSString(formData.dueDate || DATE_DEFAULT)}
             type="date"
             onBlur={handleBlurControl}
             onFocus={handleFocusControl}
@@ -188,7 +214,7 @@ function FormTicket({ ticket, onSubmit }) {
           <DropDown
             label="Status"
             options={statuses}
-            value={formData.status}
+            value={formData.status || SELECT_OPTIONS_DEFAULT}
             onFocus={handleFocusControl}
             onBlur={handleBlurControl}
             onChange={handleChangeControl}
@@ -200,7 +226,7 @@ function FormTicket({ ticket, onSubmit }) {
           <DropDown
             label="Priority"
             options={priorities}
-            value={formData.priority}
+            value={formData.priority || SELECT_OPTIONS_DEFAULT}
             onFocus={handleFocusControl}
             onBlur={handleBlurControl}
             onChange={handleChangeControl}
@@ -214,7 +240,7 @@ function FormTicket({ ticket, onSubmit }) {
           <TextArea
             label="Description"
             tabIndex={7}
-            value={formData.description}
+            value={formData.description || INPUT_EMPTY_DEFAULT}
             onFocus={handleFocusControl}
             onBlur={handleBlurControl}
             onChange={handleChangeControl}
@@ -238,6 +264,7 @@ function FormTicket({ ticket, onSubmit }) {
           </Button>
         </span>
       </form>
+
       <div className={classes["user__info"]}>
         <figure className={classes["user-info__avatar"]}>
           <img src={user?.avatar || AVATAR_DEFAULT} alt="" />

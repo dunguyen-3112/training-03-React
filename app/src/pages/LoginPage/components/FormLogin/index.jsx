@@ -1,11 +1,10 @@
 import PropTypes from "prop-types";
-import React, { useState, memo, useCallback } from "react";
+import React, { useState, memo, useCallback, useEffect } from "react";
 
-import { Input, Button } from "@components";
-import classes from "./index.module.sass";
 import { validate } from "@utils/validate";
 import { rules } from "./LoginRules";
-import { useEffect } from "react";
+import { Input, Button } from "@components";
+import classes from "./index.module.sass";
 
 const FormLogin = ({ onSubmit }) => {
   const [formData, setFormData] = useState();
