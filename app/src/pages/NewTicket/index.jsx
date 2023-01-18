@@ -4,8 +4,8 @@ import React, { memo, useCallback, useContext } from "react";
 import { Context } from "@src/context";
 import { CREATED_SUCCESS, TICKET_ROUTE } from "@constants";
 import * as API from "@utils/api";
-import FormTicket from "../FormTicket";
-import classes from "../../index.module.sass";
+import classes from "@pages/TicketPage/index.module.sass";
+import FormTicket from "@pages/TicketPage/components/FormTicket";
 
 function NewTicket() {
   const navigate = useNavigate();

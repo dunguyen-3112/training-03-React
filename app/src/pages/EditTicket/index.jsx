@@ -3,11 +3,11 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 import { useFetch } from "@hooks";
-import classes from "../../index.module.sass";
-import FormTicket from "../FormTicket";
+import classes from "@pages/TicketPage/index.module.sass";
 import * as API from "@utils/api";
 import { OK, TICKET_ROUTE } from "@src/constants";
 import { Context } from "@src/context";
+import FormTicket from "@pages/TicketPage/components/FormTicket";
 
 export default function EditTicket() {
   const { ticketId } = useParams();

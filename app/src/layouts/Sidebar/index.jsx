@@ -3,8 +3,8 @@ import React, { memo, useContext } from "react";
 import { routes } from "@routes";
 import { Context } from "@context";
 import { Logo } from "@components";
-import SidebarItem from "./SidebarItem";
 import classes from "./index.module.sass";
+import { SidebarItem } from "./components";
 
 const SideBar = () => {
   const pages = routes.filter((route) => route.icon);
