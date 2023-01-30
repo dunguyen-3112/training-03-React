@@ -2,6 +2,7 @@
 const TicketModel = require("../model/Ticket");
 const TicketsModel = require("../model/Tickets");
 const Users = require("../model/Users");
+const { compareDate } = require("../services/date");
 const paginate = require("../services/pagination");
 const stringsoSlug = require("../services/text");
 
@@ -17,7 +18,7 @@ class TicketController {
     // get user
     this.user = await this.modelUser.findUserById(this.req.userId);
     // get query parameters
-    let { id, name, page, status, priority } = this.req.query;
+    let { id, name, page, status, priority, sort, order } = this.req.query;
     id = id || this.req.path.split("/tickets/").at(1);
     page = parseInt(page) || 1;
 
@@ -55,6 +56,15 @@ class TicketController {
     if (priority) {
       priority = parseInt(priority, 10);
       data = data.filter((ticket) => ticket.priority === priority);
+    }
+    // sort
+    if(sort){
+      if(sort === "create"){
+        data = data.sort((a,b) => compareDate(a.createDate, b.createDate));
+      }
+      else if(sort === "due"){
+        data = data.sort((a,b)=>compareDate(a.dueDate, b.dueDate));
+      }
     }
 
     // if user token is developer

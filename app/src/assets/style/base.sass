@@ -23,6 +23,9 @@ form
   width: 100%
   text-align: left
   gap: 6px
+  &:has(input[type="radio"])
+    flex-direction: row
+    justify-content: space-around
   span> span:first-child>span
     text-transform: uppercase
   &.invalid

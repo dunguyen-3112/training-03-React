@@ -54,6 +54,7 @@ const Input = ({
         type={!isVisible ? type : "text"}
         className="form__control"
         ref={inputRef}
+        onSelect={handleChangeInput}
         onFocus={handleFocusInput}
         onBlur={handleBlurInput}
         name={field}

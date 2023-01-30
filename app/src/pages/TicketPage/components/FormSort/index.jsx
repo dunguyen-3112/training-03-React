@@ -3,9 +3,16 @@ import PropTypes from "prop-types";
 import { Button, Input } from "@components";
 
 import classes from "../index.module.sass";
+import { useEffect } from "react";
 
 function FormSort({ onSubmit }) {
   const [option, setOption] = useState();
+
+  useEffect(() => {
+    if (option === undefined) return;
+    const action = option == 1 ? "create" : "due";
+    onSubmit({ action });
+  }, [onSubmit, option]);
 
   const handleClear = useCallback((event) => {
     event.preventDefault();

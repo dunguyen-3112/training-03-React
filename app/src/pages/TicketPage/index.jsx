@@ -108,8 +108,8 @@ export default function TicketPage() {
     [navigate]
   );
 
-  const handleSortTicket = useCallback((data) => {
-    console.log(data);
+  const handleSortTicket = useCallback(({ action }) => {
+    setQuery((prev) => prev + `&sort=${action}&order=asc`);
   }, []);
 
   const handleFilterTicket = useCallback((data) => {
